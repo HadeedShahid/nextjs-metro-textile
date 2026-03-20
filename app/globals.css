@@ -121,10 +121,35 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+.main-container {
+  width: min(100% - var(--container-margin, 2rem),
+      var(--container-width, var(--container-7xl)));
+  margin-inline: auto;
+
+  @media (width >=85rem) {
+    --container-width: var(--container-7xl);
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
