@@ -11,6 +11,7 @@ import OurClient from "@/components/OurClient"
 import Cta from "@/components/Cta"
 import BlogSection from "@/components/common/BlogSection"
 import KeyFeatures from "@/components/common/KeyFeatures"
+import RelatedProducts from "@/components/common/RelatedProducts"
 
 async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
@@ -20,6 +21,7 @@ async function getProduct(slug: string) {
         images,
         description,
         "category": category->{
+            _id,
             title,
             "slug": slug.current,
             "parent": parent->{
@@ -118,7 +120,13 @@ export default async function ProductDetailPage({
         <KeyFeatures />
 
         <div className="mt-16">
-          <BlogSection />
+          <RelatedProducts 
+          categoryId={product.category?._id} 
+          currentProductId={product._id} 
+          categoryTitle={product.category?.title} 
+        />
+
+        <BlogSection />
         </div>
 
         <div className="mt-16">
