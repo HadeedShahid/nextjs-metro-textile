@@ -9,6 +9,7 @@ import Email from "@/components/common/Email"
 import Whatsapp from "@/components/common/Whatsapp"
 import OurClient from "@/components/OurClient"
 import Cta from "@/components/Cta"
+import BlogSection from "@/components/common/BlogSection"
 import KeyFeatures from "@/components/common/KeyFeatures"
 
 async function getProduct(slug: string) {
@@ -69,12 +70,12 @@ export default async function ProductDetailPage({
     <main className="min-h-screen bg-white">
       <section className="container mx-auto px-4 py-8 md:py-12">
         <Breadcrumbs items={breadcrumbs} />
-        
+
         <div className="flex flex-col gap-8 mb-16">
           <h1 className="font-bold text-4xl md:text-5xl text-slate-900 leading-tight">
             {product.title}
           </h1>
-          
+
           <ImageGallery images={product.images || []} />
 
           <div className="grid lg:grid-cols-3 gap-12">
@@ -85,7 +86,7 @@ export default async function ProductDetailPage({
                   <PortableText value={product.description} />
                 ) : (
                   <p>
-                    Premium quality {product.title} meticulously crafted for durability and style. 
+                    Premium quality {product.title} meticulously crafted for durability and style.
                     Metro Textiles ensures the highest standards of manufacturing for brands worldwide.
                   </p>
                 )}
@@ -115,11 +116,15 @@ export default async function ProductDetailPage({
         </div>
 
         <KeyFeatures />
-        
+
+        <div className="mt-16">
+          <BlogSection />
+        </div>
+
         <div className="mt-16">
           <OurClient />
         </div>
-        
+
         <div className="mt-16">
           <Cta />
         </div>
