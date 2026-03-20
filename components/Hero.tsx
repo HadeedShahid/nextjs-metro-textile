@@ -31,11 +31,12 @@ const Hero = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-8 md:mt-12">
-                <Link href="/products">
-                  <Button className="cursor-pointer bg-[#7F2F82] hover:bg-[#7f2f82] transition-all hover:scale-105 duration-300 ease-in-out">
-                    Explore Products
-                  </Button>
-                </Link>
+                <Button 
+                  href="/products"
+                  className="cursor-pointer bg-[#7F2F82] hover:bg-[#7f2f82] transition-all hover:scale-105 duration-300 ease-in-out"
+                >
+                  Explore Products
+                </Button>
                 <Button className="cursor-pointer bg-transparent  hover:bg-white hover:text-black transition-all hover:scale-105 duration-300 ease-in-out">
                   Request a Quote
                 </Button>

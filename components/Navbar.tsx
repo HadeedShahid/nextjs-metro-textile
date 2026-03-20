@@ -1,128 +1,139 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
+import { Menu, Mail } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import {
-  CircleAlertIcon,
-  CircleCheckIcon,
-  CircleDashedIcon,
-} from "lucide-react"
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import Image from "next/image";
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-]
+import Link from "next/link";
 
-export default function NavigationMenuDemo() {
-  return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-96">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built with Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="hidden md:flex">
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px]">
-              <li>
-                <NavigationMenuLink render={<Link href="#" className="flex-row items-center gap-2"><CircleAlertIcon />Backlog</Link>} />
-                <NavigationMenuLink render={<Link href="#" className="flex-row items-center gap-2"><CircleDashedIcon />To Do</Link>} />
-                <NavigationMenuLink render={<Link href="#" className="flex-row items-center gap-2"><CircleCheckIcon />Done</Link>} />
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()} render={<Link href="/docs">Docs</Link>} />
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  )
+interface NavbarProps {
+  logo?: {
+    url: string;
+    src: string;
+    alt: string;
+  };
+  menu?: Array<{
+    title: string;
+    url: string;
+  }>;
 }
 
-function ListItem({
-  title,
-  children,
-  href,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
+const Navbar = ({
+  logo = {
+    url: "/",
+    src: "/logo.png",
+    alt: "logo",
+  },
+  menu = [
+    { title: "Products", url: "/products" },
+  ],
+}: NavbarProps) => {
   return (
-    <li {...props}>
-      <NavigationMenuLink render={<Link href={href}><div className="flex flex-col gap-1 text-sm">
-        <div className="leading-none font-medium">{title}</div>
-        <div className="line-clamp-2 text-muted-foreground">{children}</div>
-      </div></Link>} />
-    </li>
-  )
-}
+    <section className="py-4">
+      {/* Desktop Menu */}
+      <nav className="hidden justify-between items-center md:flex">
+        <div className="flex gap-10">
+          {/* Logo */}
+          <Link href={logo.url} className="flex items-center gap-2">
+            <Image src={logo.src} width={64} height={62} alt={logo.alt} />
+          </Link>
+          <div className="flex items-center gap-6">
+            {menu.map((item) => (
+              <Link
+                key={item.title}
+                href={item.url}
+                className="text-sm font-medium text-foreground hover:text-[#742b76] transition-colors duration-200"
+              >
+                {item.title}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-3 items-center">
+          <div className="hidden lg:block">
+          </div>
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#742b76] to-[#9d3fa0] rounded-lg blur opacity-75 group-hover:opacity-100 animate-pulse transition duration-300"></div>
+            <Button
+              href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products."
+              className="relative bg-[#742b76] hover:bg-[#5a2160] text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+            >
+              <Mail className="h-4 w-4" />
+              Send Query
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div className="block lg:hidden">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href={logo.url} className="flex items-center gap-2">
+            <img
+              src={logo.src}
+              className="max-h-8 dark:invert"
+              alt={logo.alt}
+            />
+          </Link>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Menu className="size-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle>
+                  <Link href={logo.url} className="flex items-center gap-2">
+                    <img
+                      src={logo.src}
+                      className="max-h-8 dark:invert"
+                      alt={logo.alt}
+                    />
+                  </Link>
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-6 p-4">
+                <div className="flex flex-col gap-4">
+                  {menu.map((item) => (
+                    <Link
+                      key={item.title}
+                      href={item.url}
+                      className="text-md font-semibold hover:text-[#742b76] transition-colors"
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="flex flex-col gap-3 pt-4 border-t">
+                  <div className="relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#742b76] to-[#9d3fa0] rounded-lg blur opacity-75 group-hover:opacity-100 animate-pulse transition duration-300"></div>
+                    <Button
+                      href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products."
+                      className="relative bg-[#742b76] hover:bg-[#5a2160] text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl w-full flex items-center justify-center gap-2"
+                    >
+                      <Mail className="h-4 w-4" />
+                      Send Query
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Navbar;
