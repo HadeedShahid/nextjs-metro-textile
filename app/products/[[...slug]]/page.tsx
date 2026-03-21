@@ -1,6 +1,7 @@
 import { client } from "@/sanity/client";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilters from "@/components/CategoryFilters";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 const PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
     _id,
@@ -90,16 +91,41 @@ export default async function ProductsPage({
         return `/products/${path.join("/")}`;
     };
 
+    // Get active category title for the header
+    const activeCategory = activeCategoryId
+        ? categories.find(c => c._id === activeCategoryId)
+        : null;
+
+    // Generate breadcrumbs
+    const breadcrumbItems: { label: string; href?: string }[] = [
+        { label: "Home", href: "/" },
+        { label: "Products", href: "/products" },
+    ];
+
+    if (activeCategoryId) {
+        const hierarchy: { label: string; href: string }[] = [];
+        let current = categories.find(c => c._id === activeCategoryId);
+        while (current) {
+            hierarchy.unshift({
+                label: current.title,
+                href: getCategoryPath(current._id)
+            });
+            const parentId = current.parent?._ref;
+            current = parentId ? categories.find(c => c._id === parentId) : undefined;
+        }
+        breadcrumbItems.push(...hierarchy);
+    }
+
     return (
         <main className="min-h-screen bg-slate-50/30">
-            <div className="container mx-auto max-w-7xl p-6 md:p-12">
-                <header className="mb-12">
-                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-2">
-                        Explore Our <span className="text-purple-600">Inventory</span>
+            <div className="container mx-auto max-w-7xl px-6 md:px-12 py-8 md:py-12">
+                <header className="mb-10">
+                    <div className="mb-4">
+                        <Breadcrumbs items={breadcrumbItems} />
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                        {activeCategory ? activeCategory.title : "All Products"}
                     </h1>
-                    <p className="text-slate-500 text-lg max-w-2xl">
-                        High-quality textile accessories and product sourcing for your industry needs.
-                    </p>
                 </header>
 
                 <CategoryFilters

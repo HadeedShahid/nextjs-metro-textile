@@ -29,17 +29,6 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
         <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-100 flex flex-col h-full">
             {/* Image Section - Edge to Edge in container */}
             <div className="relative aspect-[4/3] overflow-hidden bg-slate-50">
-                {product.isFeatured && (
-                    <span className="absolute top-3 left-3 z-10 bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
-                        Featured
-                    </span>
-                )}
-                {product.isPopular && !product.isFeatured && (
-                    <span className="absolute top-3 left-3 z-10 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
-                        Popular
-                    </span>
-                )}
-
                 {mainImage ? (
                     <Image
                         src={urlFor(mainImage).width(600).height(450).url()}
@@ -66,8 +55,8 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
 
             {/* Content Section */}
             <div className="p-5 flex flex-col flex-grow bg-white">
-                <Link href={productUrl} className="block group/title">
-                    <h3 className="text-lg font-bold text-slate-900 line-clamp-1 group-hover/title:text-purple-600 transition-colors">
+                <Link href={productUrl}>
+                    <h3 className="text-lg font-bold text-slate-900">
                         {product.title}
                     </h3>
                 </Link>
