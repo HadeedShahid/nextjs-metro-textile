@@ -44,8 +44,8 @@ export default async function ProductsPage({
     if (slugArray && slugArray.length > 0) {
         let currentParentId: string | undefined = undefined;
         for (const slugPart of slugArray) {
-            const matchedCategory = categories.find(c => 
-                c.slug.current === slugPart && 
+            const matchedCategory = categories.find(c =>
+                c.slug.current === slugPart &&
                 (currentParentId ? c.parent?._ref === currentParentId : !c.parent)
             );
             if (matchedCategory) {
@@ -64,11 +64,11 @@ export default async function ProductsPage({
     // OR any of its descendants.
     const filteredProducts = products.filter(product => {
         if (!activeCategoryId) return true;
-        
+
         const checkCategoryMatch = (catId: string | undefined): boolean => {
             if (!catId) return false;
             if (catId === activeCategoryId) return true;
-            
+
             // Check the current category's parent
             const cat = categories.find(c => c._id === catId);
             return checkCategoryMatch(cat?.parent?._ref);
@@ -102,17 +102,17 @@ export default async function ProductsPage({
                     </p>
                 </header>
 
-                <CategoryFilters 
-                    categories={categories} 
-                    activeCategoryId={activeCategoryId || null} 
+                <CategoryFilters
+                    categories={categories}
+                    activeCategoryId={activeCategoryId || null}
                 />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map((product) => (
-                            <ProductCard 
-                                key={product._id} 
-                                product={product} 
+                            <ProductCard
+                                key={product._id}
+                                product={product}
                                 categoryPath={getCategoryPath(product.category?._id)}
                             />
                         ))
