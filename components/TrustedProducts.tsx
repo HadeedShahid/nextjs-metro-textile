@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 
 const TrustedProducts = () => {
@@ -14,6 +14,7 @@ const TrustedProducts = () => {
       ),
       img: "/assets/landing-card-1.png",
       alt: "zipper-card",
+      link: "/products", // Added dummy link
     },
     {
       title: (
@@ -23,6 +24,7 @@ const TrustedProducts = () => {
       ),
       img: "/assets/landing-card-2.png",
       alt: "buckle-card",
+      link: "/products", // Added dummy link
     },
   ];
 
@@ -39,9 +41,10 @@ const TrustedProducts = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-stretch gap-6 pt-14">
         {/* mapped cards */}
         {productCards.map((card, idx) => (
-          <div
+          <Link
             key={idx}
-            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full min-h-[500px]"
+            href={card.link}
+            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full min-h-[500px] group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer"
           >
             <p className="font-medium">{card.title}</p>
             <Image
@@ -49,27 +52,30 @@ const TrustedProducts = () => {
               alt={card.alt}
               width={400}
               height={300}
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
             />
             <div className="flex w-full justify-end">
-              <button className="group border border-[#7F2F82] py-1 px-6 rounded-full transition-all ease-in-out duration-300 hover:bg-[#7f2f82] hover:text-white cursor-pointer flex items-center justify-center">
+              <div className="group/btn border border-[#7F2F82] py-1 px-6 rounded-full transition-all ease-in-out duration-300 bg-transparent group-hover:bg-[#7f2f82] group-hover:text-white flex items-center justify-center">
                 <ArrowRight className="text-[#7F2F82] group-hover:text-white" />
-              </button>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
 
         {/* unique card */}
-        <div className="flex flex-col justify-between p-7 bg-black rounded-lg w-full min-h-[500px]">
+        <Link
+          href="/products"
+          className="flex flex-col justify-between p-7 bg-black rounded-lg w-full min-h-[500px] group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
+        >
           <h5 className="text-white text-2xl md:text-3xl uppercase w-[350px]">
             Take a look on all accessories
           </h5>
           <div className="flex w-full justify-end">
-            <button className="group border border-white py-4 px-4 rounded-full transition-all ease-in-out duration-300  hover:bg-white cursor-pointer ">
-              <ArrowUpRight className="text-white group-hover:text-black" />
-            </button>
+            <div className="group/btn border border-white py-4 px-4 rounded-full transition-all ease-in-out duration-300 group-hover:bg-white text-white group-hover:text-black">
+              <ArrowUpRight />
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </section>
   );
