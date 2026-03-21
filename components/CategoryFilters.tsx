@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface Category {
     _id: string;
@@ -17,17 +18,17 @@ interface CategoryFiltersProps {
 
 export default function CategoryFilters({ categories, activeCategoryId }: CategoryFiltersProps) {
     // Build tree or just find children of current active category
-    const currentCategory = useMemo(() => 
+    const currentCategory = useMemo(() =>
         categories.find(c => c._id === activeCategoryId),
-    [categories, activeCategoryId]);
+        [categories, activeCategoryId]);
 
     // Sub-categories to display: 
     // If a category is selected, show its children.
     // Otherwise, show top-level categories.
     const displayCategories = useMemo(() => {
-        return categories.filter(c => 
-            activeCategoryId 
-                ? c.parent?._ref === activeCategoryId 
+        return categories.filter(c =>
+            activeCategoryId
+                ? c.parent?._ref === activeCategoryId
                 : !c.parent
         );
     }, [categories, activeCategoryId]);
@@ -35,7 +36,7 @@ export default function CategoryFilters({ categories, activeCategoryId }: Catego
     // Helper to build the path for the chip links
     const getChipHref = (catSlug: string) => {
         if (!activeCategoryId) return `/products/${catSlug}`;
-        
+
         // Find current category path
         const path: string[] = [];
         let curr = currentCategory;
@@ -53,13 +54,13 @@ export default function CategoryFilters({ categories, activeCategoryId }: Catego
             <div className="flex flex-wrap gap-2">
                 {displayCategories.length > 0 ? (
                     displayCategories.map(cat => (
-                        <Link
+                        <Button
                             key={cat._id}
                             href={getChipHref(cat.slug.current)}
-                            className="bg-white hover:bg-purple-100 border border-slate-200 hover:border-purple-200 text-slate-700 hover:text-purple-700 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 shadow-sm"
+                            variant={"outline"}
                         >
                             {cat.title}
-                        </Link>
+                        </Button>
                     ))
                 ) : (
                     activeCategoryId && (

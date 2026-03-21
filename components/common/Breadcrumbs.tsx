@@ -28,8 +28,8 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
           const isLast = index === items.length - 1
 
           return (
-            <div key={index} className="flex items-center">
-              <BreadcrumbItem>
+            <>
+              <BreadcrumbItem key={index}>
                 {isLast ? (
                   <BreadcrumbPage>{item.label}</BreadcrumbPage>
                 ) : item.href ? (
@@ -41,7 +41,7 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
                 )}
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
-            </div>
+            </>
           )
         })}
       </BreadcrumbList>
