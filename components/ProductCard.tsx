@@ -5,6 +5,7 @@ import { urlFor } from "@/sanity/image"
 import { Button } from "@/components/ui/button"
 import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react"
 import { PhoneIcon } from "@/icons"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface ProductCardProps {
     product: {
@@ -26,7 +27,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
     const productUrl = `/product/${product.slug.current}`
 
     return (
-        <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-100 flex flex-col h-full">
+        <Card className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 ring-foreground/5 flex flex-col h-full py-0 gap-0">
             {/* Image Section - Edge to Edge in container */}
             <div className="relative aspect-[4/3] overflow-hidden bg-slate-50">
                 {mainImage ? (
@@ -44,17 +45,18 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
 
                 {/* Category Badge - Absolute Bottom Left */}
                 <div className="absolute bottom-3 left-3 z-10">
-                    <Link
+                    <Button
                         href={categoryPath}
-                        className="bg-white/90 backdrop-blur-sm text-slate-900 text-[10px] font-semibold px-2 py-1 rounded-lg border border-slate-200/50 hover:bg-purple-600 hover:text-white transition-colors block w-fit"
+                        size={"xs"}
+                        variant={"outline"}
                     >
                         {product.category?.title}
-                    </Link>
+                    </Button>
                 </div>
             </div>
 
             {/* Content Section */}
-            <div className="p-5 flex flex-col flex-grow bg-white">
+            <CardContent className="p-5 flex flex-col flex-grow bg-white">
                 <Link href={productUrl}>
                     <h3 className="text-lg font-bold text-slate-900">
                         {product.title}
@@ -91,7 +93,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
                     </Button>
 
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
