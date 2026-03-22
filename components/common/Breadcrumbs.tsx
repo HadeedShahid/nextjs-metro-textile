@@ -28,8 +28,8 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
           const isLast = index === items.length - 1
 
           return (
-            <>
-              <BreadcrumbItem key={index}>
+            <React.Fragment key={index}>
+              <BreadcrumbItem>
                 {isLast ? (
                   <BreadcrumbPage>{item.label}</BreadcrumbPage>
                 ) : item.href ? (
@@ -41,7 +41,7 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
                 )}
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
-            </>
+            </React.Fragment>
           )
         })}
       </BreadcrumbList>

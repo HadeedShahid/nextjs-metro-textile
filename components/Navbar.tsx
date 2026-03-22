@@ -85,11 +85,13 @@ const Navbar = ({
             />
           </Link>
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Menu className="size-4" />
-              </Button>
-            </SheetTrigger>
+            <SheetTrigger
+              render={
+                <Button variant="outline" size="icon">
+                  <Menu className="size-4" />
+                </Button>
+              }
+            />
             <SheetContent className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>
