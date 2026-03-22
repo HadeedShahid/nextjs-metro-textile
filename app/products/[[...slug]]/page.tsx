@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilters from "@/components/CategoryFilters";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import BlogSection from "@/components/common/BlogSection";
 
 const PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
     _id,
@@ -149,6 +150,8 @@ export default async function ProductsPage({
                     )}
                 </div>
             </div>
+            <BlogSection />
+
         </main>
     );
 }
