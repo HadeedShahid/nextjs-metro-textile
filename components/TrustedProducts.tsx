@@ -32,9 +32,11 @@ const TrustedProducts = () => {
     <section className="py-12 h-fit">
       {/* header */}
       <div className="w-full">
-        <h2 className="text-4xl md:text-6xl font-medium max-w-[600px]">
-          Genuine & Trusted Products
-        </h2>
+        <h2 className="text-4xl md:text-6xl font-medium">Product Catalog</h2>
+        <p className="max-w-[450px] font-medium text-gray-600 pt-6">
+          We specialize in premium metallic hardware that adds both style and
+          function to your designs. From everyday essentials to statement pieces
+        </p>
       </div>
 
       {/* cards */}

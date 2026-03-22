@@ -6,7 +6,7 @@ import {
 const Footer = () => {
   return (
     <section className="pt-12">
-      <div className="flex flex-col justify-between min-h-[550px]">
+      <div className="flex flex-col justify-between">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
           {/* site links */}
