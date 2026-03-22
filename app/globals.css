@@ -97,6 +97,13 @@
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
+.breakout {
+  @apply relative left-1/2 right-1/2;
+  width: calc(100vw);
+  margin-left: -50vw;
+  margin-right: -50vw
+}
+
 .main-container {
   width: min(100% - var(--container-margin, 2rem),
       var(--container-width, var(--container-7xl)));

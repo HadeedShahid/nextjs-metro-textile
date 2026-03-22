@@ -9,7 +9,7 @@ const TrustedProducts = () => {
     {
       title: (
         <>
-          <span className="text-gray-500">Metro</span> - Zipper Sliders
+          Zipper Sliders - <span className="text-gray-500">Metro</span>
         </>
       ),
       img: "/assets/landing-card-1.png",
@@ -19,7 +19,7 @@ const TrustedProducts = () => {
     {
       title: (
         <>
-          <span className="text-gray-500">Metro</span> - Metal Buckles
+          Metal Buckles - <span className="text-gray-500">Metro</span>
         </>
       ),
       img: "/assets/landing-card-2.png",
@@ -38,13 +38,13 @@ const TrustedProducts = () => {
       </div>
 
       {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-stretch gap-6 pt-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-stretch gap-6 pt-14">
         {/* mapped cards */}
         {productCards.map((card, idx) => (
           <Link
             key={idx}
             href={card.link}
-            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full min-h-[500px] group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer"
+            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer"
           >
             <p className="font-medium">{card.title}</p>
             <Image
@@ -63,7 +63,7 @@ const TrustedProducts = () => {
         ))}
 
         {/* unique card */}
-        <Link
+        {/* <Link
           href="/products"
           className="flex flex-col justify-between p-7 bg-black rounded-lg w-full min-h-[500px] group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
         >
@@ -75,7 +75,7 @@ const TrustedProducts = () => {
               <ArrowUpRight />
             </div>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </section>
   );
