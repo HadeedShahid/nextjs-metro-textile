@@ -6,6 +6,7 @@ import Cta from "@/components/Cta";
 import BlogSection from "@/components/common/BlogSection";
 import Clients from "@/components/clients";
 import CategoryShowcase from "@/components/CategoryShowcase";
+import ParentCategoryShowcase from "@/components/ParentCategoryShowcase";
 
 export default function Home() {
   return (
@@ -14,8 +15,7 @@ export default function Home() {
       <Clients />
       <CoreProducts />
       <TrustedProducts />
-      <CategoryShowcase categorySlug="buttons" />
-      <CategoryShowcase categorySlug="zippers" />
+      <ParentCategoryShowcase />
       {/* <OurClient /> */}
       <BlogSection />
       <Cta />

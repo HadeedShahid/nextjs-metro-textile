@@ -39,7 +39,7 @@ const EmblaCarouselWrapper = (props: PropType) => {
                 <div className={cn("overflow-hidden -my-4 py-4", className)} ref={emblaRef}>
                     <div className={cn("flex touch-pan-y touch-pinch-zoom", containerClassName)}>
                         {React.Children.map(children, (child, index) => (
-                            <div className={cn("flex-[0_0_100%] min-w-0 select-none py-1 pl-[1px]", slideClassName)} key={index}>
+                            <div className={cn("flex-[0_0_100%] min-w-0 select-none py-1 pl-px", slideClassName)} key={index}>
                                 {child}
                             </div>
                         ))}

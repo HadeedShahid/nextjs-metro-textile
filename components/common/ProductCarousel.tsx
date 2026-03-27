@@ -30,7 +30,7 @@ const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps)
         containerClassName="gap-4 md:gap-6"
         slideClassName="basis-[calc((100%/1.2)-1rem)] md:basis-[calc((100%/2.8)-1.5rem)] lg:basis-[calc((100%/4.2)-1.5rem)]"
       >
-        {[...products, ...products, ...products, ...products].map((product) => (
+        {products.map((product) => (
           <ProductCard
             key={product._id}
             product={product}
