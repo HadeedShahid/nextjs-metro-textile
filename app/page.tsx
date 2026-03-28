@@ -7,6 +7,7 @@ import BlogSection from "@/components/common/BlogSection";
 import Clients from "@/components/clients";
 import CategoryShowcase from "@/components/CategoryShowcase";
 import ParentCategoryShowcase from "@/components/ParentCategoryShowcase";
+import SourcingProcess from "@/components/SourcingProcess";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <CoreProducts />
       <TrustedProducts />
       <ParentCategoryShowcase />
+      <SourcingProcess />
       {/* <OurClient /> */}
       <BlogSection />
       <Cta />
