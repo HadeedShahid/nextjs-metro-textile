@@ -31,7 +31,7 @@ export default function RootLayout({
     >
       <body className="main-container mx-auto">
         <Navbar />
-        {children}
+        <main className="flex flex-col gap-10">{children}</main>
         <Footer />
       </body>
     </html>

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className=" py-8 md:py-12">
+    <section className="">
       <div className=" flex w-full h-[400px] sm:h-[550px] md:h-[650px] rounded-2xl overflow-hidden">
         <div className="flex w-full h-full items-center justify-center">
           {/* Overlay layer */}
@@ -25,10 +25,6 @@ const Hero = () => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[80px] font-semibold max-w-[90%] md:max-w-[800px] leading-tight md:leading-[1.1]">
                 A Portfolio of Precision & Design
               </h1>
-              <p className="text-sm sm:text-base md:text-lg font-medium mt-4 max-w-[90%] md:max-w-[600px] opacity-90">
-                We deliver premium zippers, buttons, buckles, and trims to
-                brands worldwide — trusted by manufacturers for over 20 years.
-              </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-8 md:mt-12">
                 <Button
