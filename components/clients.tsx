@@ -1,7 +1,8 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 
-const Clients = () => {
+const Clients = ({ breakout = true }: { breakout?: boolean }) => {
   const marqueeImages = [
     "/assets/burberry.png",
     "/assets/calvin-klein.png",
@@ -14,7 +15,7 @@ const Clients = () => {
   ];
 
   return (
-    <div className="flex justify-center items-center breakout">
+    <div className={cn("flex justify-center items-center", breakout && "breakout")}>
       <Marquee speed={50} gradient={false} loop={0}>
         {marqueeImages.map((image, idx) => (
           <div key={idx} className="mx-6 flex items-center">
