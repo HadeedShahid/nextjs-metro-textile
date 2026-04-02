@@ -134,7 +134,7 @@ export default async function ProductDetailPage({
           </div>
         </div>
 
-        <KeyFeatures />
+        {/* <KeyFeatures /> */}
 
         <div className="mt-16">
           <RelatedProducts

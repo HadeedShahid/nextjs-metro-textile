@@ -37,7 +37,7 @@ const RelatedProducts = async ({ categoryId, currentProductId, categoryTitle }: 
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-              Exploring More <span className="text-purple-600">{categoryTitle}</span>
+              Exploring More {categoryTitle}
             </h2>
             <p className="text-slate-500 mt-2 text-lg">
               Check out other similar products from this category.
@@ -47,7 +47,7 @@ const RelatedProducts = async ({ categoryId, currentProductId, categoryTitle }: 
 
         <ProductCarousel products={products} />
       </div>
-    </section>
+    </section >
   )
 }
 
