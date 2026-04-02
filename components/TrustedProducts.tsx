@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
+import Section from "./base/Section";
+import Text from "./base/Text";
 
 const TrustedProducts = () => {
   // card data for card 1 & card 2
@@ -29,18 +31,12 @@ const TrustedProducts = () => {
   ];
 
   return (
-    <section className="py-12 h-fit">
-      {/* header */}
-      <div className="w-full">
-        <h2 className="text-4xl md:text-6xl font-medium">Product Catalog</h2>
-        <p className="max-w-[450px] font-medium text-gray-600 pt-6">
-          We specialize in premium metallic hardware that adds both style and
-          function to your designs. From everyday essentials to statement pieces
-        </p>
-      </div>
-
+    <Section>
+      <Text as="h2" className="text-4xl font-semibold">
+        Product Catalog
+      </Text>
       {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-stretch gap-6 pt-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-stretch gap-6">
         {/* mapped cards */}
         {productCards.map((card, idx) => (
           <Link
@@ -48,7 +44,7 @@ const TrustedProducts = () => {
             href={card.link}
             className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer"
           >
-            <p className="font-medium">{card.title}</p>
+            <Text className="font-medium">{card.title}</Text>
             <Image
               src={card.img}
               alt={card.alt}
@@ -79,7 +75,7 @@ const TrustedProducts = () => {
           </div>
         </Link> */}
       </div>
-    </section>
+    </Section>
   );
 };
 
