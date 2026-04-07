@@ -1,13 +1,12 @@
 import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
 import Link from "next/link";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
 const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
+const urlFor = (source: any) =>
     projectId && dataset
         ? imageUrlBuilder({ projectId, dataset }).image(source)
         : null;
