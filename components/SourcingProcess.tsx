@@ -41,24 +41,16 @@ import {
   CardDescription,
   CardContent
 } from "@/components/ui/card";
+import Section from "./base/Section";
+import Text from "./base/Text";
 
 export default function SourcingProcess() {
   return (
-    <section>
+    <Section>
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-        <div className="space-y-4 max-w-2xl">
-          <div className="flex items-center gap-2 text-purple-600 font-bold tracking-wider text-sm uppercase">
-            <span className="w-2 h-2 bg-purple-600 rounded-full animate-pulse" />
-            4 SIMPLE STEPS
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tight text-slate-900">
-            Effortless Process, <br />
-            Continuous Supply
-          </h2>
-        </div>
-        <div className="hidden md:block h-px bg-slate-300 flex-1 ml-12 mb-4" />
-      </div>
+      <Text as="h2" className="text-4xl font-semibold">
+        Sourcing Process
+      </Text>
 
       {/* Steps Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
@@ -110,6 +102,6 @@ export default function SourcingProcess() {
           </Button>
         </CardContent>
       </Card>
-    </section>
+    </Section>
   );
 }

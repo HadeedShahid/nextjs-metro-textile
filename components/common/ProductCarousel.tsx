@@ -2,6 +2,8 @@ import ProductCard from "../ProductCard"
 import EmblaCarouselWrapper from "@/components/emblaCarousel/EmblaCarouselWrapper"
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
+import Section from "../base/Section"
+import Text from "../base/Text"
 
 interface ProductCarouselProps {
   products: any[],
@@ -11,10 +13,10 @@ interface ProductCarouselProps {
 
 const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps) => {
   return (
-    <div className="space-y-6 py-8">
+    <Section>
       {title && viewAllHref && (
-        <div className="flex items-center justify-between px-2">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h2>
+        <div className="flex items-center justify-between">
+          <Text className="text-4xl font-semibold">{title}</Text>
           <Link
             href={viewAllHref}
             className="flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors group"
@@ -38,7 +40,7 @@ const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps)
           />
         ))}
       </EmblaCarouselWrapper>
-    </div>
+    </Section>
   )
 }
 
