@@ -28,7 +28,8 @@ async function getProduct(slug: string) {
                 title,
                 "slug": slug.current
             }
-        }
+        },
+        specifications
     }`
   return await client.fetch(query, { slug }, { next: { revalidate: 30 } })
 }
@@ -82,7 +83,7 @@ export default async function ProductDetailPage({
 
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">
-              <SpecificationGrid />
+              <SpecificationGrid data={product.specifications} />
 
               <h3 className="text-slate-900 mt-0 mb-4">Description</h3>
               {product.description ? (

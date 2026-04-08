@@ -2,15 +2,6 @@
 
 import { cn } from "@/lib/utils"
 
-const sampleData = [
-  { label: "Material", value: "Pure Brass with Anti-Rust Coating" },
-  { label: "Finish", value: "Matte Black" },
-  { label: "Diameter", value: "18 mm" },
-  { label: "Weight", value: "2.5 g" },
-  { label: "Packaging", value: "50 pcs per pack" },
-  { label: "Best For", value: "Jeans, Jackets, Bags" },
-]
-
 interface SpecificationItem {
   label: string
   value: string
@@ -21,7 +12,7 @@ interface SpecificationGridProps {
   data?: SpecificationItem[]
 }
 
-function SpecificationGrid({ title = "Specifications", data = sampleData }: SpecificationGridProps) {
+function SpecificationGrid({ title = "Specifications", data = [] }: SpecificationGridProps) {
   if (!data?.length) return null
 
   // Split into 2 columns for desktop, 1 for mobile
@@ -40,7 +31,7 @@ function SpecificationGrid({ title = "Specifications", data = sampleData }: Spec
               const isLast = index === items.length - 1
 
               return (
-                <div key={index} className="flex -mt-[1px]">
+                <div key={index} className="flex -mt-px">
                   {/* Label cell */}
                   <div
                     className={cn(
