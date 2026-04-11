@@ -47,18 +47,20 @@ export interface ButtonProps
   VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   href?: string;
+  external?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, href, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, href, external = false, ...props }, ref) => {
     if (href) {
       return (
         <Link
           href={href}
           className={cn(buttonVariants({ variant, size, className }))}
+          {...external && { target: "_blank", rel: "noopener noreferrer" }}
           {...(props as any)}
         />
-      )
+      );
     }
 
     return (

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react"
 import { PhoneIcon } from "@/icons"
 import { Card, CardContent } from "@/components/ui/card"
+import { useRouter } from "next/navigation"
 
 interface ProductCardProps {
     product: {
@@ -25,9 +26,9 @@ interface ProductCardProps {
 export default function ProductCard({ product, categoryPath }: ProductCardProps) {
     const mainImage = product.images?.[0]
     const productUrl = `/product/${product.slug.current}`
-
+    const { push } = useRouter()
     return (
-        <Card className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 ring-foreground/5 flex flex-col h-full py-0 gap-0">
+        <Card onClick={() => { push(productUrl) }} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 ring-foreground/5 flex flex-col h-full py-0 gap-0 cursor-pointer">
             {/* Image Section - Edge to Edge in container */}
             <div className="relative aspect-[4/3] overflow-hidden bg-slate-50">
                 {mainImage ? (
@@ -64,7 +65,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
                 </Link>
 
                 {/* Action Row - Unified style, no divider as requested */}
-                <div className="mt-5 flex items-center gap-2">
+                <div className="mt-5 flex items-center gap-2" onClick={(e) => { e.stopPropagation() }}>
                     <Button
                         size="lg"
                         variant="secondary"
@@ -88,6 +89,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
                         variant="default"
                         href={`https://wa.me/1234567890?text=I'm interested in ${product.title}`}
                         className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 "
+                        external
                     >
                         <IconBrandWhatsapp />
                     </Button>
