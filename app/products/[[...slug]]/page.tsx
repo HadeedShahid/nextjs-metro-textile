@@ -118,40 +118,33 @@ export default async function ProductsPage({
     }
 
     return (
-        <main className="min-h-screen bg-slate-50/30">
-            <div className="container mx-auto max-w-7xl px-6 md:px-12 py-8 md:py-12">
-                <header className="mb-10">
-                    <div className="mb-4">
-                        <Breadcrumbs items={breadcrumbItems} />
+        <>
+            <Breadcrumbs items={breadcrumbItems} />
+            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">
+                {activeCategory ? activeCategory.title : "All Products"}
+            </h1>
+
+            <CategoryFilters
+                categories={categories}
+                activeCategoryId={activeCategoryId || null}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product) => (
+                        <ProductCard
+                            key={product._id}
+                            product={product}
+                            categoryPath={getCategoryPath(product.category?._id)}
+                        />
+                    ))
+                ) : (
+                    <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+                        <p className="text-slate-400 text-lg">No products found in this category.</p>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
-                        {activeCategory ? activeCategory.title : "All Products"}
-                    </h1>
-                </header>
-
-                <CategoryFilters
-                    categories={categories}
-                    activeCategoryId={activeCategoryId || null}
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProducts.length > 0 ? (
-                        filteredProducts.map((product) => (
-                            <ProductCard
-                                key={product._id}
-                                product={product}
-                                categoryPath={getCategoryPath(product.category?._id)}
-                            />
-                        ))
-                    ) : (
-                        <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
-                            <p className="text-slate-400 text-lg">No products found in this category.</p>
-                        </div>
-                    )}
-                </div>
+                )}
             </div>
             <BlogSection />
-
-        </main>
+        </>
     );
 }

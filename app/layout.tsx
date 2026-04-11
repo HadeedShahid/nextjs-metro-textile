@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -13,6 +13,11 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Metro Textile",
@@ -51,7 +56,7 @@ export default async function RootLayout({
     >
       <body className="main-container mx-auto">
         <Navbar menu={menu} />
-        <main className="flex flex-col gap-10">{children}</main>
+        <main className="flex flex-col gap-4 lg:gap-6 lg:pt-5">{children}</main>
         <Footer />
       </body>
     </html>
