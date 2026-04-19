@@ -54,7 +54,7 @@ export default function SourcingProcess() {
               <span className="text-sm text-slate-500 font-medium">
                 {step.number}
               </span>
-              <CardTitle className="text-2xl font-semibold">
+              <CardTitle className="text-xl font-semibold">
                 {step.title}
               </CardTitle>
             </CardHeader>

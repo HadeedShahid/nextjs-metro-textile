@@ -69,7 +69,7 @@ const ContactSection = () => {
               <CardTitle className="text-xl font-semibold text-foreground mb-2">
                 {item.title}
               </CardTitle>
-              <CardDescription className="text-foreground/60">
+              <CardDescription className="text-slate-500">
                 {item.description}
               </CardDescription>
             </CardContent>
