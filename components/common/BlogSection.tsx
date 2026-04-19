@@ -4,6 +4,8 @@ import { client } from "@/sanity/client"
 import BlogCarousel from "./BlogCarousel"
 import Section from "../base/Section"
 import Text from "../base/Text"
+import { Button } from "../ui/button"
+import { ChevronRight } from "lucide-react"
 
 const LATEST_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) [0...8] {
     _id,
@@ -24,11 +26,16 @@ const BlogSection = async () => {
   if (posts.length === 0) return null
 
   return (
-    <Section >
-      <Text as="h2" className="text-4xl font-semibold">Latest Insights</Text>
-
+    <Section title="Latest Insights" headerAction={<Button
+      variant={"link"}
+      href={'/blogs'}
+      className="font-semibold text-md"
+    >
+      Explore All
+      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+    </Button>}>
       <BlogCarousel posts={posts} />
-    </Section>
+    </Section >
   )
 }
 

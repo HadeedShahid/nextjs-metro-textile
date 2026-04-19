@@ -39,24 +39,22 @@ import Text from "./base/Text";
 
 export default function SourcingProcess() {
   return (
-    <Section>
-      {/* Header Section */}
-      <Text as="h2" className="text-4xl font-semibold">
-        Sourcing Process
-      </Text>
+    <Section
+      title="Sourcing Process"
+    >
 
       {/* Steps Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {steps.map((step, index) => (
           <Card
             key={index}
-            className="hover:shadow-md flex flex-col justify-between"
+            className="hover:shadow-md flex flex-col gap-12 justify-between"
           >
             <CardHeader>
               <span className="text-sm text-slate-500 font-medium">
                 {step.number}
               </span>
-              <CardTitle className="text-2xl font-bold">
+              <CardTitle className="text-2xl font-semibold">
                 {step.title}
               </CardTitle>
             </CardHeader>

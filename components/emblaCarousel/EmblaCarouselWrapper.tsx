@@ -64,7 +64,7 @@ const EmblaCarouselWrapper = (props: PropType) => {
                             className={cn(
                                 "w-2 h-2 rounded-full transition-all duration-300",
                                 index === selectedIndex
-                                    ? "bg-indigo-600 w-6"
+                                    ? "bg-primary w-6"
                                     : "bg-slate-300 hover:bg-slate-400"
                             )}
                             aria-label={`Go to slide ${index + 1}`}

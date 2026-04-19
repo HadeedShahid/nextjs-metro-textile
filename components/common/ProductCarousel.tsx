@@ -14,10 +14,10 @@ interface ProductCarouselProps {
 
 const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps) => {
   return (
-    <Section>
-      {title && viewAllHref && (
-        <div className="flex items-center justify-between">
-          <Text className="text-4xl font-semibold">{title}</Text>
+    <Section
+      title={title}
+      headerAction={
+        viewAllHref && (
           <Button
             variant={"link"}
             href={viewAllHref}
@@ -26,8 +26,9 @@ const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps)
             Explore All
             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
-        </div>
-      )}
+        )
+      }
+    >
 
       <EmblaCarouselWrapper
         options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}

@@ -53,10 +53,9 @@ const contactDetails = [
 
 const ContactSection = () => {
   return (
-    <Section>
-      <Text as="h2" className="text-3xl font-semibold">
-        We&apos;d love to hear from you
-      </Text>
+    <Section
+      title="We'd love to hear from you"
+    >
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {contactDetails.map((item, index) => (

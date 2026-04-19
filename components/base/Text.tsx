@@ -1,6 +1,6 @@
 import React from "react";
 
-interface TextProps extends React.HTMLAttributes<HTMLElement> {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
   children: React.ReactNode;
 }
