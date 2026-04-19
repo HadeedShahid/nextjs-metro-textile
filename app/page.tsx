@@ -7,16 +7,19 @@ import SourcingProcess from "@/components/SourcingProcess";
 import VideoSection from "@/components/VideoSection";
 import CompaniesTrust from "@/components/common/CompaniesTrust";
 import ContactSection from "@/components/ContactSection";
+import ActionCTA from "@/components/ActionCTA";
+import Clients from "@/components/clients";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <VideoSection />
-      <CompaniesTrust />
+      <Clients />
       <TrustedProducts />
       <ParentCategoryShowcase />
       <SourcingProcess />
+      <ActionCTA />
       <ContactSection />
       <BlogSection />
       <Cta />

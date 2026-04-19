@@ -56,7 +56,7 @@ export default async function RootLayout({
     >
       <body className="main-container mx-auto">
         <Navbar menu={menu} />
-        <main className="flex flex-col gap-4 lg:gap-6 lg:pt-5">{children}</main>
+        <main className="flex flex-col gap-4 lg:gap-16 lg:pt-5">{children}</main>
         <Footer />
       </body>
     </html>

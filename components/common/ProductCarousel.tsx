@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import Section from "../base/Section"
 import Text from "../base/Text"
+import { Button } from "../ui/button"
 
 interface ProductCarouselProps {
   products: any[],
@@ -17,13 +18,14 @@ const ProductCarousel = ({ products, title, viewAllHref }: ProductCarouselProps)
       {title && viewAllHref && (
         <div className="flex items-center justify-between">
           <Text className="text-4xl font-semibold">{title}</Text>
-          <Link
+          <Button
+            variant={"link"}
             href={viewAllHref}
-            className="flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors group"
+            className="font-semibold text-md"
           >
             Explore All
             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+          </Button>
         </div>
       )}
 

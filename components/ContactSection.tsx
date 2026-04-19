@@ -60,7 +60,7 @@ const ContactSection = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {contactDetails.map((item, index) => (
-          <Card key={index} className="hover:shadow-md flex flex-col">
+          <Card key={index} className="hover:shadow-md  flex flex-col">
             <CardHeader>
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                 <item.icon className="w-5 h-5" />

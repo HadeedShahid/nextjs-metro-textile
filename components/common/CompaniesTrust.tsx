@@ -14,7 +14,7 @@ const CompaniesTrust = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-16">
+    <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
         {/* Left Side Text */}
         <div className="max-w-[180px] text-center md:text-left">
