@@ -2,46 +2,29 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import Section from "./base/Section";
 
 const Hero = () => {
   return (
-    <section className="">
-      <div className=" flex w-full h-[400px] sm:h-[550px] md:h-[650px] rounded-2xl overflow-hidden">
-        <div className="flex w-full h-full items-center justify-center">
-          {/* Overlay layer */}
-          <div className=" w-full h-full flex items-center justify-center bg-black/40">
-            {/* Background image */}
-            <Image
-              src="/assets/hero2.jpg"
-              alt="hero-img"
-              width={1400}
-              height={800}
-              priority
-              className="w-full h-full object-fill"
-            />
-
-            {/* Content */}
-            <div className="absolute flex flex-col justify-center items-center text-center text-white px-4 sm:px-6 md:px-10">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[80px] font-semibold max-w-[90%] md:max-w-[800px] leading-tight md:leading-[1.1]">
-                A Portfolio of Precision & Design
-              </h1>
-
-              <div className="flex flex-col sm:flex-row gap-3 mt-8 md:mt-12">
-                <Button
-                  href="/products"
-                  className="cursor-pointer bg-[#7F2F82] hover:bg-[#7f2f82] transition-all hover:scale-105 duration-300 ease-in-out"
-                >
-                  Explore Products
-                </Button>
-                <Button className="cursor-pointer bg-transparent  hover:bg-white hover:text-black transition-all hover:scale-105 duration-300 ease-in-out">
-                  Request a Quote
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Section className="text-center items-center gap-10 py-10">
+      <div className="flex flex-col items-center gap-6">
+        <h1 className="text-6xl font-bold text-slate-900 max-w-4xl">
+          Sourcing the world's finest
+        </h1>
+        <p className="text-lg md:text-xl text-slate-500 max-w-2xl">
+          Showcasing our commitment to quality textile manufacturing and
+          innovative design solutions for global brands.
+        </p>
       </div>
-    </section>
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <Button href="/products" size={"lg"}>
+          Explore Products
+        </Button>
+        <Button variant="outline" size={"lg"}>
+          Request a Quote
+        </Button>
+      </div>
+    </Section>
   );
 };
 
