@@ -1,8 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import Section from "./base/Section";
+import HeroSlideshow from "./HeroSlideshow";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
@@ -24,6 +25,8 @@ const Hero = () => {
           Request a Quote
         </Button>
       </div>
+
+      <HeroSlideshow />
     </Section>
   );
 };
