@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Mail,
-  MessageCircle,
-  Phone,
-  MapPin,
-  ChevronRight,
-} from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -53,10 +47,7 @@ const contactDetails = [
 
 const ContactSection = () => {
   return (
-    <Section
-      title="We'd love to hear from you"
-    >
-
+    <Section title="We'd love to hear from you">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {contactDetails.map((item, index) => (
           <Card key={index} className="hover:shadow-md  flex flex-col">
@@ -74,7 +65,11 @@ const ContactSection = () => {
               </CardDescription>
             </CardContent>
             <CardFooter className="mt-auto">
-              <Button href={item.href} variant="link" className="p-0 text-lg font-semibold" >
+              <Button
+                href={item.href}
+                variant="link"
+                className="p-0 text-lg font-semibold"
+              >
                 {item.linkText}
                 <ChevronRight className="w-5 h-5" />
               </Button>

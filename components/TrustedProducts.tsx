@@ -31,10 +31,7 @@ const TrustedProducts = () => {
   ];
 
   return (
-    <Section>
-      <Text as="h2" className="text-4xl font-semibold">
-        Product Catalog
-      </Text>
+    <Section title=" Product Catalog">
       {/* cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-stretch gap-6">
         {/* mapped cards */}

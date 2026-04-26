@@ -32,9 +32,7 @@ const Navbar = ({
     src: "/logo.png",
     alt: "logo",
   },
-  menu = [
-    { title: "Products", url: "/products" },
-  ],
+  menu = [{ title: "Products", url: "/products" }],
 }: NavbarProps) => {
   return (
     <section className="py-4">
@@ -50,7 +48,7 @@ const Navbar = ({
               <Link
                 key={item.title}
                 href={item.url}
-                className="text-sm font-medium text-foreground hover:text-[#742b76] transition-colors duration-200"
+                className="font-medium text-foreground hover:text-[#742b76] transition-colors duration-200"
               >
                 {item.title}
               </Link>
@@ -58,9 +56,9 @@ const Navbar = ({
           </div>
         </div>
         <div className="flex gap-3 items-center">
-          <div className="hidden lg:block">
-          </div>
+          <div className="hidden lg:block"></div>
           <Button
+            size={"lg"}
             href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products."
           >
             <Mail className="h-4 w-4" />
@@ -113,9 +111,7 @@ const Navbar = ({
                   ))}
                 </div>
 
-                <Button
-                  href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products."
-                >
+                <Button href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.">
                   <Mail className="h-4 w-4" />
                   Send Query
                 </Button>
