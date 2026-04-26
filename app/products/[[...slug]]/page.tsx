@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilters from "@/components/CategoryFilters";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import Section from "@/components/base/Section";
 
 const PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
     _id,
@@ -28,121 +29,128 @@ const CATEGORIES_QUERY = `*[_type == "category" && defined(slug.current)] {
 const options = { next: { revalidate: 30 } };
 
 export default async function ProductsPage({
-    params,
+  params,
 }: {
-    params: Promise<{ slug?: string[] }>;
+  params: Promise<{ slug?: string[] }>;
 }) {
-    const { slug: slugArray } = await params;
+  const { slug: slugArray } = await params;
 
-    // Fetch products and categories
-    const [products, categories] = await Promise.all([
-        client.fetch<any[]>(PRODUCTS_QUERY, {}, options),
-        client.fetch<any[]>(CATEGORIES_QUERY, {}, options),
-    ]);
+  // Fetch products and categories
+  const [products, categories] = await Promise.all([
+    client.fetch<any[]>(PRODUCTS_QUERY, {}, options),
+    client.fetch<any[]>(CATEGORIES_QUERY, {}, options),
+  ]);
 
-    // Resolve activeCategoryId from slugArray
-    let activeCategoryId: string | null = null;
-    if (slugArray && slugArray.length > 0) {
-        let currentParentId: string | undefined = undefined;
-        for (const slugPart of slugArray) {
-            const matchedCategory = categories.find(c =>
-                c.slug.current === slugPart &&
-                (currentParentId ? c.parent?._ref === currentParentId : !c.parent)
-            );
-            if (matchedCategory) {
-                activeCategoryId = matchedCategory._id;
-                currentParentId = matchedCategory._id;
-            } else {
-                // Break if path is invalid
-                activeCategoryId = null;
-                break;
-            }
-        }
+  // Resolve activeCategoryId from slugArray
+  let activeCategoryId: string | null = null;
+  if (slugArray && slugArray.length > 0) {
+    let currentParentId: string | undefined = undefined;
+    for (const slugPart of slugArray) {
+      const matchedCategory = categories.find(
+        (c) =>
+          c.slug.current === slugPart &&
+          (currentParentId ? c.parent?._ref === currentParentId : !c.parent),
+      );
+      if (matchedCategory) {
+        activeCategoryId = matchedCategory._id;
+        currentParentId = matchedCategory._id;
+      } else {
+        // Break if path is invalid
+        activeCategoryId = null;
+        break;
+      }
     }
+  }
 
-    // Filtering logic:
-    // If a category is selected, we want to show products in that category
-    // OR any of its descendants.
-    const filteredProducts = products.filter(product => {
-        if (!activeCategoryId) return true;
+  // Filtering logic:
+  // If a category is selected, we want to show products in that category
+  // OR any of its descendants.
+  const filteredProducts = products.filter((product) => {
+    if (!activeCategoryId) return true;
 
-        const checkCategoryMatch = (catId: string | undefined): boolean => {
-            if (!catId) return false;
-            if (catId === activeCategoryId) return true;
+    const checkCategoryMatch = (catId: string | undefined): boolean => {
+      if (!catId) return false;
+      if (catId === activeCategoryId) return true;
 
-            // Check the current category's parent
-            const cat = categories.find(c => c._id === catId);
-            return checkCategoryMatch(cat?.parent?._ref);
-        };
-
-        return checkCategoryMatch(product.category?._id);
-    });
-
-    // Helper to get full slug path for a category
-    const getCategoryPath = (catId: string | undefined): string => {
-        if (!catId) return "/products";
-        const path: string[] = [];
-        let current = categories.find(c => c._id === catId);
-        while (current) {
-            path.unshift(current.slug.current);
-            const parentId = current.parent?._ref;
-            current = parentId ? categories.find(c => c._id === parentId) : undefined;
-        }
-        return `/products/${path.join("/")}`;
+      // Check the current category's parent
+      const cat = categories.find((c) => c._id === catId);
+      return checkCategoryMatch(cat?.parent?._ref);
     };
 
-    // Get active category title for the header
-    const activeCategory = activeCategoryId
-        ? categories.find(c => c._id === activeCategoryId)
-        : null;
+    return checkCategoryMatch(product.category?._id);
+  });
 
-    // Generate breadcrumbs
-    const breadcrumbItems: { label: string; href?: string }[] = [
-        { label: "Home", href: "/" },
-        { label: "Products", href: "/products" },
-    ];
-
-    if (activeCategoryId) {
-        const hierarchy: { label: string; href: string }[] = [];
-        let current = categories.find(c => c._id === activeCategoryId);
-        while (current) {
-            hierarchy.unshift({
-                label: current.title,
-                href: getCategoryPath(current._id)
-            });
-            const parentId = current.parent?._ref;
-            current = parentId ? categories.find(c => c._id === parentId) : undefined;
-        }
-        breadcrumbItems.push(...hierarchy);
+  // Helper to get full slug path for a category
+  const getCategoryPath = (catId: string | undefined): string => {
+    if (!catId) return "/products";
+    const path: string[] = [];
+    let current = categories.find((c) => c._id === catId);
+    while (current) {
+      path.unshift(current.slug.current);
+      const parentId = current.parent?._ref;
+      current = parentId
+        ? categories.find((c) => c._id === parentId)
+        : undefined;
     }
+    return `/products/${path.join("/")}`;
+  };
 
-    return (
-        <>
-            <Breadcrumbs items={breadcrumbItems} />
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">
-                {activeCategory ? activeCategory.title : "All Products"}
-            </h1>
+  // Get active category title for the header
+  const activeCategory = activeCategoryId
+    ? categories.find((c) => c._id === activeCategoryId)
+    : null;
 
-            <CategoryFilters
-                categories={categories}
-                activeCategoryId={activeCategoryId || null}
+  // Generate breadcrumbs
+  const breadcrumbItems: { label: string; href?: string }[] = [
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
+  ];
+
+  if (activeCategoryId) {
+    const hierarchy: { label: string; href: string }[] = [];
+    let current = categories.find((c) => c._id === activeCategoryId);
+    while (current) {
+      hierarchy.unshift({
+        label: current.title,
+        href: getCategoryPath(current._id),
+      });
+      const parentId = current.parent?._ref;
+      current = parentId
+        ? categories.find((c) => c._id === parentId)
+        : undefined;
+    }
+    breadcrumbItems.push(...hierarchy);
+  }
+
+  return (
+    <Section>
+      <Breadcrumbs items={breadcrumbItems} />
+      <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">
+        {activeCategory ? activeCategory.title : "All Products"}
+      </h1>
+
+      <CategoryFilters
+        categories={categories}
+        activeCategoryId={activeCategoryId || null}
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              categoryPath={getCategoryPath(product.category?._id)}
             />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map((product) => (
-                        <ProductCard
-                            key={product._id}
-                            product={product}
-                            categoryPath={getCategoryPath(product.category?._id)}
-                        />
-                    ))
-                ) : (
-                    <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
-                        <p className="text-slate-400 text-lg">No products found in this category.</p>
-                    </div>
-                )}
-            </div>
-        </>
-    );
+          ))
+        ) : (
+          <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+            <p className="text-slate-400 text-lg">
+              No products found in this category.
+            </p>
+          </div>
+        )}
+      </div>
+    </Section>
+  );
 }

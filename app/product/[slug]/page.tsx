@@ -1,17 +1,18 @@
-import { client } from "@/sanity/client"
-import { PortableText } from "next-sanity"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react"
-import { PhoneIcon } from "@/icons"
-import Breadcrumbs from "@/components/common/Breadcrumbs"
-import ImageGallery from "@/components/common/ImageGallery"
-import SpecificationGrid from "@/components/common/SpecificationGrid"
-import OurClient from "@/components/OurClient"
-import Cta from "@/components/Cta"
-import BlogSection from "@/components/common/BlogSection"
-import KeyFeatures from "@/components/common/KeyFeatures"
-import RelatedProducts from "@/components/common/RelatedProducts"
+import { client } from "@/sanity/client";
+import { PortableText } from "next-sanity";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react";
+import { PhoneIcon } from "@/icons";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ImageGallery from "@/components/common/ImageGallery";
+import SpecificationGrid from "@/components/common/SpecificationGrid";
+import OurClient from "@/components/OurClient";
+import Cta from "@/components/Cta";
+import BlogSection from "@/components/common/BlogSection";
+import KeyFeatures from "@/components/common/KeyFeatures";
+import RelatedProducts from "@/components/common/RelatedProducts";
+import Section from "@/components/base/Section";
 
 async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
@@ -30,48 +31,48 @@ async function getProduct(slug: string) {
             }
         },
         specifications
-    }`
-  return await client.fetch(query, { slug }, { next: { revalidate: 30 } })
+    }`;
+  return await client.fetch(query, { slug }, { next: { revalidate: 30 } });
 }
 
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params
-  const product = await getProduct(slug)
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-slate-500 font-medium text-lg">Product not found.</p>
       </div>
-    )
+    );
   }
 
   const breadcrumbs: { label: string; href?: string }[] = [
     { label: "Home", href: "/" },
     { label: "Products", href: "/products" },
-  ]
+  ];
 
   if (product.category) {
     if (product.category.parent) {
       breadcrumbs.push({
         label: product.category.parent.title,
         href: `/products/${product.category.parent.slug}`,
-      })
+      });
     }
     breadcrumbs.push({
       label: product.category.title,
       href: `/products/${product.category.parent ? `${product.category.parent.slug}/` : ""}${product.category.slug}`,
-    })
+    });
   }
-  breadcrumbs.push({ label: product.title })
+  breadcrumbs.push({ label: product.title });
 
   return (
     <main className="min-h-screen bg-white">
-      <section className="container mx-auto px-4 py-8 md:py-12">
+      <Section>
         <Breadcrumbs items={breadcrumbs} />
 
         <div className="flex flex-col gap-8 mb-16">
@@ -90,11 +91,11 @@ export default async function ProductDetailPage({
                 <PortableText value={product.description} />
               ) : (
                 <p>
-                  Premium quality {product.title} meticulously crafted for durability and style.
-                  Metro Textiles ensures the highest standards of manufacturing for brands worldwide.
+                  Premium quality {product.title} meticulously crafted for
+                  durability and style. Metro Textiles ensures the highest
+                  standards of manufacturing for brands worldwide.
                 </p>
               )}
-
             </div>
 
             <div className="hidden lg:block">
@@ -146,18 +147,10 @@ export default async function ProductDetailPage({
 
           <BlogSection />
         </div>
-
-        <div className="mt-16">
-          <OurClient />
-        </div>
-
-        <div className="mt-16">
-          <Cta />
-        </div>
-      </section >
+      </Section>
 
       {/* Mobile Floating Contact Bar */}
-      < div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 flex gap-2 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]" >
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 flex gap-2 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
         <Button
           size="lg"
           variant="secondary"
@@ -184,7 +177,7 @@ export default async function ProductDetailPage({
         >
           <IconBrandWhatsapp />
         </Button>
-      </div >
-    </main >
-  )
+      </div>
+    </main>
+  );
 }
