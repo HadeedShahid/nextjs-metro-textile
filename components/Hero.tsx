@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
-    <section className="relative w-full min-h-[90vh] lg:min-h-screen grid grid-cols-1 lg:grid-cols-2 lg:items-center bg-white overflow-hidden">
+    <section className="relative w-full grid grid-cols-1 lg:grid-cols-2 lg:items-start bg-white overflow-hidden">
       {/* Left side: Text & CTAs */}
-      <div className="flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-12 lg:py-0 z-10 w-full h-full order-2 lg:order-1">
+      <div className="flex flex-col justify-center items-center h-full lg:px-20 z-10 w-full order-2 lg:order-1">
         <div className="max-w-2xl mx-auto lg:mx-0">
           <h1 className="text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             <span className="block">Sourcing the</span>
@@ -32,7 +32,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="w-full h-full min-h-[45vh] lg:min-h-[600px] relative rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2">
+      <div className="w-full h-[40vh] lg:h-[600px] relative rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2 mb-8 lg:mb-0">
         <HeroSlideshow />
       </div>
     </section>
