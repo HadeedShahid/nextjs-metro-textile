@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <section className="relative w-full grid grid-cols-1 lg:grid-cols-2 lg:items-start bg-white overflow-hidden">
       {/* Left side: Text & CTAs */}
-      <div className="flex flex-col justify-center items-center h-full lg:px-20 z-10 w-full order-2 lg:order-1">
+      <div className="flex flex-col justify-center items-start h-full z-10 w-full order-2 lg:order-1">
         <div className="max-w-2xl mx-auto lg:mx-0">
           <h1 className="text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             <span className="block">Sourcing the</span>
