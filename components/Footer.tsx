@@ -1,11 +1,10 @@
 import Image from "next/image";
-import {
-  Twitter, Facebook, Instagram
-} from "lucide-react"
+import { Twitter, Facebook, Instagram } from "lucide-react";
+import Section from "./base/Section";
 
 const Footer = () => {
   return (
-    <section className="pt-12">
+    <Section className="py-6">
       <div className="flex flex-col justify-between">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
@@ -63,21 +62,9 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
-          {/* Logo Image */}
-          <div className="flex justify-start md:justify-center items-center w-full">
-            <Image
-              src="/assets/METRO METALS.png"
-              alt="logo-text"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-[500px] sm:w-[700px] md:w-[900px] lg:w-[1100px] xl:w-[1300px] 2xl:w-[1500px] h-auto"
-            />
-          </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 

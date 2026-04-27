@@ -6,13 +6,8 @@ const Cta = () => {
   return (
     <section className="w-full bg-white py-12">
       <div className="relative flex flex-col md:flex-row items-start justify-between">
-        {/* Logo  */}
-        <div className="py-4 md:pr-8">
-          <Image src="/logo.png" width={80} height={80} alt="logo-image" />
-        </div>
-
         {/* Hero / CTA */}
-        <div className="relative w-full max-w-6xl overflow-hidden rounded-2xl">
+        <div className="relative w-full overflow-hidden rounded-2xl">
           {/* Background Image */}
           <Image
             src="/assets/cta-pic.jpg"
