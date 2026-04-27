@@ -68,7 +68,7 @@ const Navbar = ({
       </nav>
 
       {/* Mobile Menu */}
-      <div className="block lg:hidden">
+      <div className="block md:hidden">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href={logo.url} className="flex items-center gap-2">
