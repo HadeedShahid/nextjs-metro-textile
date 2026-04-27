@@ -78,7 +78,7 @@ export default async function ProductDetailPage({
         </div>
 
         <div className="flex flex-col gap-8 mb-16">
-          <h1 className="font-bold text-4xl md:text-5xl text-slate-900 leading-tight">
+          <h1 className="font-bold text-3xl md:text-5xl text-slate-900">
             {product.title}
           </h1>
 

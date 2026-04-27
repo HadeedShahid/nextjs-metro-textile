@@ -26,7 +26,10 @@ const Section = ({
           {title && (
             <Text
               as={titleAs}
-              className={cn("text-3xl font-semibold", titleClassName)}
+              className={cn(
+                "text-2xl md:text-3xl font-semibold",
+                titleClassName,
+              )}
             >
               {title}
             </Text>

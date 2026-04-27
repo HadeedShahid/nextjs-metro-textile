@@ -9,13 +9,13 @@ const Hero = () => {
       {/* Left side: Text & CTAs */}
       <div className="flex flex-col justify-center items-start h-full z-10 w-full order-2 lg:order-1">
         <div className="max-w-2xl">
-          <h1 className="text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+          <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             <span className="block">Sourcing the</span>
             <span className="block mt-2">
               world's <span className="text-primary">Finest</span>
             </span>
           </h1>
-          <p className="text-lg text-slate-500 mt-6 lg:mt-8 max-w-xl leading-relaxed">
+          <p className="text-base text-slate-500 mt-6 lg:mt-8 max-w-xl leading-relaxed">
             Showcasing our commitment to quality textile manufacturing and
             innovative design solutions for global brands.
           </p>

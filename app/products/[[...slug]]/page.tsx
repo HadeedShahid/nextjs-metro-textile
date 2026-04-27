@@ -127,7 +127,7 @@ export default async function ProductsPage({
       <div className="hidden md:block">
         <Breadcrumbs items={breadcrumbItems} />
       </div>
-      <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">
+      <h1 className="text-3xl md:text-5xl font-bold text-slate-900">
         {activeCategory ? activeCategory.title : "All Products"}
       </h1>
 
