@@ -55,7 +55,7 @@ const EmblaCarouselWrapper = (props: PropType) => {
                 </div>
             </div>
 
-            <div className="flex justify-center items-center mt-6">
+            <div className="flex md:hidden justify-center items-center mt-6">
                 <div className="flex flex-wrap justify-center items-center gap-2">
                     {scrollSnaps.map((_, index) => (
                         <DotButton

@@ -70,7 +70,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
                         size="lg"
                         variant="secondary"
                         href={`mailto:info@metrotextile.com?subject=Inquiry: ${product.title}`}
-                        className="flex-1 text-slate-600 font-semibold"
+                        className="flex-1 bg-primary/5 border border-primary/30 hover:bg-primary/10 hover:border-primary/50 text-primary font-semibold"
                     >
                         <IconMailFilled /> Email
                     </Button>
@@ -79,7 +79,7 @@ export default function ProductCard({ product, categoryPath }: ProductCardProps)
                         size="lg"
                         variant="secondary"
                         href={`tel:+1234567890`}
-                        className="flex-1 text-slate-600 font-semibold"
+                        className="flex-1 bg-primary/5 border border-primary/30 hover:bg-primary/10 hover:border-primary/50 text-primary font-semibold"
                     >
                         <PhoneIcon /> Call
                     </Button>

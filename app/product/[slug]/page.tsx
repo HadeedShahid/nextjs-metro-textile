@@ -73,7 +73,9 @@ export default async function ProductDetailPage({
   return (
     <main className="min-h-screen bg-white">
       <Section>
-        <Breadcrumbs items={breadcrumbs} />
+        <div className="hidden md:block">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
 
         <div className="flex flex-col gap-8 mb-16">
           <h1 className="font-bold text-4xl md:text-5xl text-slate-900 leading-tight">
@@ -144,6 +146,10 @@ export default async function ProductDetailPage({
             currentProductId={product._id}
             categoryTitle={product.category?.title}
           />
+
+          <div className=" md:hidden">
+            <Breadcrumbs items={breadcrumbs} />
+          </div>
 
           <BlogSection />
         </div>
