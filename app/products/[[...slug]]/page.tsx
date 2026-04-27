@@ -124,7 +124,9 @@ export default async function ProductsPage({
 
   return (
     <Section>
-      <Breadcrumbs items={breadcrumbItems} />
+      <div className="hidden md:block">
+        <Breadcrumbs items={breadcrumbItems} />
+      </div>
       <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">
         {activeCategory ? activeCategory.title : "All Products"}
       </h1>
@@ -150,6 +152,9 @@ export default async function ProductsPage({
             </p>
           </div>
         )}
+      </div>
+      <div className="md:hidden">
+        <Breadcrumbs items={breadcrumbItems} />
       </div>
     </Section>
   );
