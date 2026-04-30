@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Section from "./base/Section";
 import Text from "./base/Text";
+import EmblaCarouselWrapper from "./emblaCarousel/EmblaCarouselWrapper";
 
 const TrustedProducts = () => {
   // card data for card 1 & card 2
@@ -32,14 +33,16 @@ const TrustedProducts = () => {
 
   return (
     <Section title=" Product Catalog">
-      {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-stretch gap-6">
-        {/* mapped cards */}
+      <EmblaCarouselWrapper
+        options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}
+        containerClassName="gap-6"
+        slideClassName="basis-[75%] sm:basis-[40%] lg:basis-[24%]"
+      >
         {productCards.map((card, idx) => (
           <Link
             key={idx}
             href={card.link}
-            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer"
+            className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer h-full"
           >
             <Text className="font-medium">{card.title}</Text>
             <Image
@@ -56,22 +59,7 @@ const TrustedProducts = () => {
             </div>
           </Link>
         ))}
-
-        {/* unique card */}
-        {/* <Link
-          href="/products"
-          className="flex flex-col justify-between p-7 bg-black rounded-lg w-full min-h-[500px] group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
-        >
-          <h5 className="text-white text-2xl md:text-3xl uppercase w-[350px]">
-            Take a look on all accessories
-          </h5>
-          <div className="flex w-full justify-end">
-            <div className="group/btn border border-white py-4 px-4 rounded-full transition-all ease-in-out duration-300 group-hover:bg-white text-white group-hover:text-black">
-              <ArrowUpRight />
-            </div>
-          </div>
-        </Link> */}
-      </div>
+      </EmblaCarouselWrapper>
     </Section>
   );
 };
