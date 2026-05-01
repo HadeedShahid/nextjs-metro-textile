@@ -22,8 +22,8 @@ export default function Home() {
       <SourcingProcess />
       <ActionCTA />
       <ContactSection />
-      <BlogSection />
       <FAQSection />
+      <BlogSection />
       <Cta />
     </>
   );

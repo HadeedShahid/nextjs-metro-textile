@@ -47,7 +47,7 @@ export default function FAQSection() {
               value={`item-${index}`}
               className="border border-slate-300 rounded-md px-3 md:px-6 data-open:border-primary/40 data-open:shadow-sm"
             >
-              <AccordionTrigger className="text-slate-800 justify-center items-center cursor-pointer text-left py-2 md:py-5 text-base md:text-lg no-underline hover:no-underline">
+              <AccordionTrigger className="text-slate-800 justify-center items-center cursor-pointer text-left py-2 md:py-4 text-base md:text-lg no-underline hover:no-underline">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-slate-600 text-sm md:text-base md:pb-6">
