@@ -124,10 +124,7 @@ export default function SourcingProcess() {
 
             {/* Desktop Overlay: Minimalist CTA */}
             <div className="hidden lg:block absolute bottom-8 left-8 z-20">
-              <Button
-                size="lg"
-                className="rounded-xl px-8 font-semibold transition-all group/btn shadow-lg shadow-primary/20"
-              >
+              <Button size="lg">
                 Send Inquiry
                 <ArrowUpRight className="ml-2 w-5 h-5" />
               </Button>
