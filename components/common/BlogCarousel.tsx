@@ -1,59 +1,46 @@
-"use client"
-
-import React, { useCallback } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import BlogCard from "./BlogCard"
+import React from "react";
+import BlogCard from "./BlogCard";
+import EmblaCarouselWrapper from "@/components/emblaCarousel/EmblaCarouselWrapper";
+import Section from "../base/Section";
+import { ChevronRight } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface BlogCarouselProps {
-  posts: any[]
+  posts: any[];
+  title?: string;
+  viewAllHref?: string;
 }
 
-const BlogCarousel = ({ posts }: BlogCarouselProps) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    slidesToScroll: 1,
-    containScroll: "trimSnaps",
-  })
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
-
-  if (posts.length === 0) return null
+const BlogCarousel = ({ posts, title, viewAllHref }: BlogCarouselProps) => {
+  if (posts.length === 0) return null;
 
   return (
-    <div className="relative">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6 px-2">
-          {posts.map((post) => (
-            <div key={post._id} className="flex-[0_0_100%] sm:flex-[0_0_45%] lg:flex-[0_0_23%]">
-              <BlogCard post={post} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation */}
-      {posts.length > 4 && (
-        <>
-          <button
-            onClick={scrollPrev}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white shadow-xl hover:bg-slate-50 transition-all border border-slate-100 hidden lg:flex"
-            aria-label="Previous slide"
+    <Section
+      title={title}
+      headerAction={
+        viewAllHref && (
+          <Button
+            variant={"link"}
+            href={viewAllHref}
+            className="font-semibold text-md"
           >
-            <ChevronLeft className="w-5 h-5 text-slate-600" />
-          </button>
-          <button
-            onClick={scrollNext}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white shadow-xl hover:bg-slate-50 transition-all border border-slate-100 hidden lg:flex"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="w-5 h-5 text-slate-600" />
-          </button>
-        </>
-      )}
-    </div>
-  )
-}
+            Explore All
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+          </Button>
+        )
+      }
+    >
+      <EmblaCarouselWrapper
+        options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}
+        containerClassName="gap-4 md:gap-6"
+        slideClassName="basis-[80%] sm:basis-[45%] lg:basis-[23%]"
+      >
+        {posts.map((post) => (
+          <BlogCard key={post._id} post={post} />
+        ))}
+      </EmblaCarouselWrapper>
+    </Section>
+  );
+};
 
-export default BlogCarousel
+export default BlogCarousel;

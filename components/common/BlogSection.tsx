@@ -26,17 +26,12 @@ const BlogSection = async () => {
   if (posts.length === 0) return null
 
   return (
-    <Section title="Latest Insights" headerAction={<Button
-      variant={"link"}
-      href={'/blogs'}
-      className="font-semibold text-md"
-    >
-      Explore All
-      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-    </Button>}>
-      <BlogCarousel posts={posts} />
-    </Section >
-  )
+    <BlogCarousel
+      posts={posts}
+      title="Latest Insights"
+      viewAllHref="/blogs"
+    />
+  );
 }
 
 export default BlogSection

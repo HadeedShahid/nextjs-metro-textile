@@ -5,6 +5,8 @@ import { urlFor } from "@/sanity/image";
 import { Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { IconCalendarFilled } from "@tabler/icons-react";
+import Text from "../base/Text";
 
 interface BlogCardProps {
   post: {
@@ -23,7 +25,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
 
   return (
     <Link href={blogUrl} className="block">
-      <Card className="relative aspect-3/4 overflow-hidden bg-slate-100 shadow-md p-0 border-none cursor-pointer">
+      <Card className="relative aspect-square md:aspect-3/4 overflow-hidden bg-slate-100 shadow-md p-0 border-none cursor-pointer flex flex-col justify-end">
         <Image
           src={imageUrl}
           alt={post.title}
@@ -46,16 +48,20 @@ const BlogCard = ({ post }: BlogCardProps) => {
         <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
 
         {/* Content */}
-        <div className="absolute inset-x-0 bottom-0 p-8 z-10">
-          <h3 className="text-white font-bold text-xl md:text-2xl leading-tight line-clamp-3 mb-4">
+        <div className="relative z-20 p-6 flex flex-col gap-2">
+          <Text className="text-white font-semibold text-lg leading-tight">
             {post.title}
-          </h3>
-          <div className="flex items-center gap-3 text-white/90">
-            <Calendar className="w-5 h-5" strokeWidth={2.5} />
-            <span className="text-base font-semibold tracking-wide">
+          </Text>
+          <div className="flex items-center gap-2 text-white/80">
+            <IconCalendarFilled size={14} />
+            <span className="text-xs font-semibold">
               {post.publishedAt
-                ? new Date(post.publishedAt).toISOString().split("T")[0]
-                : "2025-11-14"}
+                ? new Date(post.publishedAt).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                : "November 14, 2025"}
             </span>
           </div>
         </div>
