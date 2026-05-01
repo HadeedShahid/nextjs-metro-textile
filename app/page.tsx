@@ -9,6 +9,7 @@ import CompaniesTrust from "@/components/common/CompaniesTrust";
 import ContactSection from "@/components/ContactSection";
 import ActionCTA from "@/components/ActionCTA";
 import Clients from "@/components/clients";
+import FAQSection from "@/components/FAQSection";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <ActionCTA />
       <ContactSection />
       <BlogSection />
+      <FAQSection />
       <Cta />
     </>
   );
