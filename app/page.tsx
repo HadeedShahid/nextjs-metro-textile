@@ -10,6 +10,7 @@ import ContactSection from "@/components/ContactSection";
 import ActionCTA from "@/components/ActionCTA";
 import Clients from "@/components/clients";
 import FAQSection from "@/components/FAQSection";
+import GlobalPresence from "@/components/GlobalPresence";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <ParentCategoryShowcase />
       <SourcingProcess />
       <ActionCTA />
+      <GlobalPresence />
       <ContactSection />
       <FAQSection />
       <BlogSection />
