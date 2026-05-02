@@ -27,7 +27,7 @@ export default function ContactUsPage() {
             </svg>
           </div>
           <div className="container mx-auto px-6 md:px-12 relative z-10 text-left">
-            <div className="mb-6 inline-block [&_ol]:text-white/70 [&_a]:text-white/90 [&_a:hover]:text-white [&_[aria-current]]:text-white">
+            <div className="mb-6 hidden md:inline-block [&_ol]:text-white/70 [&_a]:text-white/90 [&_a:hover]:text-white [&_[aria-current]]:text-white">
               <Breadcrumbs
                 items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
               />
@@ -159,6 +159,13 @@ export default function ContactUsPage() {
       </div>
 
       <GlobalPresence />
+
+      {/* Mobile Breadcrumbs before footer */}
+      <div className="container mx-auto md:hidden flex justify-start">
+        <Breadcrumbs
+          items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
+        />
+      </div>
     </div>
   );
 }
