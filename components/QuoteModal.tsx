@@ -10,13 +10,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,83 +30,92 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="p-0 overflow-hidden bg-white border-0 shadow-2xl sm:max-w-[600px] sm:rounded-2xl">
-          <div className="bg-gradient-to-br from-[#7f2f82]/10 to-transparent p-5 md:p-8 border-b border-slate-100">
-            <DialogHeader>
-              <DialogTitle className="text-xl md:text-2xl font-semibold text-slate-900">
-                Request a Custom Quote
-              </DialogTitle>
-              <DialogDescription className="text-slate-600 text-sm mt-1.5 md:mt-2">
-                Provide us with a few details about your project, and our sourcing team will get back to you with a personalized estimate within 24 hours.
-              </DialogDescription>
-            </DialogHeader>
-          </div>
-          <QuoteForm className="px-5 pb-5 md:px-8 md:pb-8" />
+        <DialogTrigger render={children as React.ReactElement} />
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold">
+              Request a Custom Quote
+            </DialogTitle>
+            <DialogDescription className="text-sm">
+              Tell us about your project, and our team will provide a
+              personalized estimate within 24 hours.
+            </DialogDescription>
+          </DialogHeader>
+          <QuoteForm />
         </DialogContent>
       </Dialog>
     );
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="bg-white p-0">
-        <div className="bg-gradient-to-br from-[#7f2f82]/10 to-transparent p-5 border-b border-slate-100 rounded-t-2xl">
-          <DrawerHeader className="text-left p-0">
-            <DrawerTitle className="text-xl font-semibold text-slate-900">
-              Request a Custom Quote
-            </DrawerTitle>
-            <DrawerDescription className="text-slate-600 text-sm mt-1.5">
-              Provide us with a few details about your project, and our sourcing team will get back to you with a personalized estimate within 24 hours.
-            </DrawerDescription>
-          </DrawerHeader>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger render={children as React.ReactElement} />
+      <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
+        <SheetHeader className="text-left px-4 pt-6 pb-0">
+          <SheetTitle className="text-lg font-semibold">Request a Custom Quote</SheetTitle>
+          <SheetDescription className="text-sm">
+            Tell us about your project, and our team will provide a personalized
+            estimate within 24 hours.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="mt-4 px-4 pb-6">
+          <QuoteForm />
         </div>
-        <div className="overflow-y-auto">
-          <QuoteForm className="px-5 py-6" />
-        </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   );
 }
 
 function QuoteForm({ className }: React.ComponentProps<"form">) {
   return (
     <form className={className} onSubmit={(e) => e.preventDefault()}>
-      <div className="space-y-5 bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-          <div className="space-y-2">
-            <Label htmlFor="firstName" className="text-slate-700">First Name <span className="text-red-500">*</span></Label>
-            <Input id="firstName" placeholder="John" required className="bg-slate-50 focus-visible:ring-primary/20" />
+      <div className="grid gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="firstName">
+              First Name <span className="text-red-500">*</span>
+            </Label>
+            <Input id="firstName" placeholder="John" required />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName" className="text-slate-700">Last Name <span className="text-red-500">*</span></Label>
-            <Input id="lastName" placeholder="Doe" required className="bg-slate-50 focus-visible:ring-primary/20" />
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-slate-700">Email Address <span className="text-red-500">*</span></Label>
-            <Input id="email" type="email" placeholder="john@company.com" required className="bg-slate-50 focus-visible:ring-primary/20" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="company" className="text-slate-700">Company Name</Label>
-            <Input id="company" placeholder="Acme Corp" className="bg-slate-50 focus-visible:ring-primary/20" />
+          <div className="grid gap-2">
+            <Label htmlFor="lastName">
+              Last Name <span className="text-red-500">*</span>
+            </Label>
+            <Input id="lastName" placeholder="Doe" required />
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="requirements" className="text-slate-700">Project Requirements / Notes <span className="text-red-500">*</span></Label>
-          <Textarea 
-            id="requirements" 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">
+              Email Address <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="john@company.com"
+              required
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="company">Company Name</Label>
+            <Input id="company" placeholder="Acme Corp" />
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label htmlFor="requirements">
+            Project Requirements / Notes <span className="text-red-500">*</span>
+          </Label>
+          <Textarea
+            id="requirements"
             required
-            placeholder="Tell us about the materials, finishes, specific dimensions, or custom designs you need..." 
-            className="min-h-[120px] resize-none bg-slate-50 focus-visible:ring-primary/20"
+            placeholder="Tell us about the materials, finishes, specific dimensions, or custom designs you need..."
+            className="min-h-[120px] resize-none"
           />
         </div>
 
-        <Button type="submit" className="w-full text-base font-semibold h-12 bg-[#7f2f82] hover:bg-[#6a276d] shadow-md hover:shadow-lg transition-all rounded-xl mt-2">
+        <Button type="submit" className="w-full mt-2">
           Submit Quote Request
         </Button>
       </div>

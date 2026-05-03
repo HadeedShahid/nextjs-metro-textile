@@ -13,7 +13,7 @@ function Drawer({
 
 function DrawerTrigger({
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DrawerPrimitive.Trigger> & { asChild?: boolean }) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
