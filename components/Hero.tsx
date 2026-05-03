@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <section className="relative w-full grid grid-cols-1 lg:grid-cols-2 lg:items-center bg-white overflow-hidden py-12 lg:py-0">
       {/* Left side: Text & CTAs */}
-      <div className="flex flex-col justify-center items-start h-full z-10 w-full order-2 lg:order-1 px-6 lg:px-20">
+      <div className="flex flex-col justify-center items-start h-full z-10 w-full order-2 lg:order-1 px-2 md:px-0">
         <div className="max-w-2xl">
           <AnnouncementBadge message="Fireproof Zippers" href="/products" />
           <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
