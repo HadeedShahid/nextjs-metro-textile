@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import TrustedProducts from "@/components/TrustedProducts";
 import ComplianceSection from "@/components/ComplianceSection";
 import Cta from "@/components/Cta";
+import QuoteCta from "@/components/QuoteCta";
 import BlogSection from "@/components/common/BlogSection";
 import ParentCategoryShowcase from "@/components/ParentCategoryShowcase";
 import SourcingProcess from "@/components/SourcingProcess";
@@ -28,6 +29,7 @@ export default function Home() {
       <ContactSection />
       <FAQSection />
       <BlogSection />
+      <QuoteCta />
       <Cta />
     </>
   );
