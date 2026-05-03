@@ -1,67 +1,158 @@
 import Image from "next/image";
-import { Twitter, Facebook, Instagram } from "lucide-react";
+import Link from "next/link";
+import { Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
 import Section from "./base/Section";
+import { cn } from "@/lib/utils";
 
-const Footer = () => {
+interface FooterLink {
+  name: string;
+  href: string;
+}
+
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
+
+interface FooterLogo {
+  url: string;
+  src: string;
+  alt: string;
+  title: string;
+}
+
+interface FooterBasicProps {
+  logo?: FooterLogo;
+  description?: string;
+  sections?: FooterSection[];
+  copyright?: string;
+  legalLinks?: FooterLink[];
+  className?: string;
+}
+
+interface Footer2Props extends FooterBasicProps {
+  logoClassName?: string;
+}
+
+const defaultProps: Footer2Props = {
+  logo: {
+    url: "/",
+    src: "/logo.png",
+    alt: "Metro Metal Logo",
+    title: "Metro Metal",
+  },
+  description:
+    "Your trusted partner in the global leather and textile industry. We provide premium accessories to the global soft and hard goods industry.",
+  sections: [
+    {
+      title: "Product Range",
+      links: [
+        { name: "All Products", href: "/#products" },
+        { name: "Zippers", href: "/#products" },
+        { name: "Buttons", href: "/#products" },
+        { name: "Buckles", href: "/#products" },
+        { name: "Others", href: "/#products" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "About Us", href: "/about-us" },
+        { name: "Contact Us", href: "/contact-us" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
+        { name: "Business Inquiries", href: "mailto:Shahid@metro-metal.com" },
+        { name: "Call Us: +42 35846163", href: "tel:+4235846163" },
+      ],
+    },
+  ],
+  copyright: "© 2025 Metro Metal. All rights reserved.",
+};
+
+const MAX_SECTIONS = 4;
+
+const Footer = (props: Partial<Footer2Props>) => {
+  const { logo, description, sections, copyright, className } = {
+    ...defaultProps,
+    ...props,
+  };
+
+  const visibleSections = (sections ?? []).slice(0, MAX_SECTIONS);
+
   return (
-    <Section className="py-6">
+    <Section className={cn("py-6", className)}>
       <div className="flex flex-col justify-between">
-        {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
-          {/* site links */}
-          <div className="flex flex-wrap gap-5 md:gap-7 w-full md:w-1/2 justify-start">
-            <h5 className="text-lg md:text-xl font-medium">Home</h5>
-            <h5 className="text-lg md:text-xl font-medium">About Us</h5>
-            <h5 className="text-lg md:text-xl font-medium">Products</h5>
-            <h5 className="text-lg md:text-xl font-medium">Contact</h5>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
+          <div className="col-span-2 mb-8 md:mb-0">
+            <div className="flex items-center md:justify-start">
+              <Link href={logo!.url}>
+                <Image
+                  src={logo!.src}
+                  alt={logo!.alt}
+                  title={logo!.title}
+                  width={120}
+                  height={116}
+                  className="h-16 w-auto"
+                />
+              </Link>
+            </div>
+            <p className="mt-4 text-sm font-medium text-slate-500 max-w-sm">
+              {description}
+            </p>
 
-          {/* Social Links */}
-          <div className="flex flex-col w-full md:w-1/2 items-start md:items-end">
-            <h6 className="text-lg md:text-xl text-zinc-400">Socials</h6>
-            <div className="flex justify-start md:justify-end gap-3 pt-4">
-              <div className="bg-[#7f2f821b] p-2.5 rounded-full">
-                <Twitter color="#7f2f82" />
-              </div>
-              <div className="bg-[#7f2f821b] p-2.5 rounded-full">
-                <Facebook color="#7f2f82" />
-              </div>
-              <div className="bg-[#7f2f821b] p-2.5 rounded-full">
-                <Instagram color="#7f2f82" />
-              </div>
+            <div className="flex justify-start gap-3 pt-6">
+              <a
+                href="#"
+                className="bg-[#7f2f821b] hover:bg-[#7f2f8230] transition-colors p-2.5 rounded-full"
+              >
+                <Twitter className="w-5 h-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="bg-[#7f2f821b] hover:bg-[#7f2f8230] transition-colors p-2.5 rounded-full"
+              >
+                <Facebook className="w-5 h-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="bg-[#7f2f821b] hover:bg-[#7f2f8230] transition-colors p-2.5 rounded-full"
+              >
+                <Instagram className="w-5 h-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="bg-[#7f2f821b] hover:bg-[#7f2f8230] transition-colors p-2.5 rounded-full"
+              >
+                <Linkedin className="w-5 h-5 text-primary" />
+              </a>
             </div>
           </div>
+
+          {visibleSections.map((section, sectionIdx) => (
+            <div key={sectionIdx} className="col-span-1 md:col-span-1">
+              <h3 className="mb-4 text-base font-semibold tracking-tight text-slate-900">
+                {section.title}
+              </h3>
+              <ul className="space-y-4 text-sm text-slate-500">
+                {section.links.map((link, linkIdx) => (
+                  <li
+                    key={linkIdx}
+                    className="font-medium hover:text-primary transition-colors"
+                  >
+                    <Link href={link.href}>{link.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Middle Section */}
-        <div className="flex flex-col gap-8 mt-10">
-          {/* Contact & Email */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            {/* Left */}
-            <div className="text-left">
-              <h6 className="text-zinc-400 w-[211px] text-base md:text-xl">
-                © 2025 All Rights Reserved
-              </h6>
-            </div>
-
-            {/* Right */}
-            <div className="flex flex-col sm:flex-row justify-start md:justify-between items-start md:items-center gap-6 md:gap-12">
-              <div className="text-left">
-                <h6 className="text-base md:text-xl text-zinc-400">
-                  Business Inquiries
-                </h6>
-                <h6 className="text-base md:text-xl text-black font-medium">
-                  Shahid@metro-metal.com
-                </h6>
-              </div>
-              <div className="text-left">
-                <h6 className="text-base md:text-xl text-zinc-400">Phone</h6>
-                <h6 className="text-base md:text-xl text-black font-medium">
-                  +42 35846163
-                </h6>
-              </div>
-            </div>
-          </div>
+        <div className="mt-16 flex flex-col justify-between items-end gap-4 border-t border-slate-200 pt-6 text-sm font-medium text-slate-500 md:flex-row md:items-center md:justify-end">
+          <p>{copyright}</p>
         </div>
       </div>
     </Section>
