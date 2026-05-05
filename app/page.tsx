@@ -29,7 +29,7 @@ export default function Home() {
       <ContactSection />
       <FAQSection />
       <BlogSection />
-      <QuoteCta />
+      {/* <QuoteCta /> */}
       <Cta />
     </>
   );

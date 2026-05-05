@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, FileText } from "lucide-react";
+import { QuoteModal } from "./QuoteModal";
+import { Button } from "./ui/button";
 
 const Cta = () => {
   return (
@@ -33,14 +35,23 @@ const Cta = () => {
 
             {/* Middle content */}
             <div className="flex  md:flex-row justify-between items-end md:items-end gap-8">
-              <div className="flex flex-col text-left">
-                <h1 className="text-3xl sm:text-5xl lg:text-8xl font-medium mb-3 leading-tight">
-                  METRO METALS
-                </h1>
-                <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-lg">
-                  Partner with Us and elevate your collections with details that
-                  last. Trusted by leading fashion brands worldwide.
-                </p>
+              <div className="flex flex-col text-left gap-6">
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-3xl sm:text-5xl lg:text-8xl font-medium">
+                    METRO METALS
+                  </h1>
+                  <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-lg">
+                    Partner with Us and elevate your collections with details
+                    that last. Trusted by leading fashion brands worldwide.
+                  </p>
+                </div>
+
+                <QuoteModal>
+                  <Button size="lg" className="w-min">
+                    <FileText className="mr-2 h-5 w-5" />
+                    Request a Custom Quote
+                  </Button>
+                </QuoteModal>
               </div>
 
               {/* CTA Button */}
