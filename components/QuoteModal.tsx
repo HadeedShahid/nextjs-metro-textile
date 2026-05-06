@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { FileText } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +32,7 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={children as React.ReactElement} />
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">
               Request a Custom Quote
@@ -52,7 +53,9 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
       <SheetTrigger render={children as React.ReactElement} />
       <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
         <SheetHeader className="text-left px-4 pt-6 pb-0">
-          <SheetTitle className="text-lg font-semibold">Request a Custom Quote</SheetTitle>
+          <SheetTitle className="text-lg font-semibold">
+            Request a Custom Quote
+          </SheetTitle>
           <SheetDescription className="text-sm">
             Tell us about your project, and our team will provide a personalized
             estimate within 24 hours.
@@ -115,10 +118,32 @@ function QuoteForm({ className }: React.ComponentProps<"form">) {
           />
         </div>
 
-        <Button type="submit" className="w-full mt-2">
+        <Button type="submit" className="w-full mt-2" size={"lg"}>
           Submit Quote Request
         </Button>
       </div>
     </form>
+  );
+}
+
+interface QuoteModalButtonProps extends React.ComponentProps<typeof Button> {
+  text?: string;
+  icon?: React.ReactNode;
+}
+
+export function QuoteModalButton({
+  text = "Request a Custom Quote",
+  icon,
+  className,
+  size = "lg",
+  ...props
+}: QuoteModalButtonProps) {
+  return (
+    <QuoteModal>
+      <Button size={size} className={className} {...props}>
+        {icon}
+        {text}
+      </Button>
+    </QuoteModal>
   );
 }

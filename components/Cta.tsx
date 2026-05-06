@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { ArrowUpRight, FileText } from "lucide-react";
-import { QuoteModal } from "./QuoteModal";
+import { QuoteModalButton } from "./QuoteModal";
 import { Button } from "./ui/button";
 
 const Cta = () => {
@@ -46,12 +46,10 @@ const Cta = () => {
                   </p>
                 </div>
 
-                <QuoteModal>
-                  <Button size="lg" className="w-min">
-                    <FileText className="mr-2 h-5 w-5" />
-                    Request a Custom Quote
-                  </Button>
-                </QuoteModal>
+                <QuoteModalButton
+                  className="w-min p-6"
+                  icon={<FileText className="mr-2 h-5 w-5" />}
+                />
               </div>
 
               {/* CTA Button */}

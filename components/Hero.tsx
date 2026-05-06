@@ -3,6 +3,7 @@ import AnnouncementBadge from "./common/AnnouncementBadge";
 import HeroSlideshow from "./HeroSlideshow";
 import TrustIndicators from "./TrustIndicators";
 import { Button } from "./ui/button";
+import { QuoteModalButton } from "./QuoteModal";
 
 const Hero = () => {
   return (
@@ -25,9 +26,11 @@ const Hero = () => {
             <Button href="/products" size="lg">
               Explore Products
             </Button>
-            <Button variant="outline" size="lg">
-              Request a Quote
-            </Button>
+            <QuoteModalButton
+              variant="outline"
+              size="lg"
+              text="Request a Quote"
+            />
           </div>
 
           <TrustIndicators />
