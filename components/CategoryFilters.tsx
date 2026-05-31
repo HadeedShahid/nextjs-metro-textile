@@ -6,103 +6,102 @@ import { Button } from "./ui/button";
 import { X } from "lucide-react";
 
 interface Category {
-    _id: string;
-    title: string;
-    slug: { current: string };
-    parent?: { _ref: string };
+  _id: string;
+  title: string;
+  slug: { current: string };
+  parent?: { _ref: string };
 }
 
 interface CategoryFiltersProps {
-    categories: Category[];
-    activeCategoryId: string | null;
+  categories: Category[];
+  activeCategoryId: string | null;
 }
 
-export default function CategoryFilters({ categories, activeCategoryId }: CategoryFiltersProps) {
-    // Find current category
-    const currentCategory = useMemo(() =>
-        categories.find(c => c._id === activeCategoryId),
-        [categories, activeCategoryId]);
+export default function CategoryFilters({
+  categories,
+  activeCategoryId,
+}: CategoryFiltersProps) {
+  const currentCategory = useMemo(
+    () => categories.find((c) => c._id === activeCategoryId),
+    [categories, activeCategoryId],
+  );
 
-    // Build the full active path
-    const activePath = useMemo(() => {
-        const path: Category[] = [];
-        let curr = currentCategory;
-        while (curr) {
-            path.unshift(curr);
-            const parentId = curr.parent?._ref;
-            curr = parentId ? categories.find(c => c._id === parentId) : undefined;
-        }
-        return path;
-    }, [categories, currentCategory]);
+  const activePath = useMemo(() => {
+    const path: Category[] = [];
+    let curr = currentCategory;
+    while (curr) {
+      path.unshift(curr);
+      const parentId = curr.parent?._ref;
+      curr = parentId ? categories.find((c) => c._id === parentId) : undefined;
+    }
+    return path;
+  }, [categories, currentCategory]);
 
-    // Sub-categories to display as available options
-    const displayCategories = useMemo(() => {
-        return categories.filter(c =>
-            activeCategoryId
-                ? c.parent?._ref === activeCategoryId
-                : !c.parent
-        );
-    }, [categories, activeCategoryId]);
+  const displayCategories = useMemo(
+    () =>
+      categories.filter((c) =>
+        activeCategoryId
+          ? c.parent?._ref === activeCategoryId
+          : !c.parent,
+      ),
+    [categories, activeCategoryId],
+  );
 
-    // Helper to build Href for any path slice
-    const getPathHref = (pathSlice: Category[]) => {
-        if (pathSlice.length === 0) return "/products";
-        const slugs = pathSlice.map(c => c.slug.current);
-        return `/products/${slugs.join("/")}`;
-    };
+  const getPathHref = (pathSlice: Category[]) => {
+    if (pathSlice.length === 0) return "/products";
+    return `/products/${pathSlice.map((c) => c.slug.current).join("/")}`;
+  };
 
-    return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-wrap gap-2 items-center">
-                {/* 1. All Products - Only show at root level */}
-                {!activeCategoryId && (
-                    <Button
-                        href="/products"
-                        variant="default"
-                        className="rounded-full px-4"
-                    >
-                        All Products
-                    </Button>
-                )}
+  const hasSubCategories = displayCategories.length > 0 && activeCategoryId;
 
-                {/* 2. Active Path Chips (Breadchips) */}
-                {activePath.map((cat, index) => {
-                    const parentHref = getPathHref(activePath.slice(0, index));
-                    return (
-                        <div key={cat._id} className="flex items-center gap-1 group/chip animate-in fade-in slide-in-from-left-2 duration-300">
-                            <Button
-                                className="rounded-full pl-4 pr-2 flex items-center gap-2"
-                            >
-                                <span>{cat.title}</span>
-                                <Link
-                                    href={parentHref}
-                                    className="hover:bg-white/20 rounded-full p-1 transition-colors"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <X size={14} />
-                                </Link>
-                            </Button>
-                        </div>
-                    );
-                })}
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap gap-2 items-center">
+        {/* All Products — root only */}
+        {!activeCategoryId && (
+          <Button href="/products" variant="default" className="rounded-full px-4">
+            All Products
+          </Button>
+        )}
 
-                {/* 3. Available Sub-category Chips */}
-                {displayCategories.map(cat => (
-                    <Button
-                        key={cat._id}
-                        href={getPathHref([...activePath, cat])}
-                        variant={"outline"}
-                        className="rounded-full px-4"
-                    >
-                        {cat.title}
-                    </Button>
-                ))}
-            </div>
+        {/* Active path chips */}
+        {activePath.map((cat, index) => (
+          <div
+            key={cat._id}
+            className="flex items-center gap-1 animate-in fade-in slide-in-from-left-2 duration-200"
+          >
+            <Button className="rounded-full pl-4 pr-2 gap-2">
+              {cat.title}
+              <Link
+                href={getPathHref(activePath.slice(0, index))}
+                className="hover:bg-white/20 rounded-full p-1 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+                aria-label={`Remove ${cat.title} filter`}
+              >
+                <X size={14} />
+              </Link>
+            </Button>
+          </div>
+        ))}
 
-            {/* No further options indicator */}
-            {displayCategories.length === 0 && activeCategoryId && (
-                <p className="text-xs text-slate-400 italic px-1">No further sub-categories</p>
-            )}
-        </div>
-    );
+        {/* Divider between active chips and subcategory options */}
+        {hasSubCategories && (
+          <div className="w-px h-6 bg-slate-200 mx-1 shrink-0" />
+        )}
+
+        {/* Subcategory chips */}
+        {displayCategories.map((cat) => (
+          <Button
+            key={cat._id}
+            href={getPathHref([...activePath, cat])}
+            variant="outline"
+            className="rounded-full px-4"
+          >
+            {cat.title}
+          </Button>
+        ))}
+      </div>
+
+    </div>
+  );
 }

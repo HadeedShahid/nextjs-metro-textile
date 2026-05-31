@@ -1,8 +1,10 @@
 import { fetchAllProducts, fetchAllCategories } from "@/lib/api";
+import { SearchX } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilters from "@/components/CategoryFilters";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Section from "@/components/base/Section";
+import { Button } from "@/components/ui/button";
 import CompaniesTrust from "@/components/common/CompaniesTrust";
 import SourcingProcess from "@/components/SourcingProcess";
 import FAQSection from "@/components/FAQSection";
@@ -124,10 +126,19 @@ export default async function ProductsPage({
               />
             ))
           ) : (
-            <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
-              <p className="text-slate-400 text-lg">
-                No products found in this category.
-              </p>
+            <div className="col-span-full py-10 flex flex-col items-center justify-center gap-5 bg-white rounded-3xl border border-dashed border-slate-300 text-center px-6">
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                <SearchX className="w-8 h-8" strokeWidth={1.5} />
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-lg font-semibold text-slate-800">No products found</h3>
+                <p className="text-sm text-slate-400 max-w-xs mx-auto">
+                  We couldn't find anything matching your current filters. Try selecting a different category.
+                </p>
+              </div>
+              <Button href="/products" variant="outline" className="rounded-full px-6">
+                Clear Filters
+              </Button>
             </div>
           )}
         </div>
