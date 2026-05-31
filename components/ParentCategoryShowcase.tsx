@@ -1,18 +1,8 @@
-import { client } from "@/sanity/client";
+import { fetchParentCategories } from "@/lib/api";
 import CategoryShowcase from "./CategoryShowcase";
 
-const PARENT_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent) && defined(slug.current)] | order(title asc) {
-    "slug": slug.current
-}`;
-
-const options = { next: { revalidate: 30 } };
-
 export default async function ParentCategoryShowcase() {
-    const categories = await client.fetch<{ slug: string }[]>(
-        PARENT_CATEGORIES_QUERY,
-        {},
-        options
-    );
+    const { data: categories } = await fetchParentCategories();
 
     if (!categories || categories.length === 0) return null;
 

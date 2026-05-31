@@ -1,4 +1,4 @@
-import { client } from "@/sanity/client";
+import { fetchProductBySlug } from "@/lib/api";
 import { PortableText } from "next-sanity";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,34 +14,13 @@ import KeyFeatures from "@/components/common/KeyFeatures";
 import RelatedProducts from "@/components/common/RelatedProducts";
 import Section from "@/components/base/Section";
 
-async function getProduct(slug: string) {
-  const query = `*[_type == "product" && slug.current == $slug][0] {
-        _id,
-        title,
-        slug,
-        images,
-        description,
-        "category": category->{
-            _id,
-            title,
-            "slug": slug.current,
-            "parent": parent->{
-                title,
-                "slug": slug.current
-            }
-        },
-        specifications
-    }`;
-  return await client.fetch(query, { slug }, { next: { revalidate: 30 } });
-}
-
 export default async function ProductDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const { data: product } = await fetchProductBySlug(slug);
 
   if (!product) {
     return (
@@ -141,11 +120,13 @@ export default async function ProductDetailPage({
         {/* <KeyFeatures /> */}
 
         <div className="mt-16">
-          <RelatedProducts
-            categoryId={product.category?._id}
-            currentProductId={product._id}
-            categoryTitle={product.category?.title}
-          />
+          {product.category && (
+            <RelatedProducts
+              categoryId={product.category._id}
+              currentProductId={product._id}
+              categoryTitle={product.category.title}
+            />
+          )}
 
           <div className=" md:hidden">
             <Breadcrumbs items={breadcrumbs} />

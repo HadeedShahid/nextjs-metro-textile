@@ -1,16 +1,9 @@
 import Link from "next/link";
-import { type SanityDocument } from "next-sanity";
-import { client } from "@/sanity/client";
-
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc){_id, title, slug, publishedAt}`;
-
-const options = { next: { revalidate: 30 } };
+import { fetchAllPosts } from "@/lib/api";
 
 export default async function BlogsPage() {
-    const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+    const { data: posts } = await fetchAllPosts();
+    const safePosts = posts ?? [];
 
     return (
         <main className="container mx-auto min-h-screen max-w-4xl p-8 md:p-12">
@@ -24,7 +17,7 @@ export default async function BlogsPage() {
             </header>
 
             <div className="grid gap-y-12">
-                {posts.map((post) => (
+                {safePosts.map((post) => (
                     <article key={post._id} className="group relative flex flex-col items-start">
                         <h2 className="text-2xl font-bold text-slate-900 group-hover:text-purple-600 transition-colors mb-2">
                             <Link href={`/blog/${post.slug.current}`}>

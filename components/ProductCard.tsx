@@ -15,9 +15,7 @@ interface ProductCardProps {
     title: string;
     slug: { current: string };
     images: any[];
-    category: {
-      title: string;
-    };
+    category: { title: string } | null;
     isFeatured?: boolean;
     isPopular?: boolean;
   };

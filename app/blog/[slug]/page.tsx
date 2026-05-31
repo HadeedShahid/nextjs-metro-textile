@@ -1,9 +1,8 @@
-import { PortableText, type SanityDocument } from "next-sanity";
+import { PortableText } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { client } from "@/sanity/client";
+import { fetchPostBySlug } from "@/lib/api";
 import Link from "next/link";
-
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: any) =>
@@ -11,14 +10,23 @@ const urlFor = (source: any) =>
         ? imageUrlBuilder({ projectId, dataset }).image(source)
         : null;
 
-const options = { next: { revalidate: 30 } };
-
 export default async function PostPage({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) {
-    const post = await client.fetch<SanityDocument>(POST_QUERY, await params, options);
+    const { slug } = await params;
+    const { data: post } = await fetchPostBySlug(slug);
+
+    if (!post) {
+        return (
+            <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
+                <Link href="/blogs" className="hover:underline">← Back to blogs</Link>
+                <p className="text-slate-500">Post not found.</p>
+            </main>
+        );
+    }
+
     const postImageUrl = post.image
         ? urlFor(post.image)?.width(550).height(310).url()
         : null;

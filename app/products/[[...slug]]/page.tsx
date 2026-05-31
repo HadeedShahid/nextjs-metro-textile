@@ -1,4 +1,4 @@
-import { client } from "@/sanity/client";
+import { fetchAllProducts, fetchAllCategories } from "@/lib/api";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilters from "@/components/CategoryFilters";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
@@ -12,30 +12,6 @@ import Clients from "@/components/clients";
 import ActionCTA from "@/components/ActionCTA";
 import BlogSection from "@/components/common/BlogSection";
 
-const PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
-    _id,
-    title,
-    slug,
-    images,
-    isFeatured,
-    isPopular,
-    "category": category->{
-        _id,
-        title,
-        slug,
-        parent
-    }
-}`;
-
-const CATEGORIES_QUERY = `*[_type == "category" && defined(slug.current)] {
-    _id,
-    title,
-    slug,
-    parent
-}`;
-
-const options = { next: { revalidate: 30 } };
-
 export default async function ProductsPage({
   params,
 }: {
@@ -43,18 +19,20 @@ export default async function ProductsPage({
 }) {
   const { slug: slugArray } = await params;
 
-  // Fetch products and categories
-  const [products, categories] = await Promise.all([
-    client.fetch<any[]>(PRODUCTS_QUERY, {}, options),
-    client.fetch<any[]>(CATEGORIES_QUERY, {}, options),
+  const [{ data: products }, { data: categories }] = await Promise.all([
+    fetchAllProducts(),
+    fetchAllCategories(),
   ]);
+
+  const safeProducts = products ?? [];
+  const safeCategories = categories ?? [];
 
   // Resolve activeCategoryId from slugArray
   let activeCategoryId: string | null = null;
   if (slugArray && slugArray.length > 0) {
     let currentParentId: string | undefined = undefined;
     for (const slugPart of slugArray) {
-      const matchedCategory = categories.find(
+      const matchedCategory = safeCategories.find(
         (c) =>
           c.slug.current === slugPart &&
           (currentParentId ? c.parent?._ref === currentParentId : !c.parent),
@@ -63,52 +41,43 @@ export default async function ProductsPage({
         activeCategoryId = matchedCategory._id;
         currentParentId = matchedCategory._id;
       } else {
-        // Break if path is invalid
         activeCategoryId = null;
         break;
       }
     }
   }
 
-  // Filtering logic:
-  // If a category is selected, we want to show products in that category
-  // OR any of its descendants.
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = safeProducts.filter((product) => {
     if (!activeCategoryId) return true;
 
     const checkCategoryMatch = (catId: string | undefined): boolean => {
       if (!catId) return false;
       if (catId === activeCategoryId) return true;
-
-      // Check the current category's parent
-      const cat = categories.find((c) => c._id === catId);
+      const cat = safeCategories.find((c) => c._id === catId);
       return checkCategoryMatch(cat?.parent?._ref);
     };
 
     return checkCategoryMatch(product.category?._id);
   });
 
-  // Helper to get full slug path for a category
   const getCategoryPath = (catId: string | undefined): string => {
     if (!catId) return "/products";
     const path: string[] = [];
-    let current = categories.find((c) => c._id === catId);
+    let current = safeCategories.find((c) => c._id === catId);
     while (current) {
       path.unshift(current.slug.current);
       const parentId = current.parent?._ref;
       current = parentId
-        ? categories.find((c) => c._id === parentId)
+        ? safeCategories.find((c) => c._id === parentId)
         : undefined;
     }
     return `/products/${path.join("/")}`;
   };
 
-  // Get active category title for the header
   const activeCategory = activeCategoryId
-    ? categories.find((c) => c._id === activeCategoryId)
+    ? safeCategories.find((c) => c._id === activeCategoryId)
     : null;
 
-  // Generate breadcrumbs
   const breadcrumbItems: { label: string; href?: string }[] = [
     { label: "Home", href: "/" },
     { label: "Products", href: "/products" },
@@ -116,7 +85,7 @@ export default async function ProductsPage({
 
   if (activeCategoryId) {
     const hierarchy: { label: string; href: string }[] = [];
-    let current = categories.find((c) => c._id === activeCategoryId);
+    let current = safeCategories.find((c) => c._id === activeCategoryId);
     while (current) {
       hierarchy.unshift({
         label: current.title,
@@ -124,7 +93,7 @@ export default async function ProductsPage({
       });
       const parentId = current.parent?._ref;
       current = parentId
-        ? categories.find((c) => c._id === parentId)
+        ? safeCategories.find((c) => c._id === parentId)
         : undefined;
     }
     breadcrumbItems.push(...hierarchy);
@@ -141,7 +110,7 @@ export default async function ProductsPage({
         </h1>
 
         <CategoryFilters
-          categories={categories}
+          categories={safeCategories}
           activeCategoryId={activeCategoryId || null}
         />
 

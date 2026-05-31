@@ -25,26 +25,18 @@ export const metadata: Metadata = {
   description: "High-quality textile products and sourcing solutions.",
 };
 
-import { client } from "@/sanity/client";
-
-async function getCategories() {
-  const query = `*[_type == "category" && !defined(parent)] | order(title asc) {
-    title,
-    "slug": slug.current
-  }`;
-  return await client.fetch(query);
-}
+import { fetchNavCategories } from "@/lib/api";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = await getCategories();
+  const { data: categories } = await fetchNavCategories();
 
   const menu = [
     { title: "All Products", url: "/products" },
-    ...categories.map((cat: any) => ({
+    ...(categories ?? []).map((cat) => ({
       title: cat.title,
       url: `/products/${cat.slug}`,
     })),

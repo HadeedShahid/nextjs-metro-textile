@@ -1,5 +1,5 @@
 import React from "react"
-import { client } from "@/sanity/client"
+import { fetchRelatedProducts } from "@/lib/api"
 import ProductCarousel from "./ProductCarousel"
 
 interface RelatedProductsProps {
@@ -8,28 +8,10 @@ interface RelatedProductsProps {
   categoryTitle: string
 }
 
-const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category._ref == $categoryId && _id != $currentProductId] | order(_createdAt desc) [0...8] {
-    _id,
-    title,
-    slug,
-    images,
-    category->{
-        title,
-        "slug": slug
-    },
-    isFeatured,
-    isPopular
-}`
-
 const RelatedProducts = async ({ categoryId, currentProductId, categoryTitle }: RelatedProductsProps) => {
-  let products = []
-  try {
-    products = await client.fetch(RELATED_PRODUCTS_QUERY, { categoryId, currentProductId }, { next: { revalidate: 30 } })
-  } catch (error) {
-    console.error("[RelatedProducts] Error fetching products:", error)
-  }
+  const { data: products } = await fetchRelatedProducts(categoryId, currentProductId)
 
-  if (products.length === 0) return null
+  if (!products || products.length === 0) return null
 
   return (
     <section className="py-20">
