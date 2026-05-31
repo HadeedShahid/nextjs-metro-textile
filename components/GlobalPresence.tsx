@@ -11,16 +11,21 @@ import { Building2, Globe2, MapPin, Briefcase } from "lucide-react";
 import ContactActionGroup from "./common/ContactActionGroup";
 import { cn } from "@/lib/utils";
 
+import { FlagCN, FlagHK, FlagPK } from "@/icons";
+
+const flagClass = "w-5 h-auto rounded-[2px] shrink-0";
+const flagClassPK = `${flagClass} border border-slate-200`;
+
 const sisterConcerns = [
-  { name: "Metro Metal", location: "China", flag: "🇨🇳" },
-  { name: "Metro Company", location: "Hong Kong", flag: "🇭🇰" },
-  { name: "Metro Textiles Sourcing", location: "Pakistan", flag: "🇵🇰" },
+  { name: "Metro Metal", location: "China", Flag: <FlagCN className={flagClass} /> },
+  { name: "Metro Company", location: "Hong Kong", Flag: <FlagHK className={flagClass} /> },
+  { name: "Metro Textiles Sourcing", location: "Pakistan", Flag: <FlagPK className={flagClassPK} /> },
 ];
 
-const countriesData: Record<string, string> = {
-  Pakistan: "🇵🇰",
-  "Hong Kong": "🇭🇰",
-  China: "🇨🇳",
+const countriesData: Record<string, React.ReactNode> = {
+  Pakistan: <FlagPK className={flagClassPK} />,
+  "Hong Kong": <FlagHK className={flagClass} />,
+  China: <FlagCN className={flagClass} />,
 };
 
 const GlobalPresence = () => {
@@ -54,9 +59,7 @@ const GlobalPresence = () => {
                       {company.name}
                     </span>
                     <span className="text-sm text-slate-500 flex items-center gap-1.5 mt-0.5">
-                      <span className="text-base leading-none">
-                        {company.flag}
-                      </span>{" "}
+                      {company.Flag}
                       {company.location}
                     </span>
                   </div>
@@ -92,9 +95,7 @@ const GlobalPresence = () => {
                       key={idx}
                       className="flex items-center gap-2 text-slate-700"
                     >
-                      <span className="text-lg leading-none">
-                        {countriesData[country]}
-                      </span>
+                      {countriesData[country]}
                       {country}
                     </li>
                   ))}
@@ -113,9 +114,7 @@ const GlobalPresence = () => {
                       key={idx}
                       className="flex items-center gap-2 text-slate-700"
                     >
-                      <span className="text-lg leading-none">
-                        {countriesData[country]}
-                      </span>
+                      {countriesData[country]}
                       {country}
                     </li>
                   ))}
