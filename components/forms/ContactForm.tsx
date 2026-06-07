@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { Send, AlertCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -42,27 +43,12 @@ export default function ContactForm() {
       return;
     }
 
-    setStatus("success");
+    toast.success("Message sent!", {
+      description: "We've received your message and will get back to you within 24 hours.",
+      position: "top-center",
+    });
+    setStatus("idle");
     form.reset();
-  }
-
-  if (status === "success") {
-    return (
-      <div className="flex flex-col items-start gap-4 py-8">
-        <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-          <CheckCircle className="w-6 h-6" />
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900">Message sent!</h3>
-          <p className="text-slate-500 mt-1">
-            We've received your message and will get back to you within 24 hours.
-          </p>
-        </div>
-        <Button variant="outline" onClick={() => setStatus("idle")}>
-          Send another message
-        </Button>
-      </div>
-    );
   }
 
   return (

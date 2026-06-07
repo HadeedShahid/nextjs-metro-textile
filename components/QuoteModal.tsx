@@ -23,7 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export function QuoteModal({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
@@ -70,7 +71,7 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
   );
 }
 
-type QuoteStatus = "idle" | "loading" | "success" | "error";
+type QuoteStatus = "idle" | "loading" | "error";
 
 function QuoteForm({ className }: React.ComponentProps<"form">) {
   const [status, setStatus] = React.useState<QuoteStatus>("idle");
@@ -105,27 +106,12 @@ function QuoteForm({ className }: React.ComponentProps<"form">) {
       return;
     }
 
-    setStatus("success");
+    toast.success("Quote request sent!", {
+      description: "We've received your message and will get back to you within 24 hours.",
+      position: "top-center"
+    });
+    setStatus("idle");
     form.reset();
-  }
-
-  if (status === "success") {
-    return (
-      <div className="flex flex-col items-start gap-4 py-6">
-        <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-          <CheckCircle className="w-6 h-6" />
-        </div>
-        <div>
-          <h3 className="text-base font-semibold text-slate-900">Request sent!</h3>
-          <p className="text-slate-500 text-sm mt-1">
-            We'll prepare a personalized estimate and get back to you within 24 hours.
-          </p>
-        </div>
-        <Button variant="outline" size="sm" onClick={() => setStatus("idle")}>
-          Submit another request
-        </Button>
-      </div>
-    );
   }
 
   return (

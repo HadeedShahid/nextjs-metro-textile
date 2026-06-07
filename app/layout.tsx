@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 import { fetchNavCategories } from "@/lib/api";
+import { Toaster } from "sonner";
 
 export default async function RootLayout({
   children,
@@ -51,6 +52,7 @@ export default async function RootLayout({
         <Navbar menu={menu} />
         <main className="flex flex-col gap-16 lg:py-5">{children}</main>
         <Footer />
+        <Toaster richColors />
       </body>
     </html>
   );
