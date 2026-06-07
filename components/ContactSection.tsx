@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_HREF,
+  CONTACT_WHATSAPP_HREF,
+  MAPS_HREF,
+} from "@/constants";
 import { Mail, MessageCircle, Phone, MapPin, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -19,29 +27,29 @@ const contactDetails = [
     title: "Email Support",
     description: "For spec sheets and technical drawings.",
     icon: Mail,
-    linkText: "hello@metrotextile.com",
-    href: "mailto:hello@metrotextile.com",
+    linkText: CONTACT_EMAIL,
+    href: CONTACT_EMAIL_HREF,
   },
   {
     title: "Whatsapp",
     description: "Real time availability and custom leads.",
     icon: IconBrandWhatsapp,
     linkText: "Start chat now",
-    href: "https://wa.me/9230654332176",
+    href: CONTACT_WHATSAPP_HREF,
   },
   {
     title: "Call us directly",
     description: "Speak with a production specialist.",
     icon: Phone,
-    linkText: "+92 30654332176",
-    href: "tel:+9230654332176",
+    linkText: CONTACT_PHONE_DISPLAY,
+    href: CONTACT_PHONE_HREF,
   },
   {
     title: "Visit our office",
     description: "Visit to feel the fabric and see the colors.",
     icon: MapPin,
     linkText: "Check the map",
-    href: "https://maps.google.com/?q=Metro+Textile",
+    href: MAPS_HREF,
   },
 ];
 

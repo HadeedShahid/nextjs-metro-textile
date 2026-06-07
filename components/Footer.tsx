@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COMPANY_NAME, CONTACT_EMAIL_HREF, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/constants";
 import Link from "next/link";
 import { Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
 import Section from "./base/Section";
@@ -66,12 +67,12 @@ const defaultProps: Footer2Props = {
     {
       title: "Support",
       links: [
-        { name: "Business Inquiries", href: "mailto:Shahid@metro-metal.com" },
-        { name: "Call Us: +42 35846163", href: "tel:+4235846163" },
+        { name: "Business Inquiries", href: CONTACT_EMAIL_HREF },
+        { name: `Call Us: ${CONTACT_PHONE_DISPLAY}`, href: CONTACT_PHONE_HREF },
       ],
     },
   ],
-  copyright: "© 2025 Metro Metal. All rights reserved.",
+  copyright: `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`,
 };
 
 const MAX_SECTIONS = 4;

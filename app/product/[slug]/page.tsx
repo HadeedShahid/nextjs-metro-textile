@@ -1,4 +1,9 @@
 import { fetchProductBySlug } from "@/lib/api";
+import {
+  CONTACT_EMAIL_HREF,
+  CONTACT_PHONE_HREF,
+  CONTACT_WHATSAPP_NUMBER,
+} from "@/constants";
 import { PortableText } from "next-sanity";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -73,7 +78,7 @@ export default async function ProductDetailPage({
               ) : (
                 <p>
                   Premium quality {product.title} meticulously crafted for
-                  durability and style. Metro Textiles ensures the highest
+                  durability and style. Metro Metal ensures the highest
                   standards of manufacturing for brands worldwide.
                 </p>
               )}
@@ -88,7 +93,7 @@ export default async function ProductDetailPage({
                   <Button
                     size="lg"
                     variant="secondary"
-                    href={`mailto:info@metrotextile.com?subject=Inquiry: ${product.title}`}
+                    href={`${CONTACT_EMAIL_HREF}?subject=Inquiry: ${product.title}`}
                     className="flex-1 text-slate-600 font-semibold"
                   >
                     <IconMailFilled /> Email
@@ -97,7 +102,7 @@ export default async function ProductDetailPage({
                   <Button
                     size="lg"
                     variant="secondary"
-                    href={`tel:+1234567890`}
+                    href={CONTACT_PHONE_HREF}
                     className="flex-1 text-slate-600 font-semibold"
                   >
                     <PhoneIcon /> Call
@@ -106,7 +111,7 @@ export default async function ProductDetailPage({
                   <Button
                     size="lg"
                     variant="default"
-                    href={`https://wa.me/1234567890?text=I'm interested in ${product.title}`}
+                    href={`https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=I'm interested in ${product.title}`}
                     className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 "
                   >
                     <IconBrandWhatsapp />
@@ -141,7 +146,7 @@ export default async function ProductDetailPage({
         <Button
           size="lg"
           variant="secondary"
-          href={`mailto:info@metrotextile.com?subject=Inquiry: ${product.title}`}
+          href={`${CONTACT_EMAIL_HREF}?subject=Inquiry: ${product.title}`}
           className="flex-1 text-slate-600 font-semibold"
         >
           <IconMailFilled /> Email
@@ -150,7 +155,7 @@ export default async function ProductDetailPage({
         <Button
           size="lg"
           variant="secondary"
-          href={`tel:+1234567890`}
+          href={CONTACT_PHONE_HREF}
           className="flex-1 text-slate-600 font-semibold"
         >
           <PhoneIcon /> Call
@@ -159,7 +164,7 @@ export default async function ProductDetailPage({
         <Button
           size="lg"
           variant="default"
-          href={`https://wa.me/1234567890?text=I'm interested in ${product.title}`}
+          href={`https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=I'm interested in ${product.title}`}
           className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 "
         >
           <IconBrandWhatsapp />

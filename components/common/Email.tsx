@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { CONTACT_EMAIL } from "@/constants"
 import ContactCTA from "./ContactCTA"
 import { Mail } from "lucide-react"
 
@@ -9,7 +10,7 @@ const DEFAULT_CONTACTS = [
     id: 1,
     name: "Sales Department",
     description: "General Inquiries",
-    email: "info@metrotextile.com",
+    email: CONTACT_EMAIL,
     avatarUrl: "/placeholder-user.jpg",
   },
 ]

@@ -26,7 +26,7 @@ const Cta = () => {
             <div className="flex items-center justify-between text-xs sm:text-sm md:text-base">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-purple-500"></span>
-                <span>Metro Metals</span>
+                <span>Metro Metal</span>
               </div>
               <p className="text-gray-200 hidden sm:block">
                 We are fashion & manufacturers
@@ -38,7 +38,7 @@ const Cta = () => {
               <div className="flex flex-col text-left gap-6">
                 <div className="flex flex-col gap-2">
                   <h1 className="text-3xl sm:text-5xl lg:text-8xl font-medium">
-                    METRO METALS
+                    METRO METAL
                   </h1>
                   <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-lg">
                     Partner with Us and elevate your collections with details

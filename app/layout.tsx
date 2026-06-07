@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Metro Textile",
+  title: "Metro Metal",
   description: "High-quality textile products and sourcing solutions.",
 };
 

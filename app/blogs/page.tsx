@@ -9,7 +9,7 @@ export default async function BlogsPage() {
         <main className="container mx-auto min-h-screen max-w-4xl p-8 md:p-12">
             <header className="mb-12 border-b border-slate-100 pb-8">
                 <h1 className="text-5xl font-black text-slate-900 tracking-tight mb-4">
-                    Metro Textile <span className="text-purple-600">Blog</span>
+                    Metro Metal <span className="text-purple-600">Blog</span>
                 </h1>
                 <p className="text-slate-500 text-lg">
                     Latest news, industry insights, and updates from the world of textile sourcing.

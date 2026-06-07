@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { CONTACT_EMAIL_HREF } from "@/constants";
 
 import Link from "next/link";
 
@@ -59,7 +60,7 @@ const Navbar = ({
           <div className="hidden lg:block"></div>
           <Button
             size={"lg"}
-            href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products."
+            href={`${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`}
           >
             <Mail className="h-4 w-4" />
             Send Query
@@ -111,7 +112,7 @@ const Navbar = ({
                   ))}
                 </div>
 
-                <Button href="mailto:info@metrotextile.com?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.">
+                <Button href={`${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`}>
                   <Mail className="h-4 w-4" />
                   Send Query
                 </Button>

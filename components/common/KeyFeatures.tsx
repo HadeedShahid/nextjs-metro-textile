@@ -53,7 +53,7 @@ const KeyFeatures = () => {
 
             <div className="pt-8">
               <p className="text-zinc-500 text-sm md:text-base leading-relaxed max-w-xl">
-                At Metro Metals, every product goes through a careful process.
+                At Metro Metal, every product goes through a careful process.
                 We choose strong materials, shape them with precision, and
                 finish them with attention to detail. Our team focuses on making
                 each piece reliable, stylish, and built to last, so brands can

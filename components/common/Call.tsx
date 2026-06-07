@@ -1,22 +1,16 @@
 "use client"
 
 import * as React from "react"
+import { CONTACT_PHONE_E164 } from "@/constants"
 import ContactCTA from "./ContactCTA"
 import { Phone } from "lucide-react"
 
 const DEFAULT_CONTACTS = [
   {
     id: 1,
-    name: "Alex Johnson",
-    description: "Account Manager",
-    phone: "+880 1234 567 890",
-    avatarUrl: "/placeholder-user.jpg",
-  },
-  {
-    id: 2,
-    name: "Priya Singh",
-    description: "Customer Success",
-    phone: "+880 0987 654 321",
+    name: "Shahid",
+    description: "Business Inquiries",
+    phone: CONTACT_PHONE_E164,
     avatarUrl: "/placeholder-user.jpg",
   },
 ]

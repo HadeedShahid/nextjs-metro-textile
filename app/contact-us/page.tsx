@@ -4,12 +4,7 @@ import ContactSection from "@/components/ContactSection";
 import GlobalPresence from "@/components/GlobalPresence";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Send } from "lucide-react";
+import ContactForm from "@/components/forms/ContactForm";
 
 export default function ContactUsPage() {
   return (
@@ -82,59 +77,7 @@ export default function ContactUsPage() {
               </p>
             </div>
 
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input
-                    id="firstName"
-                    placeholder="John"
-                    className="bg-slate-50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Doe"
-                    className="bg-slate-50"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="john@example.com"
-                  className="bg-slate-50"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="company">Company (Optional)</Label>
-                <Input
-                  id="company"
-                  placeholder="Your Company Ltd."
-                  className="bg-slate-50"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  placeholder="How can we help you today?"
-                  className="min-h-[150px] bg-slate-50 resize-y"
-                />
-              </div>
-
-              <Button type="button" size="lg" className="w-full sm:w-auto mt-4">
-                <Send className="w-4 h-4 mr-2" />
-                Send Message
-              </Button>
-            </form>
+            <ContactForm />
           </div>
 
           {/* Right Side: Graphic/Image */}

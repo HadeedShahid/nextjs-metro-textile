@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { CONTACT_PHONE_E164 } from "@/constants"
 import ContactCTA from "./ContactCTA"
 import { MessageCircle } from "lucide-react"
 
@@ -9,7 +10,7 @@ const DEFAULT_CONTACTS = [
     id: 1,
     name: "Support Team",
     description: "WhatsApp Support",
-    phone: "+880 1234 567123",
+    phone: CONTACT_PHONE_E164,
     avatarUrl: "/placeholder-user.jpg",
   },
 ]
