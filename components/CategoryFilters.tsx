@@ -17,91 +17,99 @@ interface CategoryFiltersProps {
   activeCategoryId: string | null;
 }
 
+function pathHref(path: Category[]) {
+  return path.length
+    ? `/products/${path.map((c) => c.slug.current).join("/")}`
+    : "/products";
+}
+
+function DismissChip({ cat, href }: { cat: Category; href: string }) {
+  return (
+    <div className="flex items-center animate-in fade-in slide-in-from-left-2 duration-200">
+      <Button className="rounded-full pl-4 pr-2 gap-2">
+        {cat.title}
+        <Link
+          href={href}
+          className="hover:bg-white/20 rounded-full p-1 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+          aria-label={`Remove ${cat.title} filter`}
+        >
+          <X size={14} />
+        </Link>
+      </Button>
+    </div>
+  );
+}
+
 export default function CategoryFilters({
   categories,
   activeCategoryId,
 }: CategoryFiltersProps) {
-  const currentCategory = useMemo(
-    () => categories.find((c) => c._id === activeCategoryId),
-    [categories, activeCategoryId],
-  );
-
+  // Full ancestor chain for the active category
   const activePath = useMemo(() => {
     const path: Category[] = [];
-    let curr = currentCategory;
+    let curr = categories.find((c) => c._id === activeCategoryId);
     while (curr) {
       path.unshift(curr);
-      const parentId = curr.parent?._ref;
-      curr = parentId ? categories.find((c) => c._id === parentId) : undefined;
+      curr = curr.parent?._ref
+        ? categories.find((c) => c._id === curr!.parent!._ref)
+        : undefined;
     }
     return path;
-  }, [categories, currentCategory]);
+  }, [categories, activeCategoryId]);
 
-  const displayCategories = useMemo(
-    () =>
-      categories.filter((c) =>
-        activeCategoryId
-          ? c.parent?._ref === activeCategoryId
-          : !c.parent,
-      ),
-    [categories, activeCategoryId],
-  );
+  // Leaf = active category has no children
+  const isLeaf =
+    !!activeCategoryId &&
+    !categories.some((c) => c.parent?._ref === activeCategoryId);
 
-  const getPathHref = (pathSlice: Category[]) => {
-    if (pathSlice.length === 0) return "/products";
-    return `/products/${pathSlice.map((c) => c.slug.current).join("/")}`;
-  };
+  // Chips shown after the breadcrumb row
+  const subChips = useMemo(() => {
+    if (!activeCategoryId) return categories.filter((c) => !c.parent);
 
-  const hasSubCategories = displayCategories.length > 0 && activeCategoryId;
+    const children = categories.filter((c) => c.parent?._ref === activeCategoryId);
+    if (children.length) return children;
+
+    // Leaf: show siblings, selected first
+    const parentId = activePath.at(-1)?.parent?._ref;
+    return categories
+      .filter((c) => (parentId ? c.parent?._ref === parentId : !c.parent))
+      .sort((a, b) => (a._id === activeCategoryId ? -1 : b._id === activeCategoryId ? 1 : 0));
+  }, [categories, activeCategoryId, activePath]);
+
+  // Breadcrumb row: when a leaf is active, its chip moves into subChips (with the X)
+  const breadcrumbs = isLeaf ? activePath.slice(0, -1) : activePath;
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-wrap gap-2 items-center">
-        {/* All Products — root only */}
-        {!activeCategoryId && (
-          <Button href="/products" variant="default" className="rounded-full px-4">
-            All Products
-          </Button>
-        )}
+    <div className="flex flex-wrap gap-2 items-center">
+      {!activeCategoryId && (
+        <Button href="/products" variant="default" className="rounded-full px-4">
+          All Products
+        </Button>
+      )}
 
-        {/* Active path chips */}
-        {activePath.map((cat, index) => (
-          <div
-            key={cat._id}
-            className="flex items-center gap-1 animate-in fade-in slide-in-from-left-2 duration-200"
-          >
-            <Button className="rounded-full pl-4 pr-2 gap-2">
-              {cat.title}
-              <Link
-                href={getPathHref(activePath.slice(0, index))}
-                className="hover:bg-white/20 rounded-full p-1 transition-colors"
-                onClick={(e) => e.stopPropagation()}
-                aria-label={`Remove ${cat.title} filter`}
-              >
-                <X size={14} />
-              </Link>
-            </Button>
-          </div>
-        ))}
+      {breadcrumbs.map((cat, i) => (
+        <DismissChip key={cat._id} cat={cat} href={pathHref(activePath.slice(0, i))} />
+      ))}
 
-        {/* Divider between active chips and subcategory options */}
-        {hasSubCategories && (
-          <div className="w-px h-6 bg-slate-200 mx-1 shrink-0" />
-        )}
+      {subChips.length > 0 && activeCategoryId && (
+        <div className="w-px h-6 bg-slate-200 mx-1 shrink-0" />
+      )}
 
-        {/* Subcategory chips */}
-        {displayCategories.map((cat) => (
-          <Button
-            key={cat._id}
-            href={getPathHref([...activePath, cat])}
-            variant="outline"
-            className="rounded-full px-4"
-          >
+      {subChips.map((cat) => {
+        const isActive = cat._id === activeCategoryId;
+        const href = isLeaf
+          ? pathHref([...activePath.slice(0, -1), cat])
+          : pathHref([...activePath, cat]);
+
+        return isActive ? (
+          <DismissChip key={cat._id} cat={cat} href={pathHref(activePath.slice(0, -1))} />
+        ) : (
+          <Button key={cat._id} href={href} variant="outline" className="rounded-full px-4">
             {cat.title}
           </Button>
-        ))}
-      </div>
-
+        );
+      })}
     </div>
   );
 }
