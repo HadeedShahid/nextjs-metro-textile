@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Section from "./base/Section";
 import { Award, ShieldCheck, Truck } from "lucide-react";
@@ -84,11 +85,13 @@ const ComplianceSection = ({
                 Certified by:
               </span>
               {badges.map((badge, index) => (
-                <img
+                <Image
                   key={index}
                   src={badge.image}
                   alt={badge.alt}
-                  className="h-10 md:h-12 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 dark:invert"
+                  width={48}
+                  height={48}
+                  className="h-10 md:h-12 w-auto opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 dark:invert"
                 />
               ))}
             </div>
@@ -116,9 +119,11 @@ const ComplianceSection = ({
                     {feature.description}
                   </p>
                 </div>
-                <img
+                <Image
                   src={feature.badgeImage}
                   alt={feature.badgeAlt}
+                  width={128}
+                  height={128}
                   className="absolute right-4 -bottom-6 size-24 text-slate-200 opacity-10 grayscale lg:right-8 lg:size-32 dark:invert pointer-events-none transition-opacity duration-500 group-hover:opacity-20"
                 />
               </div>

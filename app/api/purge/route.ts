@@ -10,7 +10,5 @@ export async function POST() {
 
   revalidateTag("all", "default");
 
-  console.log("[/api/purge] All Sanity cache purged at", new Date().toISOString());
-
   return NextResponse.json({ ok: true, purgedAt: new Date().toISOString() });
 }

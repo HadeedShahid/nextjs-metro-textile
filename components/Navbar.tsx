@@ -73,9 +73,11 @@ const Navbar = ({
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href={logo.url} className="flex items-center gap-2">
-            <img
+            <Image
               src={logo.src}
-              className="max-h-8 dark:invert"
+              width={120}
+              height={32}
+              className="h-8 w-auto dark:invert"
               alt={logo.alt}
             />
           </Link>
@@ -91,9 +93,11 @@ const Navbar = ({
               <SheetHeader>
                 <SheetTitle>
                   <Link href={logo.url} className="flex items-center gap-2">
-                    <img
+                    <Image
                       src={logo.src}
-                      className="max-h-8 dark:invert"
+                      width={120}
+                      height={32}
+                      className="h-8 w-auto dark:invert"
                       alt={logo.alt}
                     />
                   </Link>

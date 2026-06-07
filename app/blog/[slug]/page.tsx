@@ -3,6 +3,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import { client } from "@/sanity/client";
 import { fetchPostBySlug } from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: any) =>
@@ -37,12 +38,12 @@ export default async function PostPage({
                 ← Back to blogs
             </Link>
             {postImageUrl && (
-                <img
+                <Image
                     src={postImageUrl}
                     alt={post.title}
-                    className="aspect-video rounded-xl"
-                    width="550"
-                    height="310"
+                    className="aspect-video rounded-xl object-cover"
+                    width={550}
+                    height={310}
                 />
             )}
             <h1 className="text-4xl font-bold mb-8">{post.title}</h1>
