@@ -2,6 +2,7 @@
 import React from 'react'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
+import type { EmblaPluginType } from 'embla-carousel'
 import {
     NextButton,
     PrevButton,
@@ -14,14 +15,31 @@ import { cn } from "@/lib/utils"
 type PropType = {
     children: React.ReactNode
     options?: EmblaOptionsType
+    plugins?: EmblaPluginType[]
     className?: string
     containerClassName?: string
     slideClassName?: string
+    showArrows?: boolean
+    alwaysShowDots?: boolean
+    dotClassName?: string
+    dotActiveClassName?: string
 }
 
 const EmblaCarouselWrapper = (props: PropType) => {
-    const { children, options, className, containerClassName, slideClassName } = props
-    const [emblaRef, emblaApi] = useEmblaCarousel(options)
+    const {
+        children,
+        options,
+        plugins,
+        className,
+        containerClassName,
+        slideClassName,
+        showArrows = true,
+        alwaysShowDots = false,
+        dotClassName = "bg-slate-300 hover:bg-slate-400",
+        dotActiveClassName = "bg-primary w-6",
+    } = props
+
+    const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins)
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } =
         useDotButton(emblaApi)
@@ -46,16 +64,22 @@ const EmblaCarouselWrapper = (props: PropType) => {
                     </div>
                 </div>
 
-                <div className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/2 z-10 hidden md:block">
-                    <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-                </div>
-
-                <div className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 z-10 hidden md:block">
-                    <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-                </div>
+                {showArrows && (
+                    <>
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/2 z-10 hidden md:block">
+                            <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+                        </div>
+                        <div className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 z-10 hidden md:block">
+                            <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+                        </div>
+                    </>
+                )}
             </div>
 
-            <div className="flex md:hidden justify-center items-center mt-6">
+            <div className={cn(
+                "justify-center items-center mt-6",
+                alwaysShowDots ? "flex" : "flex md:hidden"
+            )}>
                 <div className="flex flex-wrap justify-center items-center gap-2">
                     {scrollSnaps.map((_, index) => (
                         <DotButton
@@ -63,9 +87,7 @@ const EmblaCarouselWrapper = (props: PropType) => {
                             onClick={() => onDotButtonClick(index)}
                             className={cn(
                                 "w-2 h-2 rounded-full transition-all duration-300",
-                                index === selectedIndex
-                                    ? "bg-primary w-6"
-                                    : "bg-slate-300 hover:bg-slate-400"
+                                index === selectedIndex ? dotActiveClassName : dotClassName
                             )}
                             aria-label={`Go to slide ${index + 1}`}
                         />

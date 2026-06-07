@@ -13,6 +13,25 @@ import ActionCTA from "@/components/ActionCTA";
 import Clients from "@/components/clients";
 import FAQSection from "@/components/FAQSection";
 import GlobalPresence from "@/components/GlobalPresence";
+import TestimonialsCarousel, { type Testimonial } from "@/components/TestimonialsCarousel";
+
+const testimonials: Testimonial[] = [
+  {
+    quote: "Metro turned our hardware from an afterthought into the thing customers email us about. They're the sourcing team I wish we'd started with.",
+    author: "Founder, independent leather goods brand",
+    role: "Brooklyn, NY",
+  },
+  {
+    quote: "Consistent quality across every order, no matter the volume. We've been sourcing through Metro for three years and have never had to chase a timeline.",
+    author: "Head of Procurement, premium bag label",
+    role: "London, UK",
+  },
+  {
+    quote: "What sets Metro apart is how they think about our product, not just the spec sheet. They flagged a finish issue before sampling even started — that's a real partner.",
+    author: "Creative Director, accessories brand",
+    role: "Milan, IT",
+  },
+];
 
 export default function Home() {
   return (
@@ -26,6 +45,7 @@ export default function Home() {
       <SourcingProcess />
       <ActionCTA />
       <GlobalPresence />
+      <TestimonialsCarousel testimonials={testimonials} />
       <ContactSection />
       <FAQSection />
       <BlogSection />
