@@ -60,6 +60,7 @@ const defaultProps: Footer2Props = {
       links: [
         { name: "Home", href: "/" },
         { name: "About Us", href: "/about-us" },
+        { name: "Blog", href: "/blogs" },
         { name: "Compliance", href: "/compliance" },
         { name: "Contact Us", href: "/contact-us" },
       ],

@@ -1,15 +1,15 @@
 import React from "react";
-import Image from "next/image";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronRightCircle } from "lucide-react";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
 
 const brandLogos = [
-  { src: "/assets/logos/levis-logo.webp", alt: "Levi's" },
-  { src: "/assets/logos/diesel-logo.webp", alt: "Diesel" },
-  { src: "/assets/logos/ck-logo.webp", alt: "Calvin Klein" },
-  { src: "/assets/logos/pullbear-logo.webp", alt: "Pull & Bear" },
+  { src: "/assets/logos/levis-logo.webp", fallback: "LV" },
+  { src: "/assets/logos/diesel-logo.webp", fallback: "DS" },
+  { src: "/assets/logos/ck-logo.webp", fallback: "CK" },
+  { src: "/assets/logos/pullbear-logo.webp", fallback: "PB" },
 ];
 
 const ActionCTA = () => {
@@ -18,17 +18,16 @@ const ActionCTA = () => {
       <CardContent className="flex flex-col gap-6 w-full p-0">
         {/* Top row: avatars + tagline + explore button */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
+            <div className="flex -space-x-4">
               {brandLogos.map((logo) => (
-                <Image
+                <Avatar
                   key={logo.src}
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={80}
-                  height={32}
-                  className="h-6 w-auto object-contain grayscale opacity-60"
-                />
+                  className="border-2 border-white w-10 h-10 shadow-sm bg-white"
+                >
+                  <AvatarImage src={logo.src} className="object-contain p-1.5" />
+                  <AvatarFallback>{logo.fallback}</AvatarFallback>
+                </Avatar>
               ))}
             </div>
             <p className="text-sm md:text-base font-medium text-slate-600">
@@ -59,10 +58,11 @@ const ActionCTA = () => {
             </p>
           </div>
           <ContactActionGroup
+            fill
             emailProps={{ label: "Email Us" }}
             callProps={{ label: "Call Us" }}
             whatsappProps={{ label: "WhatsApp" }}
-            className="shrink-0"
+            className="md:shrink-0"
           />
         </div>
       </CardContent>

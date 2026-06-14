@@ -65,6 +65,10 @@ export type PostSummaryWithImage = PostSummary & {
   image: any | null;
 };
 
+export type PostListItem = PostSummaryWithImage & {
+  excerpt: string | null;
+};
+
 export type PostDetail = {
   _id: string;
   title: string;
@@ -138,7 +142,9 @@ const ALL_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(pub
   _id,
   title,
   slug,
-  publishedAt
+  publishedAt,
+  image,
+  "excerpt": pt::text(body)
 }`;
 
 const POST_DETAIL_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
@@ -229,8 +235,8 @@ export const fetchProductBySlug = cache(
 );
 
 /** All blog posts ordered by date (blogs listing page). */
-export function fetchAllPosts(): Promise<ApiResponse<PostSummary[]>> {
-  return sanityFetch<PostSummary[]>(ALL_POSTS_QUERY);
+export function fetchAllPosts(): Promise<ApiResponse<PostListItem[]>> {
+  return sanityFetch<PostListItem[]>(ALL_POSTS_QUERY);
 }
 
 /**
