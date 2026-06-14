@@ -6,7 +6,13 @@ import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { urlFor } from "@/sanity/image"
 
-export default function ImageGallery({ images = [] }: { images: any[] }) {
+export default function ImageGallery({
+  images = [],
+  alt = "Product",
+}: {
+  images: any[];
+  alt?: string;
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
   
@@ -83,7 +89,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
           >
             <Image
               src={getImageUrl(images[0])}
-              alt="Product gallery 1"
+              alt={`${alt} – Metro Metal`}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
               sizes="(max-width: 768px) 100vw, 66vw"
@@ -99,7 +105,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
             >
               <Image
                 src={getImageUrl(images[1])}
-                alt="Product gallery 2"
+                alt={`${alt} – view 2`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
                 sizes="33vw"
@@ -115,7 +121,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
             >
               <Image
                 src={getImageUrl(images[2])}
-                alt="Product gallery 3"
+                alt={`${alt} – view 3`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
                 sizes="33vw"
@@ -140,7 +146,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
               >
                 <Image
                   src={getImageUrl(image)}
-                  alt={`Thumbnail ${index + 1}`}
+                  alt={`${alt} – view ${index + 1}`}
                   fill
                   className="object-cover"
                   sizes="80px"
@@ -176,7 +182,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
                       <div className="relative w-full h-[50vh] md:h-[70vh]">
                         <Image
                           src={getImageUrl(image)}
-                          alt={`Gallery image ${index + 1}`}
+                          alt={`${alt} – view ${index + 1}`}
                           fill
                           className="object-contain rounded-lg"
                           sizes="100vw"
@@ -222,7 +228,7 @@ export default function ImageGallery({ images = [] }: { images: any[] }) {
                     >
                       <Image
                         src={getImageUrl(image)}
-                        alt={`Thumbnail ${index + 1}`}
+                        alt={`${alt} – view ${index + 1}`}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 80px, 120px"

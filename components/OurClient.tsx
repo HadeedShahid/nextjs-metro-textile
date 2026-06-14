@@ -35,12 +35,12 @@ const OurClient = () => {
                 <p className="text-sm md:text-base leading-relaxed">
                   We proudly partner with leading fashion houses, manufacturers,
                   and designers who demand nothing less than perfection in every
-                  detail — and we prove it to them consistently.
+                  detail, and we prove it to them consistently.
                 </p>
               </div>
               <div className="w-full md:w-1/2">
                 <p className="text-sm md:text-base leading-relaxed">
-                  From luxury ready-to-wear collections to streetwear labels —
+                  From luxury ready-to-wear collections to streetwear labels,
                   our products elevate garments&apos; timeless appeal.
                 </p>
               </div>

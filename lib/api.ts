@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { sanityFetch } from "@/lib/sanity-fetch";
 import type { ApiResponse } from "@/lib/network-client";
 
@@ -15,6 +16,10 @@ export type Category = {
   title: string;
   slug: { current: string };
   parent?: { _ref: string };
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  h1?: string | null;
+  intro?: string | null;
 };
 
 export type ProductSummary = {
@@ -39,6 +44,8 @@ export type ProductDetail = {
   images: any[];
   description: any[] | null;
   specifications: any | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
   category: {
     _id: string;
     title: string;
@@ -100,7 +107,11 @@ const ALL_CATEGORIES_QUERY = `*[_type == "category" && defined(slug.current)] {
   _id,
   title,
   slug,
-  parent
+  parent,
+  metaTitle,
+  metaDescription,
+  h1,
+  intro
 }`;
 
 const PRODUCT_DETAIL_QUERY = `*[_type == "product" && slug.current == $slug][0] {
@@ -109,6 +120,8 @@ const PRODUCT_DETAIL_QUERY = `*[_type == "product" && slug.current == $slug][0] 
   slug,
   images,
   description,
+  metaTitle,
+  metaDescription,
   "category": category->{
     _id,
     title,
@@ -196,25 +209,38 @@ export function fetchAllProducts(): Promise<ApiResponse<ProductSummary[]>> {
   return sanityFetch<ProductSummary[]>(ALL_PRODUCTS_QUERY);
 }
 
-/** All categories (used on the products listing page for filters). */
-export function fetchAllCategories(): Promise<ApiResponse<Category[]>> {
-  return sanityFetch<Category[]>(ALL_CATEGORIES_QUERY);
-}
+/**
+ * All categories (used on the products listing page for filters).
+ * Wrapped in React `cache()` so generateMetadata + the page body share a
+ * single call within one request (ISR still dedups across requests).
+ */
+export const fetchAllCategories = cache(
+  (): Promise<ApiResponse<Category[]>> =>
+    sanityFetch<Category[]>(ALL_CATEGORIES_QUERY),
+);
 
-/** Single product by slug (product detail page). */
-export function fetchProductBySlug(slug: string): Promise<ApiResponse<ProductDetail>> {
-  return sanityFetch<ProductDetail>(PRODUCT_DETAIL_QUERY, { slug });
-}
+/**
+ * Single product by slug (product detail page).
+ * Cached per-request so generateMetadata + the page share one fetch.
+ */
+export const fetchProductBySlug = cache(
+  (slug: string): Promise<ApiResponse<ProductDetail>> =>
+    sanityFetch<ProductDetail>(PRODUCT_DETAIL_QUERY, { slug }),
+);
 
 /** All blog posts ordered by date (blogs listing page). */
 export function fetchAllPosts(): Promise<ApiResponse<PostSummary[]>> {
   return sanityFetch<PostSummary[]>(ALL_POSTS_QUERY);
 }
 
-/** Single blog post by slug (blog detail page). */
-export function fetchPostBySlug(slug: string): Promise<ApiResponse<PostDetail>> {
-  return sanityFetch<PostDetail>(POST_DETAIL_QUERY, { slug });
-}
+/**
+ * Single blog post by slug (blog detail page).
+ * Cached per-request so generateMetadata + the page share one fetch.
+ */
+export const fetchPostBySlug = cache(
+  (slug: string): Promise<ApiResponse<PostDetail>> =>
+    sanityFetch<PostDetail>(POST_DETAIL_QUERY, { slug }),
+);
 
 /** All top-level (parent) categories — used in ParentCategoryShowcase. */
 export function fetchParentCategories(): Promise<ApiResponse<{ slug: string }[]>> {

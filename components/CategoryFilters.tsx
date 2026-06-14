@@ -63,6 +63,9 @@ export default function CategoryFilters({
     !!activeCategoryId &&
     !categories.some((c) => c.parent?._ref === activeCategoryId);
 
+  // Top-level leaf = selected category has no parent AND no children (e.g. Buckles, Plates)
+  const isTopLevelLeaf = isLeaf && !activePath.at(-1)?.parent?._ref;
+
   // Chips shown after the breadcrumb row
   const subChips = useMemo(() => {
     if (!activeCategoryId) return categories.filter((c) => !c.parent);
@@ -72,13 +75,23 @@ export default function CategoryFilters({
 
     // Leaf: show siblings, selected first
     const parentId = activePath.at(-1)?.parent?._ref;
-    return categories
+    const siblings = categories
       .filter((c) => (parentId ? c.parent?._ref === parentId : !c.parent))
       .sort((a, b) => (a._id === activeCategoryId ? -1 : b._id === activeCategoryId ? 1 : 0));
-  }, [categories, activeCategoryId, activePath]);
 
-  // Breadcrumb row: when a leaf is active, its chip moves into subChips (with the X)
-  const breadcrumbs = isLeaf ? activePath.slice(0, -1) : activePath;
+    // Top-level leaf: active chip lives in breadcrumbs — exclude it from subChips
+    return isTopLevelLeaf ? siblings.filter((c) => c._id !== activeCategoryId) : siblings;
+  }, [categories, activeCategoryId, activePath, isTopLevelLeaf]);
+
+  // Breadcrumb row:
+  // - Non-leaf: full ancestor path
+  // - Leaf with parent: strip leaf (it moves into subChips with inline X)
+  // - Top-level leaf: keep the category itself here (nothing above it to show)
+  const breadcrumbs = isTopLevelLeaf
+    ? activePath
+    : isLeaf
+    ? activePath.slice(0, -1)
+    : activePath;
 
   return (
     <div className="flex flex-wrap gap-2 items-center">
@@ -92,24 +105,25 @@ export default function CategoryFilters({
         <DismissChip key={cat._id} cat={cat} href={pathHref(activePath.slice(0, i))} />
       ))}
 
-      {subChips.length > 0 && activeCategoryId && (
+      {!isTopLevelLeaf && subChips.length > 0 && activeCategoryId && (
         <div className="w-px h-6 bg-slate-200 mx-1 shrink-0" />
       )}
 
-      {subChips.map((cat) => {
-        const isActive = cat._id === activeCategoryId;
-        const href = isLeaf
-          ? pathHref([...activePath.slice(0, -1), cat])
-          : pathHref([...activePath, cat]);
+      {!isTopLevelLeaf &&
+        subChips.map((cat) => {
+          const isActive = cat._id === activeCategoryId;
+          const href = isLeaf
+            ? pathHref([...activePath.slice(0, -1), cat])
+            : pathHref([...activePath, cat]);
 
-        return isActive ? (
-          <DismissChip key={cat._id} cat={cat} href={pathHref(activePath.slice(0, -1))} />
-        ) : (
-          <Button key={cat._id} href={href} variant="outline" className="rounded-full px-4">
-            {cat.title}
-          </Button>
-        );
-      })}
+          return isActive ? (
+            <DismissChip key={cat._id} cat={cat} href={pathHref(activePath.slice(0, -1))} />
+          ) : (
+            <Button key={cat._id} href={href} variant="outline" className="rounded-full px-4">
+              {cat.title}
+            </Button>
+          );
+        })}
     </div>
   );
 }

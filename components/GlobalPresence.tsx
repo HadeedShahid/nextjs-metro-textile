@@ -33,7 +33,7 @@ const GlobalPresence = () => {
     <Section title="Our Global Presence" className="py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Companies of the Group */}
-        <Card className="h-full flex flex-col bg-slate-50/50 hover:shadow-md transition-shadow">
+        <Card className="h-full flex flex-col bg-white hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
               <Building2 className="w-6 h-6" />
@@ -70,7 +70,7 @@ const GlobalPresence = () => {
         </Card>
 
         {/* Our Presence */}
-        <Card className="h-full flex flex-col bg-slate-50/50 hover:shadow-md transition-shadow">
+        <Card className="h-full flex flex-col bg-white hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
               <Globe2 className="w-6 h-6" />
@@ -125,32 +125,6 @@ const GlobalPresence = () => {
         </Card>
       </div>
 
-      {/* Outro CTA */}
-      <Card className="mt-8 bg-slate-100/80 border-slate-200 py-6 px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-        <div className="flex-1 text-center md:text-left">
-          <p className="text-lg md:text-xl font-medium text-slate-800">
-            Ready to fulfill your accessories sourcing needs?
-          </p>
-          <p className="text-slate-600 mt-2 text-base md:text-sm lg:text-base max-w-3xl ">
-            We bring decades of industry expertise to every client relationship.
-            Whether you're sourcing accessories or exploring new partnerships,
-            our dedicated professionals are here to deliver. Feel free to reach
-            out or send us an inquiry anytime.
-          </p>
-        </div>
-
-        <ContactActionGroup
-          emailProps={{
-            label: "Email Us",
-          }}
-          callProps={{
-            label: "Call Us",
-          }}
-          whatsappProps={{
-            label: "WhatsApp",
-          }}
-        />
-      </Card>
     </Section>
   );
 };

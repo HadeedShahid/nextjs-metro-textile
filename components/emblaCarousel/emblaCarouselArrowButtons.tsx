@@ -5,6 +5,8 @@ import React, {
   useState
 } from 'react'
 import { EmblaCarouselType } from 'embla-carousel'
+import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 type UsePrevNextButtonsType = {
   prevBtnDisabled: boolean
@@ -48,9 +50,6 @@ export const usePrevNextButtons = (
     onNextButtonClick
   }
 }
-
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 
 type PropType = React.ComponentPropsWithRef<typeof Button>
 

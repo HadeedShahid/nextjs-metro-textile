@@ -4,6 +4,14 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import GlobalPresence from "@/components/GlobalPresence";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
 import Clients from "@/components/clients";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Metro Metal is a B2B manufacturer and sourcing partner for garment and leather goods accessories, with 20+ years of experience and a network across Pakistan, China and Hong Kong.",
+  alternates: { canonical: "/about-us" },
+};
 
 export default function AboutUsPage() {
   const clients = [

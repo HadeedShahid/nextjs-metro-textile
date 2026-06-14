@@ -4,6 +4,14 @@ import GlobalPresence from "@/components/GlobalPresence";
 import ComplianceSection from "@/components/ComplianceSection";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
 import { CheckCircle2, ShieldCheck, Leaf } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Compliance & Certifications",
+  description:
+    "Metro Metal's quality and compliance: ISO-certified manufacturing and OEKO-TEX tested accessories for global apparel and leather goods brands.",
+  alternates: { canonical: "/compliance" },
+};
 
 export default function CompliancePage() {
   return (

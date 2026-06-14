@@ -27,6 +27,8 @@ interface NavbarProps {
   }>;
 }
 
+const QUERY_HREF = `${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`;
+
 const Navbar = ({
   logo = {
     url: "/",
@@ -37,12 +39,12 @@ const Navbar = ({
 }: NavbarProps) => {
   return (
     <section className="py-4">
-      {/* Desktop Menu */}
+      {/* ── Desktop ── */}
       <nav className="hidden justify-between items-center md:flex">
         <div className="flex gap-10">
-          {/* Logo */}
+          {/* Logo — slightly larger than before */}
           <Link href={logo.url} className="flex items-center gap-2">
-            <Image src={logo.src} width={64} height={62} alt={logo.alt} />
+            <Image src={logo.src} width={68} height={66} alt={logo.alt} />
           </Link>
           <div className="flex items-center gap-6">
             {menu.map((item) => (
@@ -57,30 +59,28 @@ const Navbar = ({
           </div>
         </div>
         <div className="flex gap-3 items-center">
-          <div className="hidden lg:block"></div>
-          <Button
-            size={"lg"}
-            href={`${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`}
-          >
+          <Button size="lg" href={QUERY_HREF}>
             <Mail className="h-4 w-4" />
             Send Query
           </Button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* ── Mobile ── logo LEFT · hamburger RIGHT */}
       <div className="block md:hidden">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href={logo.url} className="flex items-center gap-2">
+          <Link href={logo.url} className="flex items-center">
             <Image
               src={logo.src}
-              width={120}
-              height={32}
-              className="h-8 w-auto dark:invert"
+              width={150}
+              height={40}
+              className="h-11 w-auto"
               alt={logo.alt}
             />
           </Link>
+
+          {/* Hamburger */}
           <Sheet>
             <SheetTrigger
               render={
@@ -89,15 +89,15 @@ const Navbar = ({
                 </Button>
               }
             />
-            <SheetContent className="overflow-y-auto">
+            <SheetContent side="right" className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>
-                  <Link href={logo.url} className="flex items-center gap-2">
+                  <Link href={logo.url} className="flex items-center">
                     <Image
                       src={logo.src}
-                      width={120}
-                      height={32}
-                      className="h-8 w-auto dark:invert"
+                      width={140}
+                      height={38}
+                      className="h-10 w-auto"
                       alt={logo.alt}
                     />
                   </Link>
@@ -115,8 +115,10 @@ const Navbar = ({
                     </Link>
                   ))}
                 </div>
-
-                <Button href={`${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`}>
+                <Button variant="outline" href="/products">
+                  Explore Products
+                </Button>
+                <Button href={QUERY_HREF}>
                   <Mail className="h-4 w-4" />
                   Send Query
                 </Button>

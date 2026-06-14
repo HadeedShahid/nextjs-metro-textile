@@ -14,6 +14,14 @@ import Clients from "@/components/clients";
 import FAQSection from "@/components/FAQSection";
 import GlobalPresence from "@/components/GlobalPresence";
 import TestimonialsCarousel, { type Testimonial } from "@/components/TestimonialsCarousel";
+import type { Metadata } from "next";
+import JsonLd from "@/components/common/JsonLd";
+import { faqPageSchema } from "@/lib/structured-data";
+import { DEFAULT_FAQS } from "@/data/faqs";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const testimonials: Testimonial[] = [
   {
@@ -27,7 +35,7 @@ const testimonials: Testimonial[] = [
     role: "London, UK",
   },
   {
-    quote: "What sets Metro apart is how they think about our product, not just the spec sheet. They flagged a finish issue before sampling even started — that's a real partner.",
+    quote: "What sets Metro apart is how they think about our product, not just the spec sheet. They flagged a finish issue before sampling even started. That's a real partner.",
     author: "Creative Director, accessories brand",
     role: "Milan, IT",
   },
@@ -36,6 +44,7 @@ const testimonials: Testimonial[] = [
 export default function Home() {
   return (
     <>
+      <JsonLd data={faqPageSchema(DEFAULT_FAQS)} />
       <Hero />
       {/* <VideoSection /> */}
       <Clients />
@@ -43,8 +52,8 @@ export default function Home() {
       <ComplianceSection />
       <ParentCategoryShowcase />
       <SourcingProcess />
-      <ActionCTA />
       <GlobalPresence />
+      <ActionCTA />
       <TestimonialsCarousel testimonials={testimonials} />
       <ContactSection />
       <FAQSection />

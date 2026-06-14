@@ -5,6 +5,14 @@ import GlobalPresence from "@/components/GlobalPresence";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
 import ContactForm from "@/components/forms/ContactForm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Contact Metro Metal for garment accessory sourcing. Request a quote, samples, MOQ and lead times. Reach our team by email, phone or WhatsApp.",
+  alternates: { canonical: "/contact-us" },
+};
 
 export default function ContactUsPage() {
   return (

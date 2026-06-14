@@ -1,5 +1,13 @@
 import Link from "next/link";
 import { fetchAllPosts } from "@/lib/api";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog: Sourcing Insights & Updates",
+  description:
+    "Industry insights, sourcing guides and updates from Metro Metal, manufacturer of garment and leather goods accessories.",
+  alternates: { canonical: "/blogs" },
+};
 
 export default async function BlogsPage() {
     const { data: posts } = await fetchAllPosts();

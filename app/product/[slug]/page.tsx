@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import { fetchProductBySlug } from "@/lib/api";
 import {
   CONTACT_EMAIL_HREF,
   CONTACT_PHONE_HREF,
   CONTACT_WHATSAPP_NUMBER,
 } from "@/constants";
+import { urlFor } from "@/sanity/image";
+import { toPlainText } from "@/lib/portable-text";
+import JsonLd from "@/components/common/JsonLd";
+import {
+  productSchema,
+  breadcrumbSchema,
+  type Crumb,
+} from "@/lib/structured-data";
 import { PortableText } from "next-sanity";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -18,6 +27,54 @@ import BlogSection from "@/components/common/BlogSection";
 import KeyFeatures from "@/components/common/KeyFeatures";
 import RelatedProducts from "@/components/common/RelatedProducts";
 import Section from "@/components/base/Section";
+
+/** Absolute /products path for a product's category. */
+function categoryHref(category: {
+  slug: string;
+  parent: { slug: string } | null;
+}): string {
+  return `/products/${category.parent ? `${category.parent.slug}/` : ""}${category.slug}`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const { data: product } = await fetchProductBySlug(slug);
+
+  if (!product) return { title: "Product Not Found" };
+
+  // Use Sanity-authored meta fields when set; fall back to auto-generated.
+  const excerpt = product.description
+    ? toPlainText(product.description).slice(0, 110).trim()
+    : "";
+  const autoDescription = (
+    excerpt
+      ? `${excerpt}. Contact Metro Metal for MOQ, samples and custom orders.`
+      : `${product.title} from Metro Metal, a B2B manufacturer of garment accessories. Contact us for MOQ, samples and custom orders.`
+  ).slice(0, 155);
+
+  const title = product.metaTitle ?? product.title;
+  const description = product.metaDescription ?? autoDescription;
+
+  const ogImage = product.images?.[0]
+    ? urlFor(product.images[0]).width(1200).height(630).fit("crop").url()
+    : undefined;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/product/${slug}` },
+    openGraph: {
+      title: `${title} | Metro Metal`,
+      description,
+      type: "website",
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : undefined,
+    },
+  };
+}
 
 export default async function ProductDetailPage({
   params,
@@ -54,8 +111,46 @@ export default async function ProductDetailPage({
   }
   breadcrumbs.push({ label: product.title });
 
+  // JSON-LD: Product + BreadcrumbList (no offers/price — quote-based B2B).
+  const jsonLdCrumbs: Crumb[] = [
+    { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
+  ];
+  if (product.category) {
+    if (product.category.parent) {
+      jsonLdCrumbs.push({
+        name: product.category.parent.title,
+        path: `/products/${product.category.parent.slug}`,
+      });
+    }
+    jsonLdCrumbs.push({
+      name: product.category.title,
+      path: categoryHref(product.category),
+    });
+  }
+  jsonLdCrumbs.push({ name: product.title, path: `/product/${product.slug.current}` });
+
+  const categoryPath = product.category
+    ? product.category.parent
+      ? `${product.category.parent.title} > ${product.category.title}`
+      : product.category.title
+    : undefined;
+
+  const productLd = productSchema({
+    title: product.title,
+    slug: product.slug.current,
+    description: product.description
+      ? toPlainText(product.description).slice(0, 300)
+      : undefined,
+    images: (product.images ?? [])
+      .slice(0, 4)
+      .map((img: any) => urlFor(img).width(1200).height(1200).fit("max").url()),
+    categoryPath,
+  });
+
   return (
     <main className="min-h-screen bg-white">
+      <JsonLd data={[productLd, breadcrumbSchema(jsonLdCrumbs)]} />
       <Section>
         <div className="hidden md:block">
           <Breadcrumbs items={breadcrumbs} />
@@ -66,7 +161,7 @@ export default async function ProductDetailPage({
             {product.title}
           </h1>
 
-          <ImageGallery images={product.images || []} />
+          <ImageGallery images={product.images || []} alt={product.title} />
 
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">

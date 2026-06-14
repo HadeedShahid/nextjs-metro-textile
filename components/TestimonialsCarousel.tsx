@@ -48,7 +48,7 @@ const TestimonialsCarousel = ({
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 <p className="mt-8 text-sm text-background/70">
-                  — {t.author} · {t.role}
+                  {t.author} · {t.role}
                 </p>
               </div>
             ))}
