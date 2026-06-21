@@ -150,7 +150,12 @@ const ALL_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(pub
 const POST_DETAIL_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
 const PARENT_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent) && defined(slug.current)] | order(title asc) {
-  "slug": slug.current
+  title,
+  "slug": slug.current,
+  "image": coalesce(
+    image,
+    *[_type == "product" && category->slug.current == ^.slug.current && defined(images[0])][0].images[0]
+  )
 }`;
 
 const CATEGORY_SHOWCASE_QUERY = `{
@@ -248,9 +253,15 @@ export const fetchPostBySlug = cache(
     sanityFetch<PostDetail>(POST_DETAIL_QUERY, { slug }),
 );
 
-/** All top-level (parent) categories — used in ParentCategoryShowcase. */
-export function fetchParentCategories(): Promise<ApiResponse<{ slug: string }[]>> {
-  return sanityFetch<{ slug: string }[]>(PARENT_CATEGORIES_QUERY);
+export type CatalogCategory = {
+  title: string;
+  slug: string;
+  image: any | null;
+};
+
+/** All top-level (parent) categories — used in ParentCategoryShowcase and TrustedProducts. */
+export function fetchParentCategories(): Promise<ApiResponse<CatalogCategory[]>> {
+  return sanityFetch<CatalogCategory[]>(PARENT_CATEGORIES_QUERY);
 }
 
 /** Category info + its products for the homepage showcase carousel. */
