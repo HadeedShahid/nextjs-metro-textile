@@ -1,5 +1,5 @@
 import React from "react";
-import AnnouncementBadge from "./common/AnnouncementBadge";
+import { Globe } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
 import TrustIndicators from "./TrustIndicators";
 import { Button } from "./ui/button";
@@ -11,7 +11,16 @@ const Hero = () => {
       {/* Left side: Text & CTAs */}
       <div className="flex flex-col justify-center items-start h-full z-10 w-full order-2 lg:order-1 px-2 md:px-0">
         <div className="max-w-2xl">
-          <AnnouncementBadge message="Fireproof Zippers" href="/products" />
+          <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/5 px-3 py-1">
+            <Globe className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-medium text-slate-700">
+              Pakistan
+              <span className="px-1 text-slate-400">·</span>
+              China
+              <span className="px-1 text-slate-400">·</span>
+              Hong Kong
+            </span>
+          </div>
           <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             <span className="block">Garment Accessories</span>
             <span className="block mt-2">

@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import { fetchProductBySlug } from "@/lib/api";
-import {
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_NUMBER,
-} from "@/constants";
 import { urlFor } from "@/sanity/image";
 import { toPlainText } from "@/lib/portable-text";
 import JsonLd from "@/components/common/JsonLd";
@@ -14,11 +9,9 @@ import {
   type Crumb,
 } from "@/lib/structured-data";
 import { PortableText } from "next-sanity";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react";
-import { PhoneIcon } from "@/icons";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ProductContactActions from "@/components/common/ProductContactActions";
 import ImageGallery from "@/components/common/ImageGallery";
 import SpecificationGrid from "@/components/common/SpecificationGrid";
 import OurClient from "@/components/OurClient";
@@ -184,34 +177,11 @@ export default async function ProductDetailPage({
                 <h3 className="font-bold text-lg text-slate-900">
                   Quick Inquiry
                 </h3>
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="lg"
-                    variant="secondary"
-                    href={`${CONTACT_EMAIL_HREF}?subject=Inquiry: ${product.title}`}
-                    className="flex-1 text-slate-600 font-semibold"
-                  >
-                    <IconMailFilled /> Email
-                  </Button>
-
-                  <Button
-                    size="lg"
-                    variant="secondary"
-                    href={CONTACT_PHONE_HREF}
-                    className="flex-1 text-slate-600 font-semibold"
-                  >
-                    <PhoneIcon /> Call
-                  </Button>
-
-                  <Button
-                    size="lg"
-                    variant="default"
-                    href={`https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=I'm interested in ${product.title}`}
-                    className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 "
-                  >
-                    <IconBrandWhatsapp />
-                  </Button>
-                </div>
+                <ProductContactActions
+                  productTitle={product.title}
+                  showCall
+                  className="mt-4"
+                />
               </Card>
             </div>
           </div>
@@ -237,33 +207,8 @@ export default async function ProductDetailPage({
       </Section>
 
       {/* Mobile Floating Contact Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 flex gap-2 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
-        <Button
-          size="lg"
-          variant="secondary"
-          href={`${CONTACT_EMAIL_HREF}?subject=Inquiry: ${product.title}`}
-          className="flex-1 text-slate-600 font-semibold"
-        >
-          <IconMailFilled /> Email
-        </Button>
-
-        <Button
-          size="lg"
-          variant="secondary"
-          href={CONTACT_PHONE_HREF}
-          className="flex-1 text-slate-600 font-semibold"
-        >
-          <PhoneIcon /> Call
-        </Button>
-
-        <Button
-          size="lg"
-          variant="default"
-          href={`https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=I'm interested in ${product.title}`}
-          className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 "
-        >
-          <IconBrandWhatsapp />
-        </Button>
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
+        <ProductContactActions productTitle={product.title} showCall />
       </div>
     </main>
   );

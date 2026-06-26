@@ -29,6 +29,8 @@ export type ProductSummary = {
   images: any[];
   isFeatured: boolean;
   isPopular: boolean;
+  excerpt?: string | null;
+  specifications?: { label: string | null; value: string | null }[] | null;
   category: {
     _id: string;
     title: string;
@@ -99,6 +101,8 @@ const ALL_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
   images,
   isFeatured,
   isPopular,
+  "excerpt": pt::text(description),
+  specifications[]{label, value},
   "category": category->{
     _id,
     title,
@@ -175,6 +179,8 @@ const CATEGORY_SHOWCASE_QUERY = `{
     images,
     isFeatured,
     isPopular,
+    "excerpt": pt::text(description),
+    specifications[]{label, value},
     "category": category->{
       _id,
       title,
@@ -201,7 +207,9 @@ const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category._ref == $catego
     "slug": slug
   },
   isFeatured,
-  isPopular
+  isPopular,
+  "excerpt": pt::text(description),
+  specifications[]{label, value}
 }`;
 
 // ---------------------------------------------------------------------------
