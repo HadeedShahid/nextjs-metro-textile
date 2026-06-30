@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import MainContent from "@/components/MainContent";
 import JsonLd from "@/components/common/JsonLd";
 import { fetchNavCategories } from "@/lib/api";
 import {
@@ -89,7 +90,7 @@ export default async function RootLayout({
       <body className="main-container mx-auto">
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <Navbar menu={menu} />
-        <main className="flex flex-col gap-16 lg:py-5">{children}</main>
+        <MainContent>{children}</MainContent>
         <Footer />
         <Toaster richColors />
       </body>

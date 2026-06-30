@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Menu, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { CONTACT_EMAIL_HREF } from "@/constants";
+import { cn } from "@/lib/utils";
 
 import Link from "next/link";
 
@@ -37,8 +39,17 @@ const Navbar = ({
   },
   menu = [{ title: "Products", url: "/products" }],
 }: NavbarProps) => {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
-    <section className="py-4">
+    <section
+      className={cn(
+        "py-4",
+        isHome && "absolute inset-x-0 top-0 z-50 bg-transparent",
+      )}
+    >
+      <div className={cn(isHome && "main-container")}>
       {/* ── Desktop ── */}
       <nav className="hidden justify-between items-center md:flex">
         <div className="flex gap-10">
@@ -84,7 +95,13 @@ const Navbar = ({
           <Sheet>
             <SheetTrigger
               render={
-                <Button variant="outline" size="icon">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className={cn(
+                    isHome && "border-foreground/15 bg-transparent hover:bg-foreground/5",
+                  )}
+                >
                   <Menu className="size-4" />
                 </Button>
               }
@@ -126,6 +143,7 @@ const Navbar = ({
             </SheetContent>
           </Sheet>
         </div>
+      </div>
       </div>
     </section>
   );
