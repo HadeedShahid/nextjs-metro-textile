@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { Menu, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,8 @@ interface NavbarProps {
     title: string;
     url: string;
   }>;
+  /** Overlay variant for the homepage hero — absolute, transparent, on top. */
+  transparent?: boolean;
 }
 
 const QUERY_HREF = `${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`;
@@ -38,9 +39,9 @@ const Navbar = ({
     alt: "logo",
   },
   menu = [{ title: "Products", url: "/products" }],
+  transparent = false,
 }: NavbarProps) => {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = transparent;
 
   return (
     <section

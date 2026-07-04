@@ -2,10 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import MainContent from "@/components/MainContent";
 import JsonLd from "@/components/common/JsonLd";
-import { fetchNavCategories } from "@/lib/api";
 import {
   siteUrl,
   SITE_NAME,
@@ -67,21 +64,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: categories } = await fetchNavCategories();
-
-  const menu = [
-    { title: "All Products", url: "/products" },
-    ...(categories ?? []).map((cat) => ({
-      title: cat.title,
-      url: `/products/${cat.slug}`,
-    })),
-  ];
-
   return (
     <html
       lang="en"
@@ -89,8 +76,7 @@ export default async function RootLayout({
     >
       <body className="main-container mx-auto">
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <Navbar menu={menu} />
-        <MainContent>{children}</MainContent>
+        {children}
         <Footer />
         <Toaster richColors />
       </body>
