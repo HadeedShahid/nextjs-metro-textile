@@ -101,6 +101,112 @@
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
+/* Slim, unobtrusive scrollbar. Standard props cover Chrome 121+/Edge/Firefox;
+   the ::-webkit rules cover Safari and older Chromium. Mobile overlay
+   scrollbars are untouched — they auto-hide natively. */
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--foreground) 25%, transparent) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--foreground) 25%, transparent);
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--foreground) 40%, transparent);
+  }
+}
+
+/* Animated border beam — a purple comet orbiting the button's border.
+   Uses @property so the conic angle itself animates (Chrome/Safari/FF 128+);
+   older browsers just show a static, mostly-transparent ring. */
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility cta-beam {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(from var(--beam-angle),
+        transparent 0deg,
+        transparent 280deg,
+        color-mix(in oklab, var(--primary) 45%, transparent) 320deg,
+        var(--primary) 355deg,
+        transparent 360deg);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: beam-spin 3.5s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      animation: none;
+    }
+  }
+}
+
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Subtle purple shine that sweeps across a button every few seconds. */
+@utility shimmer {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 50%;
+    transform: skewX(-15deg);
+    background: linear-gradient(90deg,
+        transparent,
+        color-mix(in oklab, var(--primary) 22%, transparent),
+        transparent);
+    animation: shimmer-sweep 3.2s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    translate: 0;
+  }
+
+  55%,
+  100% {
+    translate: 340%;
+  }
+}
+
 .breakout {
   @apply relative left-1/2 right-1/2;
   width: calc(100vw);

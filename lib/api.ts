@@ -159,7 +159,12 @@ const PARENT_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent) && de
   "image": coalesce(
     image,
     *[_type == "product" && category->slug.current == ^.slug.current && defined(images[0])][0].images[0]
-  )
+  ),
+  "productCount": count(*[_type == "product" && (
+    category->slug.current == ^.slug.current ||
+    category->parent->slug.current == ^.slug.current
+  )]),
+  "subcategories": *[_type == "category" && parent->slug.current == ^.slug.current] | order(title asc)[0...3]{ title, "slug": slug.current }
 }`;
 
 const CATEGORY_SHOWCASE_QUERY = `{
@@ -265,6 +270,8 @@ export type CatalogCategory = {
   title: string;
   slug: string;
   image: any | null;
+  productCount: number;
+  subcategories: { title: string; slug: string }[];
 };
 
 /** All top-level (parent) categories — used in ParentCategoryShowcase and TrustedProducts. */

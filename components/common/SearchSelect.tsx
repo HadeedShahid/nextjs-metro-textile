@@ -45,7 +45,7 @@ interface SearchSelectProps {
 }
 
 const triggerClassName =
-  "flex w-72 items-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-left text-sm text-slate-500 shadow-sm transition-colors hover:border-primary/30";
+  "flex w-80 max-w-full items-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2.5 text-left text-sm text-slate-500 shadow-sm transition-colors hover:border-primary/30";
 
 /**
  * Generic search/select: a desktop combobox (Popover + Command) that becomes
@@ -108,12 +108,17 @@ export default function SearchSelect({
     return (
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger className={cn(triggerClassName, className)}>{trigger}</SheetTrigger>
-        <SheetContent side="bottom" className="flex h-[75vh] flex-col p-0">
+        {/* Fixed 65vh — set via the data-[side=bottom] variant so it beats the
+            base sheet's data-[side=bottom]:h-auto instead of silently losing to it. */}
+        <SheetContent
+          side="bottom"
+          className="flex data-[side=bottom]:h-[65vh] flex-col overflow-hidden rounded-t-2xl p-0"
+        >
           <SheetHeader className="px-4 pt-6 pb-0 text-left">
             <SheetTitle>{sheetTitle}</SheetTitle>
             <SheetDescription className="sr-only">{placeholder}</SheetDescription>
           </SheetHeader>
-          <Command className="flex-1 overflow-hidden rounded-none bg-transparent">
+          <Command defaultValue="-" className="flex-1 overflow-hidden rounded-none bg-transparent">
             <CommandInput placeholder={placeholder} />
             <CommandList className="max-h-none flex-1">{listContent}</CommandList>
           </Command>
@@ -132,9 +137,10 @@ export default function SearchSelect({
         sideOffset={8}
         collisionAvoidance={{ side: "shift" }}
       >
-        <Command>
+        {/* defaultValue="-" matches no item, so nothing looks pre-hovered on open */}
+        <Command defaultValue="-">
           <CommandInput placeholder={placeholder} />
-          <CommandList className="max-h-60">{listContent}</CommandList>
+          <CommandList className="max-h-72">{listContent}</CommandList>
         </Command>
       </PopoverContent>
     </Popover>

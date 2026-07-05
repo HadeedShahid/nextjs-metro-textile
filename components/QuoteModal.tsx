@@ -23,8 +23,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, Paperclip, X } from "lucide-react";
 import { toast } from "sonner";
+import {
+  MAX_QUOTE_ATTACHMENT_BYTES,
+  MAX_QUOTE_ATTACHMENTS,
+} from "@/constants";
 
 export function QuoteModal({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
@@ -34,7 +38,7 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={children as React.ReactElement} />
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto thin-scrollbar">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">
               Request a Custom Quote
@@ -44,7 +48,7 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
               personalized estimate within 24 hours.
             </DialogDescription>
           </DialogHeader>
-          <QuoteForm />
+          <QuoteForm onSuccess={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     );
@@ -53,7 +57,12 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={children as React.ReactElement} />
-      <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
+      {/* Height must go through the data-[side=bottom] variant — the base
+          sheet's h-auto outweighs a plain h-[85vh] and kills scrolling. */}
+      <SheetContent
+        side="bottom"
+        className="data-[side=bottom]:h-[85vh] overflow-y-auto rounded-t-2xl thin-scrollbar"
+      >
         <SheetHeader className="text-left px-4 pt-6 pb-0">
           <SheetTitle className="text-lg font-semibold">
             Request a Custom Quote
@@ -64,7 +73,7 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
           </SheetDescription>
         </SheetHeader>
         <div className="mt-4 px-4 pb-6">
-          <QuoteForm />
+          <QuoteForm onSuccess={() => setOpen(false)} />
         </div>
       </SheetContent>
     </Sheet>
@@ -73,9 +82,57 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
 
 type QuoteStatus = "idle" | "loading" | "error";
 
-function QuoteForm({ className }: React.ComponentProps<"form">) {
+function formatBytes(bytes: number): string {
+  return bytes >= 1024 * 1024
+    ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+function QuoteForm({
+  className,
+  onSuccess,
+}: React.ComponentProps<"form"> & { onSuccess?: () => void }) {
   const [status, setStatus] = React.useState<QuoteStatus>("idle");
   const [errorMsg, setErrorMsg] = React.useState("");
+  const [files, setFiles] = React.useState<File[]>([]);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  function addFiles(picked: FileList | null) {
+    if (!picked?.length) return;
+    setErrorMsg("");
+
+    // Dedupe by name+size so re-picking the same file doesn't double it
+    const merged = [...files];
+    for (const file of Array.from(picked)) {
+      if (!merged.some((f) => f.name === file.name && f.size === file.size)) {
+        merged.push(file);
+      }
+    }
+
+    if (merged.length > MAX_QUOTE_ATTACHMENTS) {
+      setStatus("error");
+      setErrorMsg(`You can attach up to ${MAX_QUOTE_ATTACHMENTS} files.`);
+      return;
+    }
+    const total = merged.reduce((sum, f) => sum + f.size, 0);
+    if (total > MAX_QUOTE_ATTACHMENT_BYTES) {
+      setStatus("error");
+      setErrorMsg(
+        `Attachments can't exceed ${formatBytes(MAX_QUOTE_ATTACHMENT_BYTES)} in total.`,
+      );
+      return;
+    }
+
+    setStatus("idle");
+    setFiles(merged);
+  }
+
+  function removeFile(index: number) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+    // Removing a file resolves any count/size complaint — clear it
+    setErrorMsg("");
+    setStatus("idle");
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -83,20 +140,15 @@ function QuoteForm({ className }: React.ComponentProps<"form">) {
     setErrorMsg("");
 
     const form = e.currentTarget;
-    const data = {
-      type: "quote",
-      firstName: (form.elements.namedItem("firstName") as HTMLInputElement).value.trim(),
-      lastName: (form.elements.namedItem("lastName") as HTMLInputElement).value.trim(),
-      email: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
-      company: (form.elements.namedItem("company") as HTMLInputElement).value.trim(),
-      requirements: (form.elements.namedItem("requirements") as HTMLTextAreaElement).value.trim(),
-    };
+    const data = new FormData();
+    data.set("type", "quote");
+    data.set("name", (form.elements.namedItem("name") as HTMLInputElement).value.trim());
+    data.set("email", (form.elements.namedItem("email") as HTMLInputElement).value.trim());
+    data.set("requirements", (form.elements.namedItem("requirements") as HTMLTextAreaElement).value.trim());
+    for (const file of files) data.append("files", file);
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    // No Content-Type header — the browser sets the multipart boundary itself
+    const res = await fetch("/api/contact", { method: "POST", body: data });
 
     const json = await res.json();
 
@@ -111,38 +163,26 @@ function QuoteForm({ className }: React.ComponentProps<"form">) {
       position: "top-center"
     });
     setStatus("idle");
+    setFiles([]);
     form.reset();
+    onSuccess?.();
   }
 
   return (
     <form className={className} onSubmit={handleSubmit}>
       <div className="grid gap-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="firstName">
-              First Name <span className="text-red-500">*</span>
-            </Label>
-            <Input id="firstName" name="firstName" placeholder="John" required />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="lastName">
-              Last Name <span className="text-red-500">*</span>
-            </Label>
-            <Input id="lastName" name="lastName" placeholder="Doe" required />
-          </div>
+        <div className="grid gap-2">
+          <Label htmlFor="name">
+            Name <span className="text-red-500">*</span>
+          </Label>
+          <Input id="name" name="name" placeholder="John Doe" required />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">
-              Email Address <span className="text-red-500">*</span>
-            </Label>
-            <Input id="email" name="email" type="email" placeholder="john@company.com" required />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="company">Company Name</Label>
-            <Input id="company" name="company" placeholder="Acme Corp" />
-          </div>
+        <div className="grid gap-2">
+          <Label htmlFor="email">
+            Email Address <span className="text-red-500">*</span>
+          </Label>
+          <Input id="email" name="email" type="email" placeholder="john@company.com" required />
         </div>
 
         <div className="grid gap-2">
@@ -156,6 +196,57 @@ function QuoteForm({ className }: React.ComponentProps<"form">) {
             placeholder="Tell us about the materials, finishes, specific dimensions, or custom designs you need..."
             className="min-h-[120px] resize-none"
           />
+        </div>
+
+        <div className="grid gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            className="hidden"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.svg,.ai,.zip"
+            onChange={(e) => {
+              addFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full justify-center"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Paperclip className="w-4 h-4" />
+            Attach specs or reference files
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Optional — up to {MAX_QUOTE_ATTACHMENTS} files,{" "}
+            {formatBytes(MAX_QUOTE_ATTACHMENT_BYTES)} total.
+          </p>
+
+          {files.length > 0 && (
+            <ul className="flex flex-wrap gap-1.5">
+              {files.map((file, index) => (
+                <li
+                  key={`${file.name}-${file.size}`}
+                  className="flex max-w-[180px] items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 py-1 pl-2.5 pr-1 text-xs"
+                >
+                  <span className="truncate">{file.name}</span>
+                  <span className="shrink-0 text-muted-foreground">
+                    {formatBytes(file.size)}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${file.name}`}
+                    className="shrink-0 rounded-full p-0.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700"
+                    onClick={() => removeFile(index)}
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {status === "error" && (

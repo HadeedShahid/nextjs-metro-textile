@@ -26,3 +26,8 @@ export const MAPS_HREF = "https://maps.google.com/?q=Metro+Metal";
 // ─── Email sending ────────────────────────────────────────────────────────────
 export const RESEND_FROM_EMAIL = "onboarding@resend.dev";
 export const FORM_RECIPIENT_EMAIL = "hadeed.shahid08@gmail.com";
+
+// ─── Quote attachments ────────────────────────────────────────────────────────
+/** Vercel functions cap request bodies at 4.5 MB, so 4 MB total is the real ceiling. */
+export const MAX_QUOTE_ATTACHMENT_BYTES = 4 * 1024 * 1024;
+export const MAX_QUOTE_ATTACHMENTS = 5;

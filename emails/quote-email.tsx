@@ -1,15 +1,15 @@
 import { COMPANY_NAME } from "@/constants";
 
 export type QuoteEmailData = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
-  company?: string;
   requirements: string;
+  attachmentNames?: string[];
 };
 
 export function quoteEmailHtml(data: QuoteEmailData): string {
-  const { firstName, lastName, email, company, requirements } = data;
+  const { name, email, requirements, attachmentNames = [] } = data;
+  const firstName = name.split(" ")[0] || name;
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +43,7 @@ export function quoteEmailHtml(data: QuoteEmailData): string {
                 <tr>
                   <td style="padding-bottom:24px;border-bottom:1px solid #f4f4f5;">
                     <p style="margin:0 0 4px;color:#71717a;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;">From</p>
-                    <p style="margin:0;color:#18181b;font-size:16px;font-weight:600;">${firstName} ${lastName}</p>
-                    ${company ? `<p style="margin:2px 0 0;color:#71717a;font-size:14px;">${company}</p>` : ""}
+                    <p style="margin:0;color:#18181b;font-size:16px;font-weight:600;">${name}</p>
                     <a href="mailto:${email}" style="color:#7c3aed;font-size:14px;text-decoration:none;">${email}</a>
                   </td>
                 </tr>
@@ -55,6 +54,13 @@ export function quoteEmailHtml(data: QuoteEmailData): string {
                     <p style="margin:0;color:#18181b;font-size:15px;line-height:1.7;white-space:pre-wrap;">${requirements}</p>
                   </td>
                 </tr>
+                ${attachmentNames.length > 0 ? `
+                <tr>
+                  <td style="padding-top:24px;">
+                    <p style="margin:0 0 8px;color:#71717a;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;">Attachments (${attachmentNames.length})</p>
+                    <p style="margin:0;color:#18181b;font-size:14px;line-height:1.7;">${attachmentNames.map((n) => `📎 ${n}`).join("<br />")}</p>
+                  </td>
+                </tr>` : ""}
               </table>
             </td>
           </tr>

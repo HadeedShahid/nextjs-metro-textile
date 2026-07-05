@@ -1,46 +1,59 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
+import Section from "./base/Section";
+
+const brands = [
+  { src: "/assets/logos/burberry-logo.webp", name: "Burberry", wide: true },
+  { src: "/assets/logos/ck-logo.webp", name: "Calvin Klein", wide: false },
+  { src: "/assets/logos/diesel-logo.webp", name: "Diesel", wide: false },
+  { src: "/assets/logos/kaporal-logo.webp", name: "Kaporal", wide: true },
+  { src: "/assets/logos/levis-logo.webp", name: "Levi's", wide: false },
+  { src: "/assets/logos/one-logo.webp", name: "One", wide: false },
+  { src: "/assets/logos/pullbear-logo.webp", name: "Pull & Bear", wide: false },
+  { src: "/assets/logos/stoneage-logo.webp", name: "Stone Age", wide: true },
+];
 
 const Clients = ({ breakout = true }: { breakout?: boolean }) => {
-  const marqueeImages = [
-    "/assets/logos/burberry-logo.webp",
-    "/assets/logos/ck-logo.webp",
-    "/assets/logos/diesel-logo.webp",
-    "/assets/logos/kaporal-logo.webp",
-    "/assets/logos/levis-logo.webp",
-    "/assets/logos/one-logo.webp",
-    "/assets/logos/pullbear-logo.webp",
-    "/assets/logos/stoneage-logo.webp",
-  ];
-
   return (
-    <div
-      className={cn("flex justify-center items-center", breakout && "breakout")}
+    // Standalone (homepage) gets Section framing so its typography stays in
+    // sync with every other section; inside CompaniesTrust the parent supplies
+    // the copy, so only the marquee renders. The header stays inside the page
+    // container — only the marquee itself breaks out to full bleed.
+    <Section
+      eyebrow={breakout ? "Trusted worldwide" : undefined}
+      title={breakout ? "The hardware behind the world's leading labels" : undefined}
     >
-      <Marquee speed={50} gradient={false} loop={0} className="py-4 overflow-hidden">
-        {marqueeImages.map((image, idx) => {
-          const isImageBased = image.includes("burberry") || image.includes("kaporal") || image.includes("stoneage");
-          return (
-            <div 
-              key={idx} 
+      <div className={cn(breakout && "breakout")}>
+      <Marquee
+        speed={40}
+        loop={0}
+        autoFill
+        gradient
+        gradientColor="white"
+        gradientWidth={80}
+        className="overflow-hidden py-2"
+      >
+        {brands.map((brand) => (
+          <div
+            key={brand.name}
+            className="group mx-2.5 md:mx-3 flex h-20 w-40 md:h-24 md:w-52 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
+          >
+            <Image
+              src={brand.src}
+              alt={`${brand.name} logo`}
+              width={160}
+              height={80}
               className={cn(
-                "mx-8 md:mx-12 flex items-center justify-center shrink-0",
-                isImageBased ? "w-32 sm:w-40 md:w-48 h-16 md:h-24" : "w-24 sm:w-32 md:w-40 h-12 md:h-16"
+                "w-auto object-contain",
+                brand.wide ? "max-h-12 md:max-h-16" : "max-h-8 md:max-h-10",
               )}
-            >
-              <Image
-                src={image}
-                alt={`logo-${idx}`}
-                width={160}
-                height={80}
-                className="w-full h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-              />
-            </div>
-          );
-        })}
+            />
+          </div>
+        ))}
       </Marquee>
-    </div>
+      </div>
+    </Section>
   );
 };
 

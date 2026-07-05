@@ -64,13 +64,14 @@ const HeroCopy = ({
     />
 
     <div className={compact ? "flex flex-row items-center gap-3 mt-5" : "flex flex-row items-center gap-4 mt-8"}>
-      <Button href="/products" size={compact ? "sm" : "lg"}>
+      <Button href="/products" size="lg">
         Explore Products
       </Button>
       <QuoteModalButton
         variant="outline"
-        size={compact ? "sm" : "lg"}
-        text={compact ? "Get a Quote" : "Request a Quote"}
+        size="lg"
+        className="cta-beam"
+        text="Get a Quote in 24h"
       />
     </div>
 

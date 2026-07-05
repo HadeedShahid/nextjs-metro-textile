@@ -44,10 +44,10 @@ export default function HeroProductSearch({
     <SearchSelect
       groups={groups}
       onSelect={(href) => router.push(href)}
-      placeholder="Search categories…"
-      triggerLabel="Search categories"
-      emptyText="No categories found."
-      sheetTitle="Browse categories"
+      placeholder="Search products…"
+      triggerLabel="Search products"
+      emptyText="No matches found."
+      sheetTitle="Search products"
       className={className}
     />
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { Menu, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { CONTACT_EMAIL_HREF } from "@/constants";
+import { QuoteModalButton } from "./QuoteModal";
 import { cn } from "@/lib/utils";
 
 import Link from "next/link";
@@ -42,6 +44,8 @@ const Navbar = ({
   transparent = false,
 }: NavbarProps) => {
   const isHome = transparent;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const closeMobile = () => setMobileOpen(false);
 
   return (
     <section
@@ -70,12 +74,16 @@ const Navbar = ({
             ))}
           </div>
         </div>
-        <div className="flex gap-3 items-center">
-          <Button size="lg" href={QUERY_HREF}>
-            <Mail className="h-4 w-4" />
-            Send Query
-          </Button>
-        </div>
+        {/* On the homepage the hero's own CTAs do the job — no navbar button
+            competing with the hero image. */}
+        {!isHome && (
+          <div className="flex gap-3 items-center">
+            <Button size="lg" href={QUERY_HREF}>
+              <Mail className="h-4 w-4" />
+              Send Query
+            </Button>
+          </div>
+        )}
       </nav>
 
       {/* ── Mobile ── logo LEFT · hamburger RIGHT */}
@@ -93,7 +101,7 @@ const Navbar = ({
           </Link>
 
           {/* Hamburger */}
-          <Sheet>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
               render={
                 <Button
@@ -127,19 +135,23 @@ const Navbar = ({
                     <Link
                       key={item.title}
                       href={item.url}
-                      className="text-md font-semibold hover:text-[#742b76] transition-colors"
+                      onClick={closeMobile}
+                      className="text-base font-medium text-foreground hover:text-primary transition-colors"
                     >
                       {item.title}
                     </Link>
                   ))}
                 </div>
-                <Button variant="outline" href="/products">
+                {/* Same pair as the hero, so the CTAs read as one system */}
+                <Button href="/products" size="lg" onClick={closeMobile}>
                   Explore Products
                 </Button>
-                <Button href={QUERY_HREF}>
-                  <Mail className="h-4 w-4" />
-                  Send Query
-                </Button>
+                <QuoteModalButton
+                  variant="outline"
+                  size="lg"
+                  className="cta-beam"
+                  text="Get a Quote in 24h"
+                />
               </div>
             </SheetContent>
           </Sheet>

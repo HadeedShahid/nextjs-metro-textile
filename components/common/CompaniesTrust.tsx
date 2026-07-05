@@ -19,7 +19,7 @@ const CompaniesTrust = () => {
         {/* Left Side Text */}
         <div className="max-w-[180px] text-center md:text-left">
           <p className="text-slate-500 text-sm font-medium leading-relaxed">
-            Trusted by over 50,000 companies of all sizes
+            Trusted by leading garment and leather brands worldwide
           </p>
         </div>
 

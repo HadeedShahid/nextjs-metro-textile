@@ -9,17 +9,20 @@ import { Button } from "../ui/button";
 interface ProductCarouselProps {
   products: any[];
   title?: string;
+  eyebrow?: string;
   viewAllHref?: string;
 }
 
 const ProductCarousel = ({
   products,
   title,
+  eyebrow,
   viewAllHref,
 }: ProductCarouselProps) => {
   return (
     <Section
       title={title}
+      eyebrow={eyebrow}
       headerAction={
         viewAllHref && (
           <Button

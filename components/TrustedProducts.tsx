@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Section from "./base/Section";
-import Text from "./base/Text";
 import EmblaCarouselWrapper from "./emblaCarousel/EmblaCarouselWrapper";
 import { fetchParentCategories } from "@/lib/api";
 import { urlFor } from "@/sanity/image";
@@ -16,40 +15,70 @@ export default async function TrustedProducts() {
   if (safeCategories.length === 0) return null;
 
   return (
-    <Section title="Product Catalog">
+    <Section eyebrow="What we make" title="Product Catalog">
       <EmblaCarouselWrapper
         options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}
-        containerClassName="gap-6"
+        containerClassName="gap-4 md:gap-6"
         slideClassName="basis-[75%] sm:basis-[40%] lg:basis-[24%]"
       >
         {safeCategories.map((cat) => {
           const imgUrl = cat.image
-            ? urlFor(cat.image).width(400).height(300).url()
+            ? urlFor(cat.image).width(640).height(480).url()
             : FALLBACK_IMAGE;
 
           return (
-            <Link
+            <article
               key={cat.slug}
-              href={`/products/${cat.slug}`}
-              className="flex flex-col items-start p-7 justify-between bg-[#f3f3f3] rounded-lg w-full group transition-all duration-300 hover:shadow-lg hover:bg-[#ebebeb] cursor-pointer h-full"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg"
             >
-              <Text className="font-medium">
-                {cat.title} &ndash;{" "}
-                <span className="text-gray-500">Metro</span>
-              </Text>
-              <Image
-                src={imgUrl}
-                alt={cat.title}
-                width={400}
-                height={300}
-                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="flex w-full justify-end">
-                <div className="group/btn border border-[#7F2F82] py-1 px-6 rounded-full transition-all ease-in-out duration-300 bg-transparent group-hover:bg-[#7f2f82] group-hover:text-white flex items-center justify-center">
-                  <ArrowRight className="text-[#7F2F82] group-hover:text-white" />
+              <div className="relative aspect-[5/4] overflow-hidden bg-[#f6f3f7]">
+                <Image
+                  src={imgUrl}
+                  alt={cat.title}
+                  fill
+                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 40vw, 24vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+
+              <div className="flex flex-1 flex-col p-5">
+                <h3 className="text-lg font-semibold leading-snug text-slate-900">
+                  {/* Overlay link — the whole card clicks through to the category */}
+                  <Link
+                    href={`/products/${cat.slug}`}
+                    className="after:absolute after:inset-0"
+                  >
+                    {cat.title}
+                  </Link>
+                </h3>
+
+                {cat.subcategories.length > 0 && (
+                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                    {cat.subcategories.map((sub) => (
+                      <Link
+                        key={sub.slug}
+                        href={`/products/${cat.slug}/${sub.slug}`}
+                        className="relative z-10 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                      >
+                        {sub.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+
+                <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3.5">
+                  <span className="text-xs text-slate-500">
+                    {cat.productCount > 0
+                      ? `${cat.productCount} product${cat.productCount === 1 ? "" : "s"}`
+                      : "View range"}
+                  </span>
+                  <span className="flex items-center gap-1 text-sm font-medium text-primary">
+                    Explore
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </span>
                 </div>
               </div>
-            </Link>
+            </article>
           );
         })}
       </EmblaCarouselWrapper>
