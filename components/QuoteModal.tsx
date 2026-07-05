@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { FileText } from "lucide-react";
 import {
   Dialog,
   DialogContent,

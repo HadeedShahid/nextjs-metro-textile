@@ -1,9 +1,7 @@
 import ProductCard from "../ProductCard";
 import EmblaCarouselWrapper from "@/components/emblaCarousel/EmblaCarouselWrapper";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import Section from "../base/Section";
-import Text from "../base/Text";
 import { Button } from "../ui/button";
 
 interface ProductCarouselProps {

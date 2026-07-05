@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import Text, { TextProps } from "./Text";
+import Text from "./Text";
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -9,8 +9,6 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   eyebrow?: string;
   titleAs?: React.ElementType;
   titleClassName?: string;
-  /** Extra classes for the header row — e.g. `main-container` when the section itself is full-bleed. */
-  headerClassName?: string;
   headerAction?: React.ReactNode;
 }
 
@@ -21,14 +19,13 @@ const Section = ({
   eyebrow,
   titleAs = "h2",
   titleClassName,
-  headerClassName,
   headerAction,
   ...props
 }: SectionProps) => {
   return (
     <section className={cn("flex flex-col gap-6", className)} {...props}>
       {(title || eyebrow || headerAction) && (
-        <div className={cn("flex items-end justify-between gap-4", headerClassName)}>
+        <div className="flex items-end justify-between gap-4">
           <div>
             {eyebrow && (
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-primary">
