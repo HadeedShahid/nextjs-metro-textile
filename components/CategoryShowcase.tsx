@@ -15,7 +15,7 @@ export default async function CategoryShowcase({
   return (
     <ProductCarousel
       eyebrow="Catalog"
-      title={data.category.title}
+      title={`Explore ${data.category.title} in our Catalog`}
       products={data.products}
       viewAllHref={`/products/${data.category.slug}`}
     />
