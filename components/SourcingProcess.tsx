@@ -1,158 +1,71 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { Search, PencilRuler, Package, Truck } from "lucide-react";
 import Section from "./base/Section";
-import { Button } from "./ui/button";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import Text from "./base/Text";
+import { QuoteModalButton } from "./QuoteModal";
 
 const steps = [
   {
-    number: "1",
-    title: "Choose Your Materials",
+    icon: Search,
+    title: "Choose your materials",
     description:
-      "Browse our catalog of premium fabrics and textiles tailored for your brand.",
-    image: "/assets/landing-card-1.png",
+      "Browse our catalog of zippers, buttons, buckles and finishes tailored to your brand.",
   },
   {
-    number: "2",
-    title: "Technical Consulting",
+    icon: PencilRuler,
+    title: "Technical consulting",
     description:
-      "Work with our production specialists for spec sheets and technical drawings.",
-    image: "/assets/landing-card-2.png",
+      "Work with our production specialists on spec sheets and technical drawings.",
   },
   {
-    number: "3",
-    title: "Quality Controlled Sampling",
+    icon: Package,
+    title: "Quality-controlled sampling",
     description:
-      "Get physical samples to feel the fabric and verify color accuracy.",
-    image: "/assets/landing-zipper.jpg",
+      "Get physical samples to verify finish and colour accuracy before you commit.",
   },
   {
-    number: "4",
-    title: "Bulk Production & Delivery",
+    icon: Truck,
+    title: "Production and delivery",
     description:
-      "Sit back as your orders are manufactured and delivered on time, every time.",
-    image: "/assets/landing-button.jpg",
+      "Sit back as your order is manufactured and delivered on time, every time.",
   },
 ];
 
 export default function SourcingProcess() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % steps.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [activeTab]);
-
-  const handleTabClick = (index: number) => {
-    setActiveTab(index);
-  };
-
   return (
-    <Section title="Sourcing Process">
-      <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-3 lg:gap-6 items-stretch">
-        {/* Left: Vertical Tabs (Hidden on mobile) */}
-        <div className="hidden lg:block space-y-4">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              onClick={() => handleTabClick(index)}
-              className={cn(
-                "group relative flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all duration-300",
-                activeTab === index
-                  ? "bg-linear-to-r from-primary/3 to-transparent border border-primary/50 shadow-sm"
-                  : "hover:bg-slate-100/50 border border-slate-200",
-              )}
+    <Section eyebrow="How it works" title="From first idea to delivered order">
+      <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        {/* Connector line runs behind the step markers on desktop */}
+        <div
+          aria-hidden="true"
+          className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-primary/20 lg:block"
+        />
+
+        {steps.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <li
+              key={step.title}
+              className="relative flex flex-col items-center text-center lg:px-2"
             >
-              <div
-                className={cn(
-                  "text-lg font-bold transition-all duration-300 shrink-0",
-                  activeTab === index
-                    ? "text-primary scale-110"
-                    : "text-slate-500",
-                )}
-              >
-                {(index + 1).toString().padStart(2, "0")}
+              {/* Outlined marker — white fill, soft purple border, purple icon */}
+              <div className="relative z-10 mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-white text-primary ring-4 ring-white">
+                <Icon className="h-6 w-6" />
+                <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-md bg-primary text-[11px] font-bold text-white ring-2 ring-white">
+                  {index + 1}
+                </span>
               </div>
+              <h3 className="text-base font-semibold text-slate-900">
+                {step.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-500">
+                {step.description}
+              </p>
+            </li>
+          );
+        })}
+      </ol>
 
-              <div className="space-y-1">
-                <h3
-                  className={cn(
-                    "text-lg font-semibold transition-colors duration-300",
-                    activeTab === index ? "text-slate-900" : "text-slate-700",
-                  )}
-                >
-                  {step.title}
-                </h3>
-                <p
-                  className={cn(
-                    "text-sm leading-relaxed transition-colors duration-300",
-                    activeTab === index ? "text-slate-600" : "text-slate-500",
-                  )}
-                >
-                  {step.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Right Area: Image Preview + Mobile Context */}
-        <div className="flex flex-col gap-4">
-          <div className="relative w-full h-[400px] lg:h-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-200 shadow-sm">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "absolute inset-0 transition-opacity duration-1000 ease-in-out",
-                  activeTab === index ? "opacity-100" : "opacity-0",
-                )}
-              >
-                <Image
-                  src={step.image}
-                  alt={step.title}
-                  fill
-                  priority={index === 0}
-                  className="object-cover"
-                />
-              </div>
-            ))}
-
-            {/* Desktop Overlay: Minimalist CTA */}
-            <div className="hidden lg:block absolute bottom-8 left-8 z-20">
-              <Button size="lg">
-                Send Inquiry
-                <ArrowUpRight className="ml-2 w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="lg:hidden p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-start gap-4">
-              <Text className="text-lg font-bold text-primary">
-                {(activeTab + 1).toString().padStart(2, "0")}
-              </Text>
-              <div className="space-y-4 flex-1">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">
-                    {steps[activeTab].title}
-                  </h3>
-                  <p className="text-slate-600 text-sm">
-                    {steps[activeTab].description}
-                  </p>
-                </div>
-                <Button size="lg" className="w-full font-semibold">
-                  Inquire Now
-                  <ArrowUpRight className="ml-2 w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="mt-4 flex justify-center">
+        <QuoteModalButton size="lg" text="Start your order" />
       </div>
     </Section>
   );
