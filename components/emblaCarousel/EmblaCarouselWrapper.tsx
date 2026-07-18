@@ -3,6 +3,7 @@ import React from 'react'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import type { EmblaPluginType } from 'embla-carousel'
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import {
     NextButton,
     PrevButton,
@@ -39,7 +40,12 @@ const EmblaCarouselWrapper = (props: PropType) => {
         dotActiveClassName = "bg-primary w-6",
     } = props
 
-    const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins)
+    const allPlugins = React.useMemo(
+        () => [WheelGesturesPlugin(), ...(plugins ?? [])],
+        [plugins],
+    )
+
+    const [emblaRef, emblaApi] = useEmblaCarousel(options, allPlugins)
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } =
         useDotButton(emblaApi)

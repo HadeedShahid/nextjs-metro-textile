@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Section from "./base/Section";
 import EmblaCarouselWrapper from "./emblaCarousel/EmblaCarouselWrapper";
 import { fetchParentCategories } from "@/lib/api";
@@ -19,46 +19,43 @@ export default async function TrustedProducts() {
       <EmblaCarouselWrapper
         options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}
         containerClassName="gap-4 md:gap-6"
-        slideClassName="basis-[75%] sm:basis-[40%] lg:basis-[24%]"
+        slideClassName="basis-[70%] sm:basis-[38%] lg:basis-[24%]"
       >
         {safeCategories.map((cat) => {
           const imgUrl = cat.image
-            ? urlFor(cat.image).width(640).height(480).url()
+            ? urlFor(cat.image).width(600).height(800).url()
             : FALLBACK_IMAGE;
 
           return (
             <article
               key={cat.slug}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg"
+              className="group relative aspect-[4/5] h-full overflow-hidden rounded-lg border border-slate-200 shadow-sm transition-shadow duration-200 hover:shadow-lg"
             >
-              <div className="relative aspect-[5/4] overflow-hidden bg-[#f6f3f7]">
-                <Image
-                  src={imgUrl}
-                  alt={cat.title}
-                  fill
-                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 40vw, 24vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+              <Image
+                src={imgUrl}
+                alt={cat.title}
+                fill
+                sizes="(max-width: 640px) 70vw, (max-width: 1024px) 38vw, 24vw"
+                className="object-cover"
+              />
 
-              <div className="flex flex-1 flex-col p-5">
-                <h3 className="text-lg font-semibold leading-snug text-slate-900">
-                  {/* Overlay link — the whole card clicks through to the category */}
-                  <Link
-                    href={`/products/${cat.slug}`}
-                    className="after:absolute after:inset-0"
-                  >
-                    {cat.title}
-                  </Link>
-                </h3>
+              {/* Scrim only at the base — keeps the photo bright, text readable */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
 
+              {cat.productCount > 0 && (
+                <span className="absolute right-3 top-3 rounded-md bg-slate-900/85 px-2.5 py-1 text-[11px] font-semibold text-white shadow-md">
+                  {cat.productCount} product{cat.productCount === 1 ? "" : "s"}
+                </span>
+              )}
+
+              <div className="absolute inset-x-0 bottom-0 p-4">
                 {cat.subcategories.length > 0 && (
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <div className="mb-2.5 flex flex-wrap gap-1.5">
                     {cat.subcategories.map((sub) => (
                       <Link
                         key={sub.slug}
                         href={`/products/${cat.slug}/${sub.slug}`}
-                        className="relative z-10 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                        className="relative z-10 rounded bg-white/15 px-2 py-0.5 text-[11px] font-medium text-white transition-colors hover:bg-white hover:text-slate-900"
                       >
                         {sub.title}
                       </Link>
@@ -66,15 +63,21 @@ export default async function TrustedProducts() {
                   </div>
                 )}
 
-                <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3.5">
-                  <span className="text-xs text-slate-500">
-                    {cat.productCount > 0
-                      ? `${cat.productCount} product${cat.productCount === 1 ? "" : "s"}`
-                      : "View range"}
-                  </span>
-                  <span className="flex items-center gap-1 text-sm font-medium text-primary">
-                    Explore
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-xl font-semibold text-white">
+                    {/* Overlay link — makes the whole card click through to the category */}
+                    <Link
+                      href={`/products/${cat.slug}`}
+                      className="after:absolute after:inset-0"
+                    >
+                      {cat.title}
+                    </Link>
+                  </h3>
+                  <span
+                    aria-hidden="true"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/15 text-white transition-colors group-hover:bg-white group-hover:text-slate-900"
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </div>
               </div>
