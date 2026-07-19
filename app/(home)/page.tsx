@@ -53,7 +53,7 @@ export default function Home() {
       <ParentCategoryShowcase />
       <SourcingProcess />
       <ActionCTA />
-      <GlobalPresence />
+      <GlobalPresence variant="compact" />
       <TestimonialsCarousel testimonials={testimonials} />
       <ContactSection />
       <FAQSection />
