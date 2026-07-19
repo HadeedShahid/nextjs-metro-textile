@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronRightCircle } from "lucide-react";
 import ContactActionGroup from "@/components/common/ContactActionGroup";
+import { QuoteModalButton } from "./QuoteModal";
 
 const brandLogos = [
   { src: "/assets/logos/levis-logo.webp", fallback: "LV" },
@@ -37,10 +38,22 @@ const ActionCTA = () => {
               </span>
             </p>
           </div>
-          <Button size="lg" href="/products">
-            Explore Products
-            <ChevronRightCircle className="w-5 h-5" />
-          </Button>
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center md:w-auto md:shrink-0">
+            <Button
+              variant="outline"
+              size="lg"
+              href="/products"
+              className="w-full sm:w-auto"
+            >
+              Explore Products
+              <ChevronRightCircle className="w-5 h-5" />
+            </Button>
+            <QuoteModalButton
+              size="lg"
+              text="Start your order"
+              className="w-full sm:w-auto"
+            />
+          </div>
         </div>
 
         {/* Divider */}

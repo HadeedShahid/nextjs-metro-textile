@@ -1,50 +1,24 @@
-import { Search, PencilRuler, Package, Truck } from "lucide-react";
 import Section from "./base/Section";
-import { QuoteModalButton } from "./QuoteModal";
-
-const steps = [
-  {
-    icon: Search,
-    title: "Choose your materials",
-    description:
-      "Browse our catalog of zippers, buttons, buckles and finishes tailored to your brand.",
-  },
-  {
-    icon: PencilRuler,
-    title: "Technical consulting",
-    description:
-      "Work with our production specialists on spec sheets and technical drawings.",
-  },
-  {
-    icon: Package,
-    title: "Quality-controlled sampling",
-    description:
-      "Get physical samples to verify finish and colour accuracy before you commit.",
-  },
-  {
-    icon: Truck,
-    title: "Production and delivery",
-    description:
-      "Sit back as your order is manufactured and delivered on time, every time.",
-  },
-];
+import { sourcingSteps } from "./sourcingSteps";
+import SourcingStepsCarousel from "./SourcingStepsCarousel";
 
 export default function SourcingProcess() {
   return (
     <Section eyebrow="How it works" title="From first idea to delivered order">
-      <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-        {/* Connector line runs behind the step markers on desktop */}
+      {/* Desktop: horizontal journey path */}
+      <ol className="relative hidden gap-6 lg:grid lg:grid-cols-4">
+        {/* Connector line runs behind the step markers */}
         <div
           aria-hidden="true"
-          className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-primary/20 lg:block"
+          className="absolute left-[12.5%] right-[12.5%] top-7 h-px bg-primary/20"
         />
 
-        {steps.map((step, index) => {
+        {sourcingSteps.map((step, index) => {
           const Icon = step.icon;
           return (
             <li
               key={step.title}
-              className="relative flex flex-col items-center text-center lg:px-2"
+              className="relative flex flex-col items-center px-2 text-center"
             >
               {/* Outlined marker — white fill, soft purple border, purple icon */}
               <div className="relative z-10 mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-white text-primary ring-4 ring-white">
@@ -64,8 +38,9 @@ export default function SourcingProcess() {
         })}
       </ol>
 
-      <div className="mt-4 flex justify-center">
-        <QuoteModalButton size="lg" text="Start your order" />
+      {/* Mobile: compact auto-advancing carousel */}
+      <div className="lg:hidden">
+        <SourcingStepsCarousel />
       </div>
     </Section>
   );

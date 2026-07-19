@@ -52,8 +52,8 @@ export default function Home() {
       <ComplianceSection />
       <ParentCategoryShowcase />
       <SourcingProcess />
-      <GlobalPresence />
       <ActionCTA />
+      <GlobalPresence />
       <TestimonialsCarousel testimonials={testimonials} />
       <ContactSection />
       <FAQSection />
