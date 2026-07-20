@@ -1,4 +1,3 @@
-import React from "react";
 import {
   CONTACT_EMAIL,
   CONTACT_EMAIL_HREF,
@@ -7,46 +6,31 @@ import {
   CONTACT_WHATSAPP_HREF,
   MAPS_HREF,
 } from "@/constants";
-import { Mail, MessageCircle, Phone, MapPin, ChevronRight } from "lucide-react";
-import { Button } from "./ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "./ui/card";
-import Section from "./base/Section";
-import Text from "./base/Text";
-import Whatsapp from "./common/Whatsapp";
+import { Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
+import Section from "./base/Section";
 
 const contactDetails = [
   {
-    title: "Email Support",
-    description: "For spec sheets and technical drawings.",
+    title: "Email support",
     icon: Mail,
     linkText: CONTACT_EMAIL,
     href: CONTACT_EMAIL_HREF,
   },
   {
-    title: "Whatsapp",
-    description: "Real time availability and custom leads.",
+    title: "WhatsApp",
     icon: IconBrandWhatsapp,
-    linkText: "Start chat now",
+    linkText: "Start chat",
     href: CONTACT_WHATSAPP_HREF,
   },
   {
     title: "Call us directly",
-    description: "Speak with a production specialist.",
     icon: Phone,
     linkText: CONTACT_PHONE_DISPLAY,
     href: CONTACT_PHONE_HREF,
   },
   {
     title: "Visit our office",
-    description: "Visit to feel the fabric and see the colors.",
     icon: MapPin,
     linkText: "Check the map",
     href: MAPS_HREF,
@@ -55,34 +39,25 @@ const contactDetails = [
 
 const ContactSection = () => {
   return (
-    <Section title="We'd love to hear from you">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {contactDetails.map((item, index) => (
-          <Card key={index} className="hover:shadow-md  flex flex-col">
-            <CardHeader>
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <item.icon className="w-5 h-5" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <CardTitle className="text-xl font-semibold text-foreground mb-2">
-                {item.title}
-              </CardTitle>
-              <CardDescription className="text-slate-500">
-                {item.description}
-              </CardDescription>
-            </CardContent>
-            <CardFooter className="mt-auto">
-              <Button
-                href={item.href}
-                variant="link"
-                className="p-0 text-lg font-semibold"
-              >
-                {item.linkText}
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-            </CardFooter>
-          </Card>
+    <Section eyebrow="Get in touch" title="We'd love to hear from you">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {contactDetails.map((item) => (
+          <a
+            key={item.title}
+            href={item.href}
+            className="group flex flex-col gap-3 rounded-xl border border-slate-200 p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-white">
+              <item.icon className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm text-slate-500">{item.title}</p>
+              <p className="mt-0.5 flex items-center gap-1 text-base font-semibold text-slate-900">
+                <span className="truncate">{item.linkText}</span>
+                <ChevronRight className="h-4 w-4 shrink-0 text-primary transition-transform duration-200 group-hover:translate-x-0.5" />
+              </p>
+            </div>
+          </a>
         ))}
       </div>
     </Section>
