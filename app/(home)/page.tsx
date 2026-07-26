@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import TrustedProducts from "@/components/TrustedProducts";
+import ProductBento from "@/components/ProductBento";
 import ComplianceSection from "@/components/ComplianceSection";
 import Cta from "@/components/Cta";
 import QuoteCta from "@/components/QuoteCta";
@@ -48,7 +48,7 @@ export default function Home() {
       <Hero />
       {/* <VideoSection /> */}
       <Clients />
-      <TrustedProducts />
+      <ProductBento />
       <ComplianceSection />
       <ParentCategoryShowcase />
       <SourcingProcess />
