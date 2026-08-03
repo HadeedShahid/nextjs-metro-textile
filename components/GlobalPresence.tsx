@@ -9,6 +9,8 @@ import {
 } from "./ui/card";
 import { Building2, Globe2, Briefcase } from "lucide-react";
 import { FlagCN, FlagHK, FlagPK } from "@/icons";
+import PresenceMap from "./PresenceMap";
+import PresenceMapArt from "./PresenceMapArt";
 
 const flagClass = "w-5 h-auto rounded-[2px] shrink-0";
 const flagClassPK = `${flagClass} border border-slate-200`;
@@ -126,50 +128,8 @@ function DetailedPresence() {
   );
 }
 
-type Role = "business" | "operational";
-
-const flagBase = "h-8 w-auto rounded-[4px] overflow-hidden shrink-0";
-
-const locations: {
-  country: string;
-  company: string;
-  Flag: React.ReactNode;
-  roles: Role[];
-}[] = [
-  {
-    country: "China",
-    company: "Metro Metal",
-    Flag: <FlagCN className={flagBase} />,
-    roles: ["business", "operational"],
-  },
-  {
-    country: "Pakistan",
-    company: "Metro Textiles Sourcing",
-    Flag: <FlagPK className={`${flagBase} border border-slate-200`} />,
-    roles: ["business", "operational"],
-  },
-  {
-    country: "Hong Kong",
-    company: "Metro Company",
-    Flag: <FlagHK className={flagBase} />,
-    roles: ["business"],
-  },
-];
-
-const roleMeta: Record<Role, { label: string; icon: React.ReactNode; className: string }> = {
-  business: {
-    label: "Business",
-    icon: <Briefcase className="h-3 w-3" />,
-    className: "bg-primary/10 text-primary",
-  },
-  operational: {
-    label: "Operational",
-    icon: <Building2 className="h-3 w-3" />,
-    className: "bg-emerald-50 text-emerald-700",
-  },
-};
-
-/** Condensed single-row layout — used on the landing page. */
+/** Condensed interactive layout — used on the landing page. Company cards and
+ *  location data live in PresenceMap (client component). */
 function CompactPresence() {
   return (
     <Section
@@ -182,38 +142,7 @@ function CompactPresence() {
         Asia and Europe.
       </p>
 
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {locations.map((loc) => (
-          <li
-            key={loc.country}
-            className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-          >
-            <div className="flex items-center gap-3">
-              {loc.Flag}
-              <div>
-                <p className="text-base font-semibold text-slate-900">
-                  {loc.country}
-                </p>
-                <p className="text-sm text-slate-500">{loc.company}</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {loc.roles.map((role) => {
-                const meta = roleMeta[role];
-                return (
-                  <span
-                    key={role}
-                    className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium ${meta.className}`}
-                  >
-                    {meta.icon}
-                    {meta.label}
-                  </span>
-                );
-              })}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <PresenceMap mapArt={<PresenceMapArt />} />
     </Section>
   );
 }

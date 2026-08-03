@@ -12,6 +12,8 @@ interface ProductContactActionsProps {
   productTitle: string;
   /** Include a Call button (used on the detail page; omitted on the compact card). */
   showCall?: boolean;
+  /** "bar" = labelled buttons (detail page); "icons" = compact icon row (listing card). */
+  variant?: "bar" | "icons";
   className?: string;
 }
 
@@ -24,6 +26,7 @@ interface ProductContactActionsProps {
 export default function ProductContactActions({
   productTitle,
   showCall = false,
+  variant = "bar",
   className,
 }: ProductContactActionsProps) {
   const emailHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
@@ -35,6 +38,41 @@ export default function ProductContactActions({
   const waHref = `https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hi, I'm interested in ${productTitle}. Could you share pricing, MOQ and lead time?`,
   )}`;
+
+  if (variant === "icons") {
+    return (
+      <div className={cn("flex items-center gap-1.5", className)}>
+        <Button
+          href={emailHref}
+          variant="outline"
+          size="icon"
+          aria-label={`Email about ${productTitle}`}
+          className="border-primary/20 bg-primary/5 text-primary shadow-none hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
+        >
+          <IconMailFilled className="h-4 w-4" />
+        </Button>
+        <Button
+          href={CONTACT_PHONE_HREF}
+          variant="outline"
+          size="icon"
+          aria-label={`Call about ${productTitle}`}
+          className="border-primary/20 bg-primary/5 text-primary shadow-none hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
+        >
+          <PhoneIcon className="h-4 w-4" />
+        </Button>
+        <Button
+          href={waHref}
+          external
+          variant="outline"
+          size="icon"
+          aria-label={`Ask about ${productTitle} on WhatsApp`}
+          className="border-green-700/20 bg-green-700/5 text-green-700 shadow-none hover:border-green-700/40 hover:bg-green-700/10 hover:text-green-700"
+        >
+          <IconBrandWhatsapp className="h-4 w-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("flex items-center gap-2", className)}>

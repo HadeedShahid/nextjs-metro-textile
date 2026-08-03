@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
 import ProductBento from "@/components/ProductBento";
-import ComplianceSection from "@/components/ComplianceSection";
 import Cta from "@/components/Cta";
 import QuoteCta from "@/components/QuoteCta";
 import BlogSection from "@/components/common/BlogSection";
@@ -49,7 +48,6 @@ export default function Home() {
       {/* <VideoSection /> */}
       <Clients />
       <ProductBento />
-      <ComplianceSection />
       <ParentCategoryShowcase />
       <SourcingProcess />
       <ActionCTA />

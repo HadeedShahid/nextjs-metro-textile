@@ -78,16 +78,8 @@ export default function ProductCard({
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-5">
-        {product.category?.title && (
-          <Link
-            href={categoryPath}
-            className="relative z-10 mb-1.5 w-fit text-[11px] font-medium uppercase tracking-[0.09em] text-slate-400 transition-colors hover:text-primary"
-          >
-            {product.category.title}
-          </Link>
-        )}
-
         <h3 className="text-base font-semibold leading-snug text-slate-900">
+          {/* Overlay link — the whole card clicks through to the product */}
           <Link href={productUrl} className="after:absolute after:inset-0">
             {product.title}
           </Link>
@@ -99,11 +91,29 @@ export default function ProductCard({
           </p>
         )}
 
-        {/* CTA row */}
-        <ProductContactActions
-          productTitle={product.title}
-          className="relative z-10 mt-auto pt-4"
-        />
+        {/* Grows to push the footer down, but keeps a fixed gap above the
+            divider so it never hugs the title or spec line. */}
+        <div aria-hidden className="min-h-4 flex-1" />
+
+        {/* Footer: category tag (its own link) + contact icons */}
+        <div className="flex items-center justify-between gap-2 border-t border-slate-100 pt-3.5">
+          {product.category?.title ? (
+            <Link
+              href={categoryPath}
+              className="relative z-10 rounded-md bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-600 transition-colors hover:bg-slate-200 hover:text-slate-900"
+            >
+              {product.category.title}
+            </Link>
+          ) : (
+            <span />
+          )}
+
+          <ProductContactActions
+            productTitle={product.title}
+            variant="icons"
+            className="relative z-10"
+          />
+        </div>
       </div>
     </article>
   );
