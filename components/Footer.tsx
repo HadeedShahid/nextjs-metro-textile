@@ -43,7 +43,7 @@ const defaultProps: Footer2Props = {
     title: "Metro Metal",
   },
   description:
-    "Your trusted partner in the global leather and textile industry. We provide premium accessories to the global soft and hard goods industry.",
+    "Your trusted partner in the global leather and textile industry. We provide premium quality accessories to the global soft and hard goods industry.",
   sections: [
     {
       title: "Product Range",
