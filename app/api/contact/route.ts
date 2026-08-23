@@ -10,7 +10,17 @@ import {
 import { contactEmailHtml, type ContactEmailData } from "@/emails/contact-email";
 import { quoteEmailHtml } from "@/emails/quote-email";
 
-const resend = new Resend(RESEND_API_KEY);
+let resend: Resend | undefined;
+
+function getResend(): Resend {
+  if (!RESEND_API_KEY) {
+    throw new Error("Missing RESEND_API_KEY environment variable.");
+  }
+  if (!resend) {
+    resend = new Resend(RESEND_API_KEY);
+  }
+  return resend;
+}
 
 export async function POST(req: NextRequest) {
   // Quote requests arrive as multipart/form-data (they may carry attachments)
@@ -51,7 +61,7 @@ export async function POST(req: NextRequest) {
       })),
     );
 
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: RESEND_FROM_EMAIL,
       to: [FORM_RECIPIENT_EMAIL],
       replyTo: email,
@@ -83,7 +93,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
     }
 
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: RESEND_FROM_EMAIL,
       to: [FORM_RECIPIENT_EMAIL],
       replyTo: email,
