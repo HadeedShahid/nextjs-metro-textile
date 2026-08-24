@@ -16,7 +16,7 @@ const tiles = [
     href: "/products/zippers",
     src: "/assets/bento/zippers.webp",
     tint: "#F6EEF7",
-    span: "lg:col-span-2",
+    span: "col-span-2 sm:col-span-1 lg:col-span-2",
     wide: true,
   },
   {
@@ -60,7 +60,7 @@ const tiles = [
 export default function ProductBento() {
   return (
     <Section eyebrow="What we make" title="Explore the product range">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map((tile) => (
           <Link
             key={tile.title}
@@ -81,7 +81,12 @@ export default function ProductBento() {
                 {tile.title}
                 <ArrowUpRight className="h-4 w-4 text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+              <p
+                className={cn(
+                  "mt-1.5 text-sm leading-relaxed text-slate-600",
+                  tile.title !== "Zippers" && "hidden sm:block",
+                )}
+              >
                 {tile.blurb}
               </p>
             </div>
