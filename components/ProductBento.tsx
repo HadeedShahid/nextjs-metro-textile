@@ -67,7 +67,10 @@ export default function ProductBento() {
             href={tile.href}
             style={{ backgroundColor: tile.tint }}
             className={cn(
-              "group relative flex min-h-[220px] flex-col overflow-hidden rounded-xl border border-slate-200/80 p-5 shadow-sm transition-shadow duration-200 hover:shadow-lg lg:min-h-[240px]",
+              "group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 p-5 shadow-sm transition-shadow duration-200 hover:shadow-lg",
+              tile.title === "Zippers"
+                ? "min-h-[220px] lg:min-h-[240px]"
+                : "min-h-[140px] sm:min-h-[220px] lg:min-h-[240px]",
               tile.span,
             )}
           >
