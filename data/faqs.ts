@@ -1,7 +1,7 @@
 // Buyer-intent FAQs for a B2B garment-accessories manufacturer.
 // Written in third person ("Metro Metal …") for AI answer-engine citation.
-// Bracketed [..._PENDING] tokens mark unconfirmed figures — replace with real
-// values before going live (grep "_PENDING"). No invented numbers, no named
+// MOQ, lead-time and Incoterm figures are unconfirmed, so the answers point
+// buyers to the team instead of quoting numbers. No invented numbers, no named
 // third-party inspectors (legal risk) until confirmed.
 export const DEFAULT_FAQS = [
   {
@@ -12,12 +12,12 @@ export const DEFAULT_FAQS = [
   {
     question: "What is Metro Metal's minimum order quantity (MOQ)?",
     answer:
-      "MOQs are flexible and depend on the product type and level of customization. Standard catalogue items carry lower minimums than fully custom, tooled hardware. Typical MOQs start around [MOQ_PENDING] units. Contact us with your requirements for an exact figure.",
+      "MOQs are flexible and depend on the product type and level of customization. Standard catalogue items carry lower minimums than fully custom, tooled hardware. Contact us with your requirements for an exact figure.",
   },
   {
     question: "What are your typical lead times?",
     answer:
-      "After you approve a pre-production sample, standard bulk production usually takes around [LEAD_TIME_PENDING], depending on order size and customization. Shipping transit is additional and varies by destination and Incoterm. Share your seasonal calendar and we'll confirm a schedule.",
+      "After you approve a pre-production sample, bulk production time depends on order size and customization. Shipping transit is additional and varies by destination and Incoterm. Share your seasonal calendar and we'll confirm a schedule.",
   },
   {
     question: "Do you offer custom, OEM and private-label accessories?",
@@ -37,7 +37,7 @@ export const DEFAULT_FAQS = [
   {
     question: "Which regions does Metro Metal supply, and on what terms?",
     answer:
-      "Metro Metal exports worldwide, with significant volume to Europe, and a manufacturing and sourcing network across Pakistan, China and Hong Kong. We supply on [INCOTERMS_PENDING] terms. Contact us to confirm the right arrangement for your destination.",
+      "Metro Metal exports worldwide, with significant volume to Europe, and a manufacturing and sourcing network across Pakistan, China and Hong Kong. Contact us to confirm the shipping terms for your destination.",
   },
   {
     question: "How does Metro Metal manage quality control?",

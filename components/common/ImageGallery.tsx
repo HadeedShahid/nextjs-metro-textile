@@ -1,246 +1,139 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
+import * as React from "react"
 import Image from "next/image"
-import useEmblaCarousel from "embla-carousel-react"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Expand } from "lucide-react"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 import { urlFor } from "@/sanity/image"
+import { cn } from "@/lib/utils"
 
+/**
+ * Product photos at studio scale: one large frame on the aluminium ground,
+ * thumbnails beneath it, and a full-screen viewer for close inspection.
+ */
 export default function ImageGallery({
   images = [],
   alt = "Product",
 }: {
-  images: any[];
-  alt?: string;
+  images: any[]
+  alt?: string
 }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    startIndex: selectedIndex,
-  })
-  
-  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-    containScroll: "keepSnaps",
-    dragFree: true,
-  })
+  const [active, setActive] = React.useState(0)
+  const [open, setOpen] = React.useState(false)
 
-  const openGallery = (index: number) => {
-    setSelectedIndex(index)
-    setIsOpen(true)
+  const count = images?.length ?? 0
+  const go = (direction: 1 | -1) => setActive((i) => (i + direction + count) % count)
+
+  // Arrow keys page through photos while the viewer is open.
+  React.useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") setActive((i) => (i + 1) % count)
+      if (e.key === "ArrowLeft") setActive((i) => (i - 1 + count) % count)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [open, count])
+
+  if (!count) {
+    return (
+      <div className="flex aspect-[4/3] items-center justify-center rounded-[2rem] bg-muted text-muted-foreground">
+        Photo coming soon
+      </div>
+    )
   }
 
-  const scrollPrev = useCallback(
-    () => emblaApi && emblaApi.scrollPrev(),
-    [emblaApi]
-  )
-  const scrollNext = useCallback(
-    () => emblaApi && emblaApi.scrollNext(),
-    [emblaApi]
-  )
-
-  const onThumbClick = useCallback(
-    (index: number) => {
-      if (!emblaApi || !emblaThumbsApi) return
-      emblaApi.scrollTo(index)
-    },
-    [emblaApi, emblaThumbsApi]
-  )
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi || !emblaThumbsApi) return
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-    emblaThumbsApi.scrollTo(emblaApi.selectedScrollSnap())
-  }, [emblaApi, emblaThumbsApi])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    emblaApi.on("select", onSelect)
-    emblaApi.on("reInit", onSelect)
-  }, [emblaApi, onSelect])
-
-  useEffect(() => {
-    if (emblaApi && isOpen) {
-      emblaApi.scrollTo(selectedIndex)
-    }
-  }, [emblaApi, isOpen, selectedIndex])
-
-  const getImageUrl = (image: any) => {
-    try {
-      if (image) return urlFor(image).url()
-    } catch (error) {
-      console.error("[ImageGallery] Error generating image URL:", error)
-    }
-    return "/sample.jpg"
-  }
-
-  if (!images?.length) return null
+  const label = (i: number) => `${alt}, photo ${i + 1} of ${count}`
 
   return (
-    <div className="mb-12">
-      <div className="w-full">
-        {/* CSS Grid Layout - Strictly following Original UI */}
-        <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] md:grid-rows-2 gap-4 h-[400px] md:h-[500px]">
-          {/* Main Image */}
-          <div
-            className="relative md:row-span-2 rounded-lg overflow-hidden cursor-pointer group border border-slate-200"
-            onClick={() => openGallery(0)}
-          >
-            <Image
-              src={getImageUrl(images[0])}
-              alt={`${alt} – Metro Metal`}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
-              sizes="(max-width: 768px) 100vw, 66vw"
-              priority
-            />
-          </div>
+    // min-w-0 lets the thumbnail strip scroll instead of widening a grid column.
+    <div className="min-w-0">
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-[2rem] bg-muted"
+        aria-label={`View ${label(active)} full screen`}
+      >
+        <Image
+          src={urlFor(images[active]).width(1600).height(1200).fit("crop").url()}
+          alt={label(active)}
+          fill
+          preload={active === 0}
+          sizes="(max-width: 1024px) 100vw, 58vw"
+          className="object-cover"
+        />
+        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/85 text-foreground opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          <Expand className="size-4" aria-hidden />
+        </span>
+      </button>
 
-          {/* Top Right */}
-          {images.length > 1 && (
-            <div
-              className="hidden md:block relative rounded-lg overflow-hidden cursor-pointer group border border-slate-200"
-              onClick={() => openGallery(1)}
-            >
-              <Image
-                src={getImageUrl(images[1])}
-                alt={`${alt} – view 2`}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
-                sizes="33vw"
-              />
-            </div>
-          )}
-
-          {/* Bottom Right */}
-          {images.length > 2 && (
-            <div
-              className="hidden md:block relative rounded-lg overflow-hidden cursor-pointer group border border-slate-200"
-              onClick={() => openGallery(2)}
-            >
-              <Image
-                src={getImageUrl(images[2])}
-                alt={`${alt} – view 3`}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
-                sizes="33vw"
-              />
-              {images.length > 3 && (
-                <div className="absolute bottom-4 right-4 bg-black/80 text-white px-3 py-1.5 rounded-md text-sm font-medium border border-white/20">
-                  +{images.length - 3} more
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Thumbnail Strip - Mobile */}
-        <div className="mt-4 block md:hidden">
-          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {images.map((image, index) => (
+      {count > 1 && (
+        <ul className="no-scrollbar mt-4 flex gap-3 overflow-x-auto pb-1" aria-label="Photos">
+          {images.map((image, i) => (
+            <li key={image?._key ?? i} className="shrink-0">
               <button
-                key={index}
-                onClick={() => openGallery(index)}
-                className="relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity border border-slate-200"
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`Show photo ${i + 1}`}
+                aria-current={i === active ? "true" : undefined}
+                className={cn(
+                  "relative block size-[4.5rem] overflow-hidden rounded-2xl bg-muted ring-offset-2 transition md:size-20",
+                  i === active ? "ring-2 ring-foreground" : "opacity-70 hover:opacity-100",
+                )}
               >
                 <Image
-                  src={getImageUrl(image)}
-                  alt={`${alt} – view ${index + 1}`}
+                  src={urlFor(image).width(200).height(200).fit("crop").url()}
+                  alt=""
                   fill
-                  className="object-cover"
                   sizes="80px"
+                  className="object-cover"
                 />
               </button>
-            ))}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="on-die h-dvh max-h-none w-screen max-w-none gap-0 rounded-none bg-die p-0 text-die-foreground ring-0 sm:max-w-none [&>[data-slot=dialog-close]]:right-5 [&>[data-slot=dialog-close]]:top-5 [&>[data-slot=dialog-close]]:size-11 [&>[data-slot=dialog-close]]:bg-white/12 [&>[data-slot=dialog-close]]:text-die-foreground [&>[data-slot=dialog-close]]:hover:bg-white/20">
+          <DialogTitle className="sr-only">{alt} photos</DialogTitle>
+          <div className="relative h-full w-full">
+            <Image
+              src={urlFor(images[active]).width(2400).url()}
+              alt={label(active)}
+              fill
+              sizes="100vw"
+              className="object-contain p-4 md:p-14"
+            />
+            {count > 1 && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Previous photo"
+                  onClick={() => go(-1)}
+                  className="absolute left-4 top-1/2 size-11 -translate-y-1/2 bg-white/12 text-die-foreground hover:bg-white/20"
+                >
+                  <ChevronLeft className="size-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Next photo"
+                  onClick={() => go(1)}
+                  className="absolute right-4 top-1/2 size-11 -translate-y-1/2 bg-white/12 text-die-foreground hover:bg-white/20"
+                >
+                  <ChevronRight className="size-5" />
+                </Button>
+                <p className="absolute inset-x-0 bottom-5 text-center text-sm text-die-muted tabular-nums">
+                  {active + 1} / {count}
+                </p>
+              </>
+            )}
           </div>
-        </div>
-
-        {/* Full Gallery Modal */}
-        {isOpen && (
-          <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col text-white">
-            {/* Close Button */}
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 z-50 p-2 rounded-md border border-white/20 bg-black/80 hover:bg-white/20 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Main Carousel */}
-            <div className="flex-1 flex items-center justify-center p-4 relative">
-              <div
-                className="w-full max-w-5xl overflow-hidden rounded-lg"
-                ref={emblaRef}
-              >
-                <div className="flex">
-                  {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className="flex-[0_0_100%] min-w-0 px-2"
-                    >
-                      <div className="relative w-full h-[50vh] md:h-[70vh]">
-                        <Image
-                          src={getImageUrl(image)}
-                          alt={`${alt} – view ${index + 1}`}
-                          fill
-                          className="object-contain rounded-lg"
-                          sizes="100vw"
-                          priority
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Navigation Buttons */}
-              <button
-                onClick={scrollPrev}
-                className="absolute left-2 md:left-4 p-2 md:p-3 rounded-md border border-white/20 bg-black/80 hover:bg-white/20 transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-              <button
-                onClick={scrollNext}
-                className="absolute right-2 md:right-4 p-2 md:p-3 rounded-md border border-white/20 bg-black/80 hover:bg-white/20 transition-colors"
-              >
-                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-            </div>
-
-            {/* Thumbnail Carousel */}
-            <div className="p-4 border-t border-white/10 bg-black/70 backdrop-blur-sm">
-              <div
-                className="max-w-5xl mx-auto overflow-hidden"
-                ref={emblaThumbsRef}
-              >
-                <div className="flex gap-2 justify-center">
-                  {images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => onThumbClick(index)}
-                      className={`flex-[0_0_80px] md:flex-[0_0_120px] min-w-0 relative rounded-md overflow-hidden transition-all h-16 md:h-20 border-2 ${
-                        index === selectedIndex
-                          ? "border-white opacity-100"
-                          : "border-transparent opacity-50 hover:opacity-80"
-                      }`}
-                    >
-                      <Image
-                        src={getImageUrl(image)}
-                        alt={`${alt} – view ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 80px, 120px"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

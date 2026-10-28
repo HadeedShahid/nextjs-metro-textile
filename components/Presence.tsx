@@ -1,0 +1,62 @@
+import { COUNTRY_PATHS, MAP_VB } from "./presenceMapPaths";
+import SectionIntro from "./base/SectionIntro";
+import { cn } from "@/lib/utils";
+
+/** Pin coordinates are real projected geography from scripts/generate-presence-map.mjs. */
+const HUBS = [
+  { country: "Pakistan", company: "Metro Textiles Sourcing", role: "Business and operations", x: 256.9, y: 169.3 },
+  { country: "China", company: "Metro Metal", role: "Business and operations", x: 557.2, y: 108.3 },
+  { country: "Hong Kong", company: "Metro Company", role: "Business", x: 687.7, y: 259.3 },
+];
+
+/** The group's three hubs: a quiet aluminium map and three named columns. */
+export default function Presence({ className }: { className?: string }) {
+  return (
+    <section aria-labelledby="presence-title" className={cn("py-24 md:py-32", className)}>
+      <div className="container-x">
+        <SectionIntro
+          id="presence-title"
+          title="Three countries. One supply line."
+          lede="The Metro group works across Pakistan, China and Hong Kong, from first sample to shipment."
+        />
+
+        <svg
+          viewBox={`0 0 ${MAP_VB.w} ${MAP_VB.h}`}
+          role="img"
+          aria-label="Map of Asia marking Metro hubs in Pakistan, China and Hong Kong"
+          className="mt-12 w-full md:mt-16"
+        >
+          <g>
+            {COUNTRY_PATHS.map((d, i) => (
+              <path key={i} d={d} fill="#e3e3e8" stroke="#ffffff" strokeWidth={0.8} />
+            ))}
+          </g>
+          <path
+            d="M256.9 169.3 Q400 90 557.2 108.3 M557.2 108.3 Q660 150 687.7 259.3"
+            stroke="#1d1d1f"
+            strokeWidth="1.2"
+            strokeDasharray="3 6"
+            fill="none"
+            opacity=".35"
+          />
+          {HUBS.map((hub) => (
+            <g key={hub.country}>
+              <circle cx={hub.x} cy={hub.y} r="9" fill="#7f2f82" opacity=".14" />
+              <circle cx={hub.x} cy={hub.y} r="3.5" fill="#7f2f82" />
+            </g>
+          ))}
+        </svg>
+
+        <ul className="mt-10 grid gap-8 border-t border-border pt-8 sm:grid-cols-3">
+          {HUBS.map((hub) => (
+            <li key={hub.country}>
+              <p className="text-title">{hub.country}</p>
+              <p className="mt-1 text-[1.0625rem]">{hub.company}</p>
+              <p className="text-[0.9375rem] text-muted-foreground">{hub.role}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}

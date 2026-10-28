@@ -1,11 +1,19 @@
-import React from "react";
-import Image from "next/image";
-import ContactSection from "@/components/ContactSection";
-import GlobalPresence from "@/components/GlobalPresence";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import ContactActionGroup from "@/components/common/ContactActionGroup";
-import ContactForm from "@/components/forms/ContactForm";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react";
+import { Phone } from "lucide-react";
+import PageHeader from "@/components/base/PageHeader";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ContactForm from "@/components/forms/ContactForm";
+import Presence from "@/components/Presence";
+import { QuoteModalButton } from "@/components/QuoteModal";
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_HREF,
+  CONTACT_WHATSAPP_HREF,
+} from "@/constants";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -14,109 +22,70 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact-us" },
 };
 
+const CRUMBS = [{ label: "Home", href: "/" }, { label: "Contact" }];
+
+const ROUTES = [
+  { label: "Email", value: CONTACT_EMAIL, href: CONTACT_EMAIL_HREF, Icon: IconMailFilled, external: false },
+  { label: "Phone", value: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF, Icon: Phone, external: false },
+  { label: "WhatsApp", value: CONTACT_PHONE_DISPLAY, href: CONTACT_WHATSAPP_HREF, Icon: IconBrandWhatsapp, external: true },
+];
+
 export default function ContactUsPage() {
   return (
-    <div className="min-h-screen bg-white pb-12">
-      <div className="container mx-auto">
-        {/* Hero Header */}
-        <div className="relative bg-primary/90 overflow-hidden text-white pt-8 pb-20 md:pt-10 md:pb-24 rounded-3xl">
-          <div className="absolute inset-0 opacity-20">
-            <svg
-              className="h-full w-full"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              <path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor" />
-            </svg>
-          </div>
-          <div className="container mx-auto px-6 md:px-12 relative z-10 text-left">
-            <div className="mb-6 hidden md:inline-block [&_ol]:text-white/70 [&_a]:text-white/90 [&_a:hover]:text-white [&_[aria-current]]:text-white">
-              <Breadcrumbs
-                items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
-              />
-            </div>
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-8">
-              <div className="max-w-xl">
-                <h1 className="text-2xl md:text-3xl font-bold mb-3 tracking-tight">
-                  Let's Build Something Great Together
-                </h1>
-                <p className="text-sm md:text-base text-primary-foreground/80">
-                  Whether you have a question about our products, pricing, or
-                  anything else, our team is ready to answer all your questions.
-                </p>
-              </div>
+    <>
+      <PageHeader
+        title="Let's talk hardware."
+        lede="Questions about products, finishes, samples or pricing. Our team replies within 24 hours."
+        breadcrumbs={CRUMBS}
+      >
+        <QuoteModalButton size="lg" text="Request a quote" />
+      </PageHeader>
 
-              <div className="shrink-0">
-                <ContactActionGroup
-                  className="justify-start md:justify-end gap-3 flex-wrap"
-                  emailProps={{
-                    label: "Email Us",
-                    className:
-                      "bg-white text-primary hover:bg-slate-100 border-none shadow-md",
-                  }}
-                  callProps={{
-                    label: "Call Us",
-                    className:
-                      "bg-white text-primary hover:bg-slate-100 border-none shadow-md",
-                  }}
-                  whatsappProps={{
-                    label: "WhatsApp",
-                    className:
-                      "bg-[#25D366] text-white hover:bg-[#20bd5a] border-none shadow-md",
-                  }}
-                />
-              </div>
+      <section aria-label="Contact" className="container-x pb-24 md:pb-32">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <div>
+            <h2 className="text-title">Reach us directly</h2>
+            <ul className="mt-6 border-t border-border">
+              {ROUTES.map(({ label, value, href, Icon, external }) => (
+                <li key={label} className="border-b border-border">
+                  <Link
+                    href={href}
+                    className="group flex items-center gap-4 py-5"
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  >
+                    <Icon className="size-5 shrink-0 text-muted-foreground" aria-hidden />
+                    <span className="min-w-0">
+                      <span className="block text-[0.875rem] text-muted-foreground">{label}</span>
+                      <span className="block break-words text-[1.1875rem] font-medium tracking-[-0.015em] group-hover:underline">
+                        {value}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-[0.9375rem] text-muted-foreground">
+              Working across Pakistan, China and Hong Kong.
+            </p>
+          </div>
+
+          <div className="rounded-[2rem] bg-muted p-6 md:p-10">
+            <h2 className="text-title">Send a message</h2>
+            <p className="mt-2 text-muted-foreground">
+              For a quote with files attached, use Request a quote instead.
+            </p>
+            <div className="mt-8">
+              <ContactForm />
             </div>
           </div>
         </div>
+      </section>
+
+      <Presence className="bg-muted" />
+
+      <div className="container-x py-10 md:hidden">
+        <Breadcrumbs items={CRUMBS} />
       </div>
-
-      <div className="container mx-auto px-4 -mt-12 relative z-20">
-        <div className="grid md:grid-cols-5 gap-8 bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-          {/* Left Side: Form */}
-          <div className="md:col-span-3 p-8 md:p-12 lg:p-16">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                Send us a Message
-              </h2>
-              <p className="text-slate-500">
-                Fill out the form below and we'll get back to you as soon as
-                possible.
-              </p>
-            </div>
-
-            <ContactForm />
-          </div>
-
-          {/* Right Side: Graphic/Image */}
-          <div className="md:col-span-2 relative min-h-[300px] md:min-h-full bg-slate-100 hidden md:block">
-            <Image
-              src="/assets/contact-bg.jpg"
-              alt="Apparel Support and Tailoring"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-10">
-              <div className="text-white">
-                <h3 className="text-2xl font-bold mb-2">Dedicated Support</h3>
-                <p className="text-white/80">
-                  Our experts are available around the clock to provide you with
-                  the best sourcing experience in the industry.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <GlobalPresence />
-
-      {/* Mobile Breadcrumbs before footer */}
-      <div className="container mx-auto md:hidden flex justify-start">
-        <Breadcrumbs
-          items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
-        />
-      </div>
-    </div>
+    </>
   );
 }

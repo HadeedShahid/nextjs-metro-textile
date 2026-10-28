@@ -29,17 +29,21 @@ export default function ContactForm() {
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim(),
     };
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
-
-    if (!res.ok || json.error) {
+    let json: { error?: string } = {};
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      json = await res.json().catch(() => ({}));
+      if (!res.ok || json.error) throw new Error(json.error);
+    } catch (err) {
       setStatus("error");
-      setErrorMsg(json.error ?? "Something went wrong. Please try again.");
+      setErrorMsg(
+        (err instanceof Error && err.message) ||
+          "We couldn't send your message. Check your connection and try again, or email us directly.",
+      );
       return;
     }
 
@@ -55,23 +59,23 @@ export default function ContactForm() {
     <form className="space-y-6" onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" name="firstName" placeholder="John" required className="bg-slate-50" />
+          <Label htmlFor="firstName">First name</Label>
+          <Input id="firstName" name="firstName" autoComplete="given-name" placeholder="John" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" name="lastName" placeholder="Doe" required className="bg-slate-50" />
+          <Label htmlFor="lastName">Last name</Label>
+          <Input id="lastName" name="lastName" autoComplete="family-name" placeholder="Doe" required />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email Address</Label>
-        <Input id="email" name="email" type="email" placeholder="john@example.com" required className="bg-slate-50" />
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" name="email" type="email" autoComplete="email" placeholder="john@example.com" required />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="company">Company (Optional)</Label>
-        <Input id="company" name="company" placeholder="Your Company Ltd." className="bg-slate-50" />
+        <Label htmlFor="company">Company (optional)</Label>
+        <Input id="company" name="company" autoComplete="organization" placeholder="Your Company Ltd." />
       </div>
 
       <div className="space-y-2">
@@ -80,25 +84,25 @@ export default function ContactForm() {
           id="message"
           name="message"
           placeholder="How can we help you today?"
-          className="min-h-[150px] bg-slate-50 resize-y"
+          className="min-h-[150px] resize-y"
           required
         />
       </div>
 
       {status === "error" && (
-        <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+        <div role="alert" className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-[0.9375rem] text-destructive">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {errorMsg}
         </div>
       )}
 
-      <Button type="submit" size="lg" className="w-full sm:w-auto mt-4" disabled={status === "loading"}>
+      <Button type="submit" size="lg" className="mt-2 w-full sm:w-auto" disabled={status === "loading"}>
         {status === "loading" ? (
           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
         ) : (
           <Send className="w-4 h-4 mr-2" />
         )}
-        {status === "loading" ? "Sending…" : "Send Message"}
+        {status === "loading" ? "Sending…" : "Send message"}
       </Button>
     </form>
   );

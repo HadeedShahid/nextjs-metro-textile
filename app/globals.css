@@ -8,8 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+    --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,54 +45,190 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Metro Metal world: gallery white, aluminium grey, one die-black band. */
+  --color-ink: var(--foreground);
+  --color-ink-2: var(--muted-foreground);
+  --color-ground-2: var(--muted);
+  --color-die: var(--die);
+  --color-die-foreground: var(--die-foreground);
+  --color-die-muted: var(--die-muted);
+  --ease-strike: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+  --card: #ffffff;
+  --card-foreground: #1d1d1f;
+  --popover: #ffffff;
+  --popover-foreground: #1d1d1f;
   --primary: oklch(0.4533 0.1522 326.27);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f7;
+  --secondary-foreground: #1d1d1f;
+  --muted: #f5f5f7;
+  --muted-foreground: #6e6e73;
+  --accent: #f5f5f7;
+  --accent-foreground: #1d1d1f;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #e3e3e8;
+  --input: #d2d2d7;
+  --ring: #1d1d1f;
+  --radius: 0.875rem;
+
+  --die: #0b0b0c;
+  --die-foreground: #f5f5f7;
+  --die-muted: #a1a1a6;
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar: #f5f5f7;
+  --sidebar-foreground: #1d1d1f;
   --sidebar-primary: oklch(0.4533 0.1522 326.27);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f5f7;
+  --sidebar-accent-foreground: #1d1d1f;
+  --sidebar-border: #e3e3e8;
+  --sidebar-ring: #1d1d1f;
+
+  /* Sticky global nav height, used for scroll offsets. */
+  --nav-h: 3.25rem;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
+    @apply border-border outline-ring;
   }
 
   html {
     @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+    scrollbar-color: #c7c7cc transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-size: 1.0625rem;
+    line-height: 1.47;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 20%, white);
+    color: var(--foreground);
+  }
+
+  /* The die edge: one 2px ink ring, offset, on every focusable thing. */
+  :where(a, button, [role="button"], input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  .on-die :where(a, button, [role="button"], [tabindex]):focus-visible {
+    outline-color: var(--die-foreground);
+  }
+}
+
+/* ── Type scale: rank by size, not by labels ───────────────────────────── */
+@utility text-display {
+  font-size: clamp(2.75rem, 6.6vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+@utility text-headline {
+  font-size: clamp(2.125rem, 4.4vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+@utility text-title {
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+@utility text-lede {
+  font-size: clamp(1.1875rem, 1.6vw, 1.375rem);
+  line-height: 1.42;
+  letter-spacing: -0.015em;
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────── */
+@utility container-x {
+  width: min(100% - 2.5rem, 75rem);
+  margin-inline: auto;
+
+  @media (width >= 48rem) {
+    width: min(100% - 4rem, 75rem);
+  }
+}
+
+/* Legacy alias, kept so any remaining usage lands on the same container. */
+@utility main-container {
+  width: min(100% - 2.5rem, 75rem);
+  margin-inline: auto;
+
+  @media (width >= 48rem) {
+    width: min(100% - 4rem, 75rem);
+  }
+}
+
+.breakout {
+  @apply relative left-1/2 right-1/2;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* A horizontal rail that snaps to its tiles and never rests between them.
+   Padding mirrors container-x so the first tile lines up with the page. */
+@utility snap-rail {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(1.25rem, calc((100% - 75rem) / 2));
+  padding-inline: max(1.25rem, calc((100% - 75rem) / 2));
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > * {
+    scroll-snap-align: start;
+    flex: none;
+  }
+
+  @media (width >= 48rem) {
+    scroll-padding-inline: max(2rem, calc((100% - 75rem) / 2));
+    padding-inline: max(2rem, calc((100% - 75rem) / 2));
   }
 }
 
@@ -101,9 +236,7 @@
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
-/* Slim, unobtrusive scrollbar. Standard props cover Chrome 121+/Edge/Firefox;
-   the ::-webkit rules cover Safari and older Chromium. Mobile overlay
-   scrollbars are untouched — they auto-hide natively. */
+/* Slim scrollbar for scrolling panels (quote sheet). */
 @utility thin-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklab, var(--foreground) 25%, transparent) transparent;
@@ -121,110 +254,46 @@
     background: color-mix(in oklab, var(--foreground) 25%, transparent);
     border-radius: 9999px;
   }
+}
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in oklab, var(--foreground) 40%, transparent);
+/* ── The strike: one authored motion ───────────────────────────────────── */
+/* A die coming down on the mark. The element is visible from the first
+   frame; it only settles from slightly large and soft to exact and sharp. */
+@keyframes strike {
+  from {
+    transform: scale(1.045);
+    filter: blur(6px);
+  }
+
+  to {
+    transform: scale(1);
+    filter: blur(0);
   }
 }
 
-/* Animated border beam — a purple comet orbiting the button's border.
-   Uses @property so the conic angle itself animates (Chrome/Safari/FF 128+);
-   older browsers just show a static, mostly-transparent ring. */
-@property --beam-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
+@utility strike-on-load {
+  animation: strike 1.2s var(--ease-strike) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
-@utility cta-beam {
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1.5px;
-    background: conic-gradient(from var(--beam-angle),
-        transparent 0deg,
-        transparent 280deg,
-        color-mix(in oklab, var(--primary) 45%, transparent) 320deg,
-        var(--primary) 355deg,
-        transparent 360deg);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    animation: beam-spin 3.5s linear infinite;
+@utility strike-on-view {
+  @supports (animation-timeline: view()) {
+    animation: strike linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 45%;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &::before {
-      animation: none;
-    }
+    animation: none;
   }
 }
 
-@keyframes beam-spin {
-  to {
-    --beam-angle: 360deg;
+/* Keep the footer clear of the phone quote bar on product pages. */
+@media (width < 64rem) {
+  body:has([data-quote-bar]) > footer {
+    padding-bottom: 5.5rem;
   }
-}
-
-.breakout {
-  @apply relative left-1/2 right-1/2;
-  width: calc(100vw);
-  margin-left: -50vw;
-  margin-right: -50vw
-}
-
-@utility main-container {
-  width: min(100% - var(--container-margin, 2rem),
-      var(--container-width, var(--container-7xl)));
-  margin-inline: auto;
-
-  @media (width >=85rem) {
-    --container-width: var(--container-7xl);
-  }
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }

@@ -29,7 +29,18 @@ import {
   MAX_QUOTE_ATTACHMENTS,
 } from "@/constants";
 
-export function QuoteModal({ children }: { children: React.ReactNode }) {
+const QUOTE_TITLE = "Request a quote";
+const QUOTE_DESCRIPTION =
+  "Tell us what you need: materials, finish, size and quantity. Our team replies within 24 hours.";
+
+export function QuoteModal({
+  children,
+  product,
+}: {
+  children: React.ReactNode;
+  /** The product the buyer was looking at, carried into the request. */
+  product?: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -37,17 +48,16 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={children as React.ReactElement} />
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto thin-scrollbar">
+        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.75rem] p-8 thin-scrollbar sm:max-w-[520px]">
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold">
-              Request a Custom Quote
+            <DialogTitle className="text-2xl font-semibold tracking-[-0.02em]">
+              {QUOTE_TITLE}
             </DialogTitle>
-            <DialogDescription className="text-sm">
-              Tell us about your project, and our team will provide a
-              personalized estimate within 24 hours.
+            <DialogDescription className="text-[0.9375rem]">
+              {QUOTE_DESCRIPTION}
             </DialogDescription>
           </DialogHeader>
-          <QuoteForm onSuccess={() => setOpen(false)} />
+          <QuoteForm product={product} onSuccess={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     );
@@ -63,16 +73,15 @@ export function QuoteModal({ children }: { children: React.ReactNode }) {
         className="data-[side=bottom]:h-[85vh] overflow-y-auto rounded-t-2xl thin-scrollbar"
       >
         <SheetHeader className="text-left px-4 pt-6 pb-0">
-          <SheetTitle className="text-lg font-semibold">
-            Request a Custom Quote
+          <SheetTitle className="text-2xl font-semibold tracking-[-0.02em]">
+            {QUOTE_TITLE}
           </SheetTitle>
-          <SheetDescription className="text-sm">
-            Tell us about your project, and our team will provide a personalized
-            estimate within 24 hours.
+          <SheetDescription className="text-[0.9375rem]">
+            {QUOTE_DESCRIPTION}
           </SheetDescription>
         </SheetHeader>
         <div className="mt-4 px-4 pb-6">
-          <QuoteForm onSuccess={() => setOpen(false)} />
+          <QuoteForm product={product} onSuccess={() => setOpen(false)} />
         </div>
       </SheetContent>
     </Sheet>
@@ -89,8 +98,9 @@ function formatBytes(bytes: number): string {
 
 function QuoteForm({
   className,
+  product,
   onSuccess,
-}: React.ComponentProps<"form"> & { onSuccess?: () => void }) {
+}: React.ComponentProps<"form"> & { product?: string; onSuccess?: () => void }) {
   const [status, setStatus] = React.useState<QuoteStatus>("idle");
   const [errorMsg, setErrorMsg] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
@@ -141,19 +151,24 @@ function QuoteForm({
     const form = e.currentTarget;
     const data = new FormData();
     data.set("type", "quote");
+    if (product) data.set("product", product);
     data.set("name", (form.elements.namedItem("name") as HTMLInputElement).value.trim());
     data.set("email", (form.elements.namedItem("email") as HTMLInputElement).value.trim());
     data.set("requirements", (form.elements.namedItem("requirements") as HTMLTextAreaElement).value.trim());
     for (const file of files) data.append("files", file);
 
-    // No Content-Type header — the browser sets the multipart boundary itself
-    const res = await fetch("/api/contact", { method: "POST", body: data });
-
-    const json = await res.json();
-
-    if (!res.ok || json.error) {
+    let json: { error?: string } = {};
+    try {
+      // No Content-Type header — the browser sets the multipart boundary itself
+      const res = await fetch("/api/contact", { method: "POST", body: data });
+      json = await res.json().catch(() => ({}));
+      if (!res.ok || json.error) throw new Error(json.error);
+    } catch (err) {
       setStatus("error");
-      setErrorMsg(json.error ?? "Something went wrong. Please try again.");
+      setErrorMsg(
+        (err instanceof Error && err.message) ||
+          "We couldn't send your request. Check your connection and try again, or email us directly.",
+      );
       return;
     }
 
@@ -170,29 +185,40 @@ function QuoteForm({
   return (
     <form className={className} onSubmit={handleSubmit}>
       <div className="grid gap-4">
+        {product && (
+          <p className="rounded-2xl bg-muted px-4 py-3 text-[0.9375rem]">
+            <span className="text-muted-foreground">Quote for </span>
+            <span className="font-medium">{product}</span>
+          </p>
+        )}
+
         <div className="grid gap-2">
           <Label htmlFor="name">
-            Name <span className="text-red-500">*</span>
+            Name <span aria-hidden className="text-destructive">*</span>
           </Label>
-          <Input id="name" name="name" placeholder="John Doe" required />
+          <Input id="name" name="name" autoComplete="name" placeholder="John Doe" required />
         </div>
 
         <div className="grid gap-2">
           <Label htmlFor="email">
-            Email Address <span className="text-red-500">*</span>
+            Email <span aria-hidden className="text-destructive">*</span>
           </Label>
-          <Input id="email" name="email" type="email" placeholder="john@company.com" required />
+          <Input id="email" name="email" type="email" autoComplete="email" placeholder="john@company.com" required />
         </div>
 
         <div className="grid gap-2">
           <Label htmlFor="requirements">
-            Project Requirements / Notes <span className="text-red-500">*</span>
+            What you need <span aria-hidden className="text-destructive">*</span>
           </Label>
           <Textarea
             id="requirements"
             name="requirements"
             required
-            placeholder="Tell us about the materials, finishes, specific dimensions, or custom designs you need..."
+            placeholder={
+              product
+                ? "Quantity, finish, size, and any branding you need on it…"
+                : "Products, quantities, finishes, sizes, and any branding you need…"
+            }
             className="min-h-[120px] resize-none"
           />
         </div>
@@ -228,7 +254,7 @@ function QuoteForm({
               {files.map((file, index) => (
                 <li
                   key={`${file.name}-${file.size}`}
-                  className="flex max-w-[180px] items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 py-1 pl-2.5 pr-1 text-xs"
+                  className="flex max-w-[180px] items-center gap-1.5 rounded-full border border-border bg-muted py-1 pl-2.5 pr-1 text-xs"
                 >
                   <span className="truncate">{file.name}</span>
                   <span className="shrink-0 text-muted-foreground">
@@ -237,7 +263,7 @@ function QuoteForm({
                   <button
                     type="button"
                     aria-label={`Remove ${file.name}`}
-                    className="shrink-0 rounded-full p-0.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700"
+                    className="shrink-0 rounded-full p-0.5 text-muted-foreground hover:bg-border hover:text-foreground"
                     onClick={() => removeFile(index)}
                   >
                     <X className="w-3.5 h-3.5" />
@@ -249,7 +275,7 @@ function QuoteForm({
         </div>
 
         {status === "error" && (
-          <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+          <div role="alert" className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-[0.9375rem] text-destructive">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {errorMsg}
           </div>
@@ -257,7 +283,7 @@ function QuoteForm({
 
         <Button type="submit" className="w-full mt-2" size="lg" disabled={status === "loading"}>
           {status === "loading" && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          {status === "loading" ? "Sending…" : "Submit Quote Request"}
+          {status === "loading" ? "Sending…" : "Send request"}
         </Button>
       </div>
     </form>
@@ -267,17 +293,20 @@ function QuoteForm({
 interface QuoteModalButtonProps extends React.ComponentProps<typeof Button> {
   text?: string;
   icon?: React.ReactNode;
+  /** Prefills the request with this product. */
+  product?: string;
 }
 
 export function QuoteModalButton({
-  text = "Request a Custom Quote",
+  text = QUOTE_TITLE,
   icon,
+  product,
   className,
   size = "lg",
   ...props
 }: QuoteModalButtonProps) {
   return (
-    <QuoteModal>
+    <QuoteModal product={product}>
       <Button size={size} className={className} {...props}>
         {icon}
         {text}

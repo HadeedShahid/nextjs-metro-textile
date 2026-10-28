@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { PortableText } from "next-sanity";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { fetchPostBySlug, fetchAllPosts } from "@/lib/api";
 import { urlFor } from "@/sanity/image";
 import { toPlainText } from "@/lib/portable-text";
@@ -10,7 +11,7 @@ import { formatDate, readingTime } from "@/lib/blog";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import BlogPostCard from "@/components/common/BlogPostCard";
 import JsonLd from "@/components/common/JsonLd";
-import Section from "@/components/base/Section";
+import { QuoteModalButton } from "@/components/QuoteModal";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/structured-data";
 
 export async function generateMetadata({
@@ -50,21 +51,11 @@ export default async function PostPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const { data: post } = await fetchPostBySlug(slug);
+    const { data: post, ok } = await fetchPostBySlug(slug);
 
-    if (!post) {
-        return (
-            <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-24 text-center">
-                <p className="text-slate-500">Sorry, that article could not be found.</p>
-                <Link
-                    href="/blogs"
-                    className="inline-flex items-center gap-1.5 font-semibold text-primary hover:underline"
-                >
-                    <ArrowLeft className="h-4 w-4" /> Back to all articles
-                </Link>
-            </div>
-        );
-    }
+    // A failed fetch must not be cached as a 404.
+    if (!ok) throw new Error(`Could not load post "${slug}"`);
+    if (!post) notFound();
 
     const bannerUrl = post.image
         ? urlFor(post.image).width(1280).height(720).url()
@@ -95,14 +86,14 @@ export default async function PostPage({
     ]);
 
     return (
-        <Section className="gap-12 pb-4">
+        <div className="container-x flex flex-col gap-20 pb-24 pt-10 md:pb-32 md:pt-14">
             <JsonLd data={[blogLd, crumbLd]} />
 
             <article className="mx-auto w-full max-w-4xl">
                 {/* Header */}
                 <header className="flex flex-col gap-5">
                     {/* Desktop-only breadcrumbs at top */}
-                    <div className="hidden md:block [&_ol]:text-slate-400">
+                    <div className="hidden md:block">
                         <Breadcrumbs
                             items={[
                                 { label: "Home", href: "/" },
@@ -111,38 +102,35 @@ export default async function PostPage({
                             ]}
                         />
                     </div>
-                    <span className="inline-flex w-fit items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
-                        Insights &amp; Guides
-                    </span>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl md:leading-tight">
+                    <h1 className="max-w-[20ch] text-[clamp(2.25rem,4.6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em]">
                         {post.title}
                     </h1>
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-400">
+                    <div className="flex items-center gap-2 text-[0.9375rem] text-muted-foreground">
                         <time dateTime={post.publishedAt}>
                             {formatDate(post.publishedAt)}
                         </time>
-                        <span className="h-1 w-1 rounded-full bg-slate-300" />
+                        <span aria-hidden>·</span>
                         <span>{minutes} min read</span>
                     </div>
                 </header>
 
                 {/* Banner */}
                 {bannerUrl && (
-                    <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-slate-100">
+                    <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[2rem] bg-muted">
                         <Image
                             src={bannerUrl}
                             alt={post.title}
                             fill
                             sizes="(max-width: 1024px) 100vw, 896px"
                             className="object-cover"
-                            priority
+                            preload
                         />
                     </div>
                 )}
 
                 {/* Body */}
                 <div className="mt-10 md:mt-12">
-                    <div className="prose prose-slate mx-auto max-w-3xl prose-headings:font-bold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600 prose-strong:text-slate-900 prose-a:text-primary prose-a:underline prose-a:underline-offset-2 md:prose-lg">
+                    <div className="prose mx-auto max-w-[68ch] prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-[1.75rem] prose-h3:mt-8 prose-h3:text-[1.375rem] prose-p:text-[#424245] prose-p:leading-[1.7] prose-li:text-[#424245] prose-strong:text-foreground prose-a:text-primary prose-a:underline-offset-2 prose-blockquote:border-l-foreground/20 prose-blockquote:text-foreground md:prose-lg">
                         {Array.isArray(post.body) && (
                             <PortableText
                                 value={post.body}
@@ -166,49 +154,39 @@ export default async function PostPage({
                 </div>
 
                 {/* Back link */}
-                <div className="mx-auto mt-12 max-w-3xl border-t border-slate-100 pt-6">
+                <div className="mx-auto mt-12 max-w-[68ch] border-t border-border pt-6">
                     <Link
                         href="/blogs"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                        className="inline-flex items-center gap-1.5 text-[1.0625rem] text-primary hover:underline"
                     >
-                        <ArrowLeft className="h-4 w-4" /> Back to all articles
+                        <ArrowLeft className="h-4 w-4" aria-hidden /> All articles
                     </Link>
                 </div>
             </article>
 
             {/* Related posts */}
             {related.length > 0 && (
-                <Section
-                    title="More from the blog"
-                    titleClassName="text-xl md:text-2xl font-semibold tracking-tight text-slate-900"
-                    className="mx-auto w-full max-w-5xl"
-                >
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <section aria-labelledby="more-title" className="border-t border-border pt-14">
+                    <h2 id="more-title" className="text-headline">More from the journal.</h2>
+                    <ul className="mt-10 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
                         {related.map((p) => (
-                            <BlogPostCard key={p._id} post={p} />
+                            <li key={p._id}>
+                                <BlogPostCard post={p} />
+                            </li>
                         ))}
-                    </div>
-                </Section>
+                    </ul>
+                </section>
             )}
 
             {/* Closing CTA */}
-            <section className="mx-auto flex w-full max-w-5xl flex-col items-start justify-between gap-4 rounded-3xl border border-slate-100 bg-slate-50/60 px-6 py-8 md:flex-row md:items-center md:px-10">
+            <section className="flex flex-col items-start justify-between gap-6 rounded-[2rem] bg-muted px-7 py-10 md:flex-row md:items-center md:px-12">
                 <div>
-                    <h2 className="text-lg font-bold text-slate-900 md:text-xl">
-                        Specifying trims for an upcoming range?
-                    </h2>
-                    <p className="mt-1 text-sm text-slate-500">
-                        Our team helps brands turn a design into a buildable, compliant
-                        trims spec.
+                    <h2 className="text-title">Specifying trims for an upcoming range?</h2>
+                    <p className="mt-2 text-[1.0625rem] text-muted-foreground">
+                        Our team helps brands turn a design into a buildable, compliant trims spec.
                     </p>
                 </div>
-                <Link
-                    href="/contact-us"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-                >
-                    Get in touch
-                    <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <QuoteModalButton size="lg" text="Request a quote" />
             </section>
 
             {/* Mobile-only breadcrumbs near footer (matches contact page pattern) */}
@@ -221,6 +199,6 @@ export default async function PostPage({
                     ]}
                 />
             </div>
-        </Section>
+        </div>
     );
 }
