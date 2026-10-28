@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T12:00:00Z",
+  "title": "Design System: Metro Metal",
+  "extensions": {
+    "colorMeta": {
+      "gallery-white": {
+        "role": "neutral",
+        "displayName": "Gallery White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(62% 0 0)",
+          "oklch(74% 0 0)",
+          "oklch(85% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "aluminium": {
+        "role": "neutral",
+        "displayName": "Aluminium",
+        "canonical": "#f5f5f7",
+        "tonalRamp": [
+          "oklch(15% 0.003 286)",
+          "oklch(26% 0.003 286)",
+          "oklch(38% 0.003 286)",
+          "oklch(50% 0.003 286)",
+          "oklch(62% 0.003 286)",
+          "oklch(74% 0.003 286)",
+          "oklch(85% 0.003 286)",
+          "oklch(95% 0.003 286)"
+        ]
+      },
+      "aluminium-pressed": {
+        "role": "neutral",
+        "displayName": "Pressed Aluminium",
+        "canonical": "#e8e8ed",
+        "tonalRamp": [
+          "oklch(15% 0.005 286)",
+          "oklch(26% 0.005 286)",
+          "oklch(38% 0.005 286)",
+          "oklch(50% 0.005 286)",
+          "oklch(62% 0.005 286)",
+          "oklch(74% 0.005 286)",
+          "oklch(85% 0.005 286)",
+          "oklch(95% 0.005 286)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1d1d1f",
+        "tonalRamp": [
+          "oklch(15% 0.003 286)",
+          "oklch(26% 0.003 286)",
+          "oklch(38% 0.003 286)",
+          "oklch(50% 0.003 286)",
+          "oklch(62% 0.003 286)",
+          "oklch(74% 0.003 286)",
+          "oklch(85% 0.003 286)",
+          "oklch(95% 0.003 286)"
+        ]
+      },
+      "ink-pressed": {
+        "role": "neutral",
+        "displayName": "Pressed Ink",
+        "canonical": "#3a3a3c",
+        "tonalRamp": [
+          "oklch(15% 0.003 286)",
+          "oklch(26% 0.003 286)",
+          "oklch(38% 0.003 286)",
+          "oklch(50% 0.003 286)",
+          "oklch(62% 0.003 286)",
+          "oklch(74% 0.003 286)",
+          "oklch(85% 0.003 286)",
+          "oklch(95% 0.003 286)"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#6e6e73",
+        "tonalRamp": [
+          "oklch(15% 0.008 286)",
+          "oklch(26% 0.008 286)",
+          "oklch(38% 0.008 286)",
+          "oklch(50% 0.008 286)",
+          "oklch(62% 0.008 286)",
+          "oklch(74% 0.008 286)",
+          "oklch(85% 0.008 286)",
+          "oklch(95% 0.008 286)"
+        ]
+      },
+      "die": {
+        "role": "tertiary",
+        "displayName": "Die",
+        "canonical": "#0b0b0c",
+        "tonalRamp": [
+          "oklch(15% 0.002 286)",
+          "oklch(26% 0.002 286)",
+          "oklch(38% 0.002 286)",
+          "oklch(50% 0.002 286)",
+          "oklch(62% 0.002 286)",
+          "oklch(74% 0.002 286)",
+          "oklch(85% 0.002 286)",
+          "oklch(95% 0.002 286)"
+        ]
+      },
+      "die-foreground": {
+        "role": "tertiary",
+        "displayName": "Die Light",
+        "canonical": "#f5f5f7",
+        "tonalRamp": [
+          "oklch(15% 0.003 286)",
+          "oklch(26% 0.003 286)",
+          "oklch(38% 0.003 286)",
+          "oklch(50% 0.003 286)",
+          "oklch(62% 0.003 286)",
+          "oklch(74% 0.003 286)",
+          "oklch(85% 0.003 286)",
+          "oklch(95% 0.003 286)"
+        ]
+      },
+      "die-muted": {
+        "role": "tertiary",
+        "displayName": "Die Grey",
+        "canonical": "#a1a1a6",
+        "tonalRamp": [
+          "oklch(15% 0.006 286)",
+          "oklch(26% 0.006 286)",
+          "oklch(38% 0.006 286)",
+          "oklch(50% 0.006 286)",
+          "oklch(62% 0.006 286)",
+          "oklch(74% 0.006 286)",
+          "oklch(85% 0.006 286)",
+          "oklch(95% 0.006 286)"
+        ]
+      },
+      "plum": {
+        "role": "primary",
+        "displayName": "Mark Plum",
+        "canonical": "oklch(0.4533 0.1522 326.27)",
+        "tonalRamp": [
+          "oklch(15% 0.1522 326.27)",
+          "oklch(26% 0.1522 326.27)",
+          "oklch(38% 0.1522 326.27)",
+          "oklch(50% 0.1522 326.27)",
+          "oklch(62% 0.1522 326.27)",
+          "oklch(74% 0.1522 326.27)",
+          "oklch(85% 0.1522 326.27)",
+          "oklch(95% 0.1522 326.27)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e3e3e8",
+        "tonalRamp": [
+          "oklch(15% 0.006 286)",
+          "oklch(26% 0.006 286)",
+          "oklch(38% 0.006 286)",
+          "oklch(50% 0.006 286)",
+          "oklch(62% 0.006 286)",
+          "oklch(74% 0.006 286)",
+          "oklch(85% 0.006 286)",
+          "oklch(95% 0.006 286)"
+        ]
+      },
+      "field-stroke": {
+        "role": "neutral",
+        "displayName": "Field Stroke",
+        "canonical": "#d2d2d7",
+        "tonalRamp": [
+          "oklch(15% 0.007 286)",
+          "oklch(26% 0.007 286)",
+          "oklch(38% 0.007 286)",
+          "oklch(50% 0.007 286)",
+          "oklch(62% 0.007 286)",
+          "oklch(74% 0.007 286)",
+          "oklch(85% 0.007 286)",
+          "oklch(95% 0.007 286)"
+        ]
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Destructive",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(15% 0.2 27.325)",
+          "oklch(26% 0.2 27.325)",
+          "oklch(38% 0.2 27.325)",
+          "oklch(50% 0.2 27.325)",
+          "oklch(62% 0.2 27.325)",
+          "oklch(74% 0.2 27.325)",
+          "oklch(85% 0.2 27.325)",
+          "oklch(95% 0.2 27.325)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page H1s, family and type names on their heroes, the 404 statement, the closing die-band statement."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Every section heading, and the statement on a picture-less \"Get to know\" card."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Headings inside a section; type tile, \"Get to know\" card and about-band headings."
+      },
+      "card-title": {
+        "displayName": "Card Title",
+        "purpose": "Product names, process steps, FAQ questions."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The one line under a heading, in Graphite."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy, links, tile lines."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Attribute lines, style counts, figcaptions."
+      },
+      "label-small": {
+        "displayName": "Label Small",
+        "purpose": "Nav links, family strip labels and footer."
+      }
+    },
+    "shadows": [
+      {
+        "name": "deboss",
+        "value": "inset 0 1px 2px rgb(0 0 0 / 0.25)",
+        "purpose": "Every pill on :active, paired with translateY(1px)."
+      },
+      {
+        "name": "object-grounding",
+        "value": "drop-shadow(0 18px 24px rgba(15,15,20,0.14))",
+        "purpose": "filter on transparent cut-out renders wherever they sit (tiles, heroes, cards, product fallbacks); never on containers."
+      },
+      {
+        "name": "focus-die-edge",
+        "value": "outline: 2px solid var(--ring); outline-offset: 3px",
+        "purpose": "Every :focus-visible; Die Light inside .on-die."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 4px rgb(29 29 31 / 0.1)",
+        "purpose": "Input and textarea focus, with ink border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-strike",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The strike and the 700ms image hover scale."
+      },
+      {
+        "name": "strike",
+        "value": "@keyframes strike { from { transform: scale(1.045); filter: blur(6px) } to { transform: scale(1); filter: blur(0) } }",
+        "purpose": "The one authored motion; never starts from opacity 0."
+      },
+      {
+        "name": "strike-on-load",
+        "value": "strike 1.2s var(--ease-strike) both",
+        "purpose": "Opening render of a page only (home hero, family hero render, type hero image); animation: none under prefers-reduced-motion."
+      },
+      {
+        "name": "strike-on-view",
+        "value": "strike linear both; animation-timeline: view(); animation-range: entry 10% cover 45%",
+        "purpose": "Home embossed plate only; gated on @supports (animation-timeline: view()); none under reduced motion."
+      },
+      {
+        "name": "state-transition",
+        "value": "200ms ease-out",
+        "purpose": "Pill colour, shadow and transform feedback; chevron nudge."
+      },
+      {
+        "name": "image-hover",
+        "value": "transform 700ms var(--ease-strike), scale 1.03",
+        "purpose": "Product, family and type tile images on hover; the family strip thumbnail scales 1.06 over 500ms."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "imagery": {
+      "studioRenders": "public/assets/home/*.webp, each with a .webp.json sidecar {prompt, createdAt} recording origin and every grade or crop.",
+      "cutOuts": "public/assets/bento/*.webp transparent (strip thumbnails 320px in public/assets/bento/thumb), served unoptimized, object-contain bottom, object-grounding shadow. Last fallback for every catalog image spot, including placeholder product photos.",
+      "catalogPhotos": "Sanity images cropped square 800x800 fit=crop in an aluminium well; type tiles 4:3; type heroes and Get to know cards square cover; detail gallery 4:3; journal 16:10 or 16:9.",
+      "clientMarks": "Greyscale, 75% opacity, multiply blend, per-mark optical height, no boxes.",
+      "leadSpots": "Type tiles, type heroes and Get to know cards use studio renders, cut-outs, Sanity images set on that type or card, or catalog photos on the LEAD_PHOTOS allowlist (data/families.ts) that are at least 1000px wide (canLead in lib/catalog.ts). Client-marked catalog photos stay in the style grids."
+    }
+  },
+  "components": [
+    {
+      "name": "Quote Pill",
+      "kind": "button",
+      "refersTo": "button-primary-large",
+      "description": "The plum pill; only the quote action wears it. Debosses 1px when pressed.",
+      "html": "<button class=\"ds-pill-plum\">Request a quote</button>",
+      "css": ".ds-pill-plum{display:inline-flex;align-items:center;height:48px;padding:0 28px;border:1px solid transparent;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 1.0625rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-plum:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-pill-plum:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-plum:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Ink Pill",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Non-quote primary action.",
+      "html": "<button class=\"ds-pill-ink\">Browse products</button>",
+      "css": ".ds-pill-ink{display:inline-flex;align-items:center;height:48px;padding:0 28px;border:0;border-radius:9999px;background:var(--foreground,#1d1d1f);color:#fff;font:500 1.0625rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-ink:hover{background:#3a3a3c}.ds-pill-ink:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-ink:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Pill",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Aluminium side action (Email, WhatsApp).",
+      "html": "<button class=\"ds-pill-alu\">Email</button>",
+      "css": ".ds-pill-alu{display:inline-flex;align-items:center;height:40px;padding:0 20px;border:0;border-radius:9999px;background:var(--muted,#f5f5f7);color:var(--foreground,#1d1d1f);font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-alu:hover{background:#e8e8ed}.ds-pill-alu:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-alu:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "More Link",
+      "kind": "custom",
+      "refersTo": "link-more",
+      "description": "Plum 'Label ›' link that pairs with a pill.",
+      "html": "<a class=\"ds-more\" href=\"#\">Explore products<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a>",
+      "css": ".ds-more{display:inline-flex;align-items:center;gap:2px;color:var(--primary,#7f2f82);font:400 1.0625rem/1.47 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;text-decoration:none;text-underline-offset:.22em}.ds-more svg{transition:transform .2s}.ds-more:hover{text-decoration:underline}.ds-more:hover svg{transform:translateX(2px)}.ds-more:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Family Strip",
+      "kind": "nav",
+      "refersTo": "family-strip-item",
+      "description": "Cut-out thumbnails over 13px Graphite labels; the family in view reads in ink at medium weight. Scrolls on phones.",
+      "html": "<nav class=\"ds-strip\"><a href=\"#\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><rect x=\"18\" y=\"8\" width=\"44\" height=\"28\" rx=\"8\" fill=\"none\" stroke=\"#a1a1a6\" stroke-width=\"5\"/></svg></span>Buckles</a><a href=\"#\" aria-current=\"page\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><circle cx=\"40\" cy=\"22\" r=\"17\" fill=\"#c9c9cf\"/></svg></span>Buttons</a><a href=\"#\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><rect x=\"14\" y=\"10\" width=\"52\" height=\"24\" rx=\"4\" fill=\"#b9b9bf\"/></svg></span>Plates</a></nav>",
+      "css": ".ds-strip{display:flex;gap:20px;justify-content:center;overflow-x:auto;scrollbar-width:none;padding:28px 12px 20px;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-strip a{display:flex;flex-direction:column;align-items:center;gap:8px;width:5.75rem;flex:none;font-size:.8125rem;line-height:1.25;color:var(--muted-foreground,#6e6e73);text-decoration:none;transition:color .2s}.ds-strip a:hover,.ds-strip a[aria-current]{color:var(--foreground,#1d1d1f)}.ds-strip a[aria-current]{font-weight:500}.ds-strip-thumb{display:block;width:80px;height:44px;transition:transform .5s cubic-bezier(.16,1,.3,1)}.ds-strip a:hover .ds-strip-thumb{transform:scale(1.06)}.ds-strip a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "48px white field; focus turns the stroke ink with a soft 10% ring.",
+      "html": "<input class=\"ds-field\" placeholder=\"john@company.com\">",
+      "css": ".ds-field{height:48px;width:100%;max-width:360px;padding:0 16px;border:1px solid var(--input,#d2d2d7);border-radius:1.225rem;background:#fff;color:var(--foreground,#1d1d1f);font:400 1.0625rem/1.47 Geist,ui-sans-serif,system-ui,sans-serif;outline:none;transition:border-color .15s,box-shadow .15s}.ds-field::placeholder{color:var(--muted-foreground,#6e6e73)}.ds-field:focus-visible{border-color:var(--foreground,#1d1d1f);box-shadow:0 0 0 4px rgb(29 29 31/.1)}"
+    },
+    {
+      "name": "Global Nav",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Sticky 52px translucent bar with 13px links and a small quote pill.",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-nav-logo\">M</span><ul><li><a href=\"#\" aria-current=\"page\">Products</a></li><li><a href=\"#\">Buckles</a></li><li><a href=\"#\">Buttons</a></li><li><a href=\"#\">About</a></li></ul><button class=\"ds-nav-quote\">Request a quote</button></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:52px;padding:0 32px;background:rgb(255 255 255/.8);backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid rgb(0 0 0/.06);font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-nav-logo{font-weight:700;color:var(--primary,#7f2f82)}.ds-nav ul{display:flex;list-style:none;margin:0;padding:0}.ds-nav a{display:block;padding:0 12px;font-size:.8125rem;color:rgb(29 29 31/.75);text-decoration:none}.ds-nav a:hover,.ds-nav a[aria-current=page]{color:#1d1d1f}.ds-nav a[aria-current=page]{font-weight:500}.ds-nav-quote{height:32px;padding:0 14px;border:0;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 .875rem/1 inherit;cursor:pointer}.ds-nav-quote:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}"
+    },
+    {
+      "name": "Product Tile",
+      "kind": "card",
+      "refersTo": "tile-product-image",
+      "description": "Square aluminium image well, name, one-line attribute list (a wrapping value hides whole) and a plum quote link.",
+      "html": "<article class=\"ds-ptile\"><div class=\"ds-ptile-well\"><svg viewBox=\"0 0 24 24\" width=\"72\" height=\"72\" fill=\"none\" stroke=\"#6e6e73\" stroke-width=\"1.2\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/></svg></div><h3>Prong Button Style 04</h3><p>Brass · Gold finish · 15mm</p><a href=\"#\">Request a quote</a></article>",
+      "css": ".ds-ptile{width:260px;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-ptile-well{aspect-ratio:1;border-radius:2rem;background:var(--muted,#f5f5f7);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform .7s cubic-bezier(.16,1,.3,1)}.ds-ptile:hover .ds-ptile-well svg{transform:scale(1.03)}.ds-ptile h3{margin:16px 4px 0;font-size:1.1875rem;font-weight:600;letter-spacing:-.02em;color:#1d1d1f}.ds-ptile p{margin:4px 4px 0;height:1.4em;overflow:hidden;font-size:.9375rem;line-height:1.4;color:#6e6e73}.ds-ptile a{display:inline-block;margin:12px 4px 0;font-size:.9375rem;color:var(--primary,#7f2f82);text-decoration:none}.ds-ptile a:hover{text-decoration:underline}"
+    },
+    {
+      "name": "Type Tile",
+      "kind": "card",
+      "refersTo": "tile-type",
+      "description": "4:3 image well over the type name, tagline, style count, and Explore plus quote links.",
+      "html": "<article class=\"ds-type\"><div class=\"ds-type-well\"><svg viewBox=\"0 0 120 90\" width=\"60%\"><circle cx=\"60\" cy=\"45\" r=\"26\" fill=\"#c9c9cf\"/><circle cx=\"60\" cy=\"45\" r=\"10\" fill=\"#f5f5f7\"/></svg></div><div class=\"ds-type-body\"><h3>Prong Buttons</h3><p>Pressed on without sewing.</p><p class=\"ds-type-count\">8 styles</p><div class=\"ds-type-links\"><a href=\"#\">Explore<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a><a href=\"#\">Request a quote</a></div></div></article>",
+      "css": ".ds-type{width:340px;display:flex;flex-direction:column;overflow:hidden;border-radius:2rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f}.ds-type-well{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}.ds-type-well svg{transition:transform .7s cubic-bezier(.16,1,.3,1)}.ds-type:hover .ds-type-well svg{transform:scale(1.03)}.ds-type-body{padding:28px 36px 36px}.ds-type h3{margin:0;font-size:clamp(1.375rem,2vw,1.75rem);line-height:1.16;letter-spacing:-.02em;font-weight:600}.ds-type p{margin:8px 0 0;font-size:1.0625rem;color:#6e6e73}.ds-type .ds-type-count{margin-top:12px;font-size:.9375rem}.ds-type-links{display:flex;gap:24px;padding-top:24px}.ds-type-links a{display:inline-flex;align-items:center;gap:2px;font-size:1.0625rem;color:var(--primary,#7f2f82);text-decoration:none}.ds-type-links a:hover{text-decoration:underline}.ds-type-links a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Not in the Catalog Tile",
+      "kind": "card",
+      "refersTo": "tile-made-to-spec",
+      "description": "The aluminium tile every style grid closes on, carrying the quote pill.",
+      "html": "<div class=\"ds-spec\"><h3>Not in the catalog?</h3><p>Send a drawing, tech pack or sample and we'll quote it to your spec.</p><button>Request a quote</button></div>",
+      "css": ".ds-spec{width:300px;aspect-ratio:1;display:flex;flex-direction:column;justify-content:flex-end;padding:32px;border-radius:2rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f}.ds-spec h3{margin:0;font-size:clamp(1.375rem,2vw,1.75rem);line-height:1.16;letter-spacing:-.02em;font-weight:600}.ds-spec p{margin:8px 0 0;max-width:20rem;font-size:.9375rem;color:#6e6e73}.ds-spec button{align-self:flex-start;margin-top:20px;height:40px;padding:0 20px;border:0;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 .9375rem/1 inherit;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-spec button:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-spec button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-spec button:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Die Band",
+      "kind": "custom",
+      "refersTo": "band-die",
+      "description": "The one near-black band: display statement, Die Grey lede, light quote pill.",
+      "html": "<section class=\"ds-die\"><h2>Your mark, in metal.</h2><p>Made across Pakistan, China and Hong Kong.</p><button>Request a quote</button></section>",
+      "css": ".ds-die{padding:72px 32px;text-align:center;background:#0b0b0c;color:#f5f5f7;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-die h2{margin:0;font-size:clamp(2.75rem,6.6vw,6rem);line-height:1.02;letter-spacing:-.035em;font-weight:600}.ds-die p{margin:20px 0 0;font-size:1.25rem;color:#a1a1a6}.ds-die button{margin-top:36px;height:48px;padding:0 28px;border:0;border-radius:9999px;background:#fff;color:#1d1d1f;font:500 1.0625rem/1 inherit;cursor:pointer}.ds-die button:hover{background:#e8e8ed}.ds-die button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-die button:focus-visible{outline:2px solid #f5f5f7;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Die and the Strike",
+    "overview": "Metro Metal's catalog is presented the way a maker presents its finest objects: one piece of hardware per viewport, at studio scale, with one sentence about it. The ground is gallery white and aluminium grey, alternating in full-width bands, broken once per page by a near-black die band where the object is lit from above. Everything else steps back so the metal reads.\n\nThe world's ritual is the die coming down on the mark. It shows up in two places and nowhere else: the strike motion (an image settling from slightly large and soft to exact and sharp) and the pressed state of every pill (a 1px deboss). Focus is the die edge, a 2px ink ring offset 3px. The current item in a wayfinding row (the global nav, the family strip) reads in full ink at medium weight against graphite neighbours; nothing is filled to show selection. There is no decorative motion, no eyebrow label and no icon tile; size alone ranks content.\n\nDensity is low and confident. Sections breathe at 96px on phones and 128px on desktop, headings are large and tight, copy is short, and the one accent, plum, is spent on the quote action and on text links.",
+    "keyCharacteristics": [
+      "White and aluminium bands, one die-black band per page.",
+      "Geist throughout, semibold and tightly tracked at display sizes, 17px body.",
+      "Pills for actions, \"Label ›\" plum links for navigation.",
+      "Borderless rounded tiles on aluminium, with no strokes and no card shadows.",
+      "States are impressions: deboss on press, die-edge ring on focus. The current page reads in full ink at medium weight.",
+      "One authored motion, the strike, always visible from the first frame and removed under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "Plum fills only the quote action and colours only text links. No plum backgrounds, borders, icons or headings. On the die band the quote pill turns light, so plum never sits on black.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Die Rule",
+        "body": "A page gets at most one die-black band, and it carries a lit object. Every element inside it sits under `.on-die`, so the focus ring flips to Die Light.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "No small label sits above a heading. No kicker, no overline, no uppercase tracked tag, and no \"01\". The heading carries the weight, and context goes in the lede below it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Scale-Utility Rule",
+        "body": "Headings use the display, headline, title and lede scale utilities. A new one-off clamp is a defect, not a new step.",
+        "section": "typography"
+      },
+      {
+        "name": "The Impression Rule",
+        "body": "Shadows go inward. The only outward shadow grounds a cut-out object, and it is never put on a container.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Die Edge Rule",
+        "body": "Every focusable element shows a 2px ink outline offset 3px on `:focus-visible`. Inside `.on-die` the outline is Die Light. Fields add their own soft ring on top.",
+        "section": "components"
+      },
+      {
+        "name": "The Cleared Lead Rule",
+        "body": "Lead spots (type tiles, type heroes and \"Get to know\" cards) show only studio renders, cut-outs, images set on that type or card in Sanity, or catalog photos on the `LEAD_PHOTOS` allowlist that are at least 1000px wide. Catalog photos that carry a client's mark never lead. They stay in the style grids.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do let one object own each viewport, at studio scale, on white, aluminium or die.",
+      "Do spend plum only on the quote pill and text links. On the die band, use the light pill.",
+      "Do open sections with the Section Intro and inner pages with the Page Header, using the scale utilities.",
+      "Do express state as impressions: 1px deboss on press and a 2px ink ring offset 3px on focus. Mark the current page with full ink at medium weight.",
+      "Do carry the product name into every quote action that has one.",
+      "Do ship a `.webp.json` provenance sidecar beside every new raster.",
+      "Do crop catalog photos square in an aluminium well with the tile radius.",
+      "Do lead with studio renders or cleared catalog photos only. Client-marked photos stay in the style grids.",
+      "Do close every style grid on the \"Not in the catalog?\" tile."
+    ],
+    "donts": [
+      "Don't put an eyebrow, kicker, overline or numbered tag above a heading.",
+      "Don't add borders or drop shadows to tiles. The only outward shadow grounds a cut-out object.",
+      "Don't add a second authored motion, timed carousels or fade-in reveals. The strike never starts from opacity 0.",
+      "Don't use off-palette greys or reds (Tailwind slate, gray or red scales). Use the named tokens.",
+      "Don't use icon tiles or glyph icons as decoration. Icons appear only as functional chevrons, controls and brand marks (WhatsApp, mail).",
+      "Don't use more than one die band on a page."
+    ]
+  }
+}

@@ -1,53 +1,38 @@
 import ProductCard from "../ProductCard";
-import EmblaCarouselWrapper from "@/components/emblaCarousel/EmblaCarouselWrapper";
-import { ChevronRight } from "lucide-react";
-import Section from "../base/Section";
-import { Button } from "../ui/button";
+import Rail from "../base/Rail";
+import SectionIntro from "../base/SectionIntro";
+import type { ProductSummary } from "@/lib/api";
 
 interface ProductCarouselProps {
-  products: any[];
-  title?: string;
-  eyebrow?: string;
+  products: ProductSummary[];
+  title: string;
+  lede?: string;
   viewAllHref?: string;
+  viewAllLabel?: string;
 }
 
+/** A headed rail of product tiles that snaps tile by tile. */
 const ProductCarousel = ({
   products,
   title,
-  eyebrow,
+  lede,
   viewAllHref,
+  viewAllLabel = "See all products",
 }: ProductCarouselProps) => {
   return (
-    <Section
-      title={title}
-      eyebrow={eyebrow}
-      headerAction={
-        viewAllHref && (
-          <Button
-            variant={"link"}
-            href={viewAllHref}
-            className="font-semibold text-md"
-          >
-            Explore All
-            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-          </Button>
-        )
-      }
-    >
-      <EmblaCarouselWrapper
-        options={{ align: "start", containScroll: "trimSnaps", dragFree: true }}
-        containerClassName="gap-4 md:gap-6"
-        slideClassName="basis-[80%] sm:basis-[45%] lg:basis-[25%]"
-      >
+    <section className="py-24 md:py-32">
+      <SectionIntro
+        className="container-x mb-10 md:mb-14"
+        title={title}
+        lede={lede}
+        action={viewAllHref ? { href: viewAllHref, label: viewAllLabel } : undefined}
+      />
+      <Rail label={title} itemClassName="w-[78%] sm:w-[44%] lg:w-[calc((75rem-2.5rem)/3)]">
         {products.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            categoryPath={`/products/${product.category?.slug?.current || ""}`}
-          />
+          <ProductCard key={product._id} product={product} />
         ))}
-      </EmblaCarouselWrapper>
-    </Section>
+      </Rail>
+    </section>
   );
 };
 

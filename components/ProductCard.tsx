@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/image";
-import ProductContactActions from "@/components/common/ProductContactActions";
+import { QuoteModalButton } from "@/components/QuoteModal";
 
 interface ProductCardProps {
   product: {
@@ -11,107 +11,92 @@ interface ProductCardProps {
     images: any[];
     category: { title: string } | null;
     isFeatured?: boolean;
-    isPopular?: boolean;
     excerpt?: string | null;
     specifications?: { label: string | null; value: string | null }[] | null;
+    /** Pixel width of the lead photo; small ones are placeholders. */
+    leadWidth?: number | null;
   };
-  categoryPath: string;
+  /** Prioritise the image (first tiles above the fold). */
+  priority?: boolean;
+  /** A studio render to show in place of a placeholder photo, such as the family cut-out. */
+  fallback?: { src: string; width: number; height: number };
 }
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export default function ProductCard({
-  product,
-  categoryPath,
-}: ProductCardProps) {
-  const mainImage = product.images?.[0];
-  const imageCount = product.images?.length ?? 0;
+/**
+ * A product shown the way a maker shows an object: borderless tile on the
+ * aluminium ground, the photo filling it, the name underneath, and one quote
+ * action that already knows which product it is about.
+ */
+export default function ProductCard({ product, priority = false, fallback }: ProductCardProps) {
+  const image = product.images?.[0];
+  const placeholder = Boolean(fallback) && product.leadWidth != null && product.leadWidth < 1000;
   const productUrl = `/product/${product.slug.current}`;
 
-  // Up to 3 spec values condensed into one elegant attribute line.
-  const attrLine = (product.specifications ?? [])
+  // Up to three spec values as one quiet attribute line.
+  const attrs = (product.specifications ?? [])
     .filter((s) => s?.value)
     .slice(0, 3)
-    .map((s) => cap(s.value as string))
-    .join("  ·  ");
+    .map((s) => cap(s.value as string));
 
   return (
-    <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
-      {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#f6f3f7]">
-        {mainImage ? (
+    <article className="group relative flex h-full flex-col">
+      <div className="relative aspect-square overflow-hidden rounded-3xl bg-muted">
+        {placeholder && fallback ? (
           <Image
-            src={urlFor(mainImage).width(640).height(480).url()}
+            src={fallback.src}
+            alt=""
+            fill
+            // Hand-made alpha cut-out; the optimiser would flatten it.
+            unoptimized
+            className="object-contain p-6 drop-shadow-[0_18px_24px_rgba(15,15,20,0.14)] transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
+          />
+        ) : image ? (
+          <Image
+            src={urlFor(image).width(800).height(800).fit("crop").url()}
             alt={product.title}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
+            preload={priority}
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 30vw"
+            className="object-cover transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-300">
-            No Image
+          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+            Photo coming soon
           </div>
         )}
-
-        {/* Featured marker */}
         {product.isFeatured && (
-          <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-primary shadow-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
             Featured
           </span>
         )}
-
-        {/* Image-count dots */}
-        {imageCount > 1 && (
-          <div className="absolute bottom-3 right-3 z-10 flex gap-1">
-            {Array.from({ length: Math.min(imageCount, 4) }).map((_, i) => (
-              <span
-                key={i}
-                className={`h-1.5 w-1.5 rounded-full ${
-                  i === 0 ? "bg-primary" : "bg-primary/30"
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* Content */}
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-base font-semibold leading-snug text-slate-900">
-          {/* Overlay link — the whole card clicks through to the product */}
-          <Link href={productUrl} className="after:absolute after:inset-0">
+      <div className="flex flex-1 flex-col px-1 pt-4">
+        <h3 className="text-[1.1875rem] font-semibold leading-snug tracking-[-0.02em]">
+          {/* The title link covers the whole tile; the quote link sits above it. */}
+          <Link href={productUrl} className="after:absolute after:inset-0 after:rounded-3xl">
             {product.title}
           </Link>
         </h3>
-
-        {attrLine && (
-          <p className="mt-2 line-clamp-1 text-[13px] leading-relaxed text-slate-500">
-            {attrLine}
+        {attrs.length > 0 && (
+          // One line only: a value that wraps is hidden whole, separator and all.
+          <p className="mt-1 flex h-[1.4em] flex-wrap gap-x-1.5 overflow-hidden text-[0.9375rem] leading-[1.4] text-muted-foreground">
+            {attrs.map((attr, i) => (
+              <span key={i} className={i ? "before:mr-1.5 before:content-['·']" : undefined}>
+                {attr}
+              </span>
+            ))}
           </p>
         )}
-
-        {/* Grows to push the footer down, but keeps a fixed gap above the
-            divider so it never hugs the title or spec line. */}
-        <div aria-hidden className="min-h-4 flex-1" />
-
-        {/* Footer: category tag (its own link) + contact icons */}
-        <div className="flex items-center justify-between gap-2 border-t border-slate-100 pt-3.5">
-          {product.category?.title ? (
-            <Link
-              href={categoryPath}
-              className="relative z-10 rounded-md bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-600 transition-colors hover:bg-slate-200 hover:text-slate-900"
-            >
-              {product.category.title}
-            </Link>
-          ) : (
-            <span />
-          )}
-
-          <ProductContactActions
-            productTitle={product.title}
-            variant="icons"
-            className="relative z-10"
+        <div className="relative z-10 mt-auto pt-3">
+          <QuoteModalButton
+            product={product.title}
+            variant="link"
+            size="sm"
+            className="h-auto px-0 text-[0.9375rem]"
+            text="Request a quote"
           />
         </div>
       </div>

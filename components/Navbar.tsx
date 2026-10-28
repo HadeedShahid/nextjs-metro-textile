@@ -1,164 +1,100 @@
 "use client";
 
 import * as React from "react";
-import { Menu, Mail } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import Image from "next/image";
-import { CONTACT_EMAIL_HREF } from "@/constants";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { QuoteModalButton } from "./QuoteModal";
 import { cn } from "@/lib/utils";
 
-import Link from "next/link";
-
 interface NavbarProps {
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-  };
-  menu?: Array<{
-    title: string;
-    url: string;
-  }>;
-  /** Overlay variant for the homepage hero — absolute, transparent, on top. */
-  transparent?: boolean;
+  /** Product families from Sanity (top-level categories). */
+  families?: Array<{ title: string; url: string }>;
 }
 
-const QUERY_HREF = `${CONTACT_EMAIL_HREF}?subject=Product Query&body=Hello,%0D%0A%0D%0AI would like to inquire about your products.`;
+const COMPANY_LINKS = [
+  { title: "About", url: "/about-us" },
+  { title: "Journal", url: "/blogs" },
+  { title: "Contact", url: "/contact-us" },
+];
 
-const Navbar = ({
-  logo = {
-    url: "/",
-    src: "/logo.png",
-    alt: "logo",
-  },
-  menu = [{ title: "Products", url: "/products" }],
-  transparent = false,
-}: NavbarProps) => {
-  const isHome = transparent;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const closeMobile = () => setMobileOpen(false);
+/**
+ * Global nav: a thin translucent bar that stays put while the page scrolls
+ * underneath it. The quote action lives in the bar itself on every width, so
+ * it never opens on top of the mobile menu.
+ */
+const Navbar = ({ families = [] }: NavbarProps) => {
+  const pathname = usePathname();
+  const [open, setOpen] = React.useState(false);
+
+  const isActive = (url: string) =>
+    url === "/products" ? pathname === "/products" : pathname?.startsWith(url);
+
+  const links = [{ title: "Products", url: "/products" }, ...families, ...COMPANY_LINKS];
 
   return (
-    <section
-      className={cn(
-        "py-4",
-        isHome && "absolute inset-x-0 top-0 z-50 bg-transparent",
-      )}
-    >
-      <div className={cn(isHome && "main-container")}>
-      {/* ── Desktop ── */}
-      <nav className="hidden justify-between items-center md:flex">
-        <div className="flex gap-10">
-          {/* Logo — slightly larger than before */}
-          <Link href={logo.url} className="flex items-center gap-2">
-            <Image src={logo.src} width={68} height={66} alt={logo.alt} />
-          </Link>
-          <div className="flex items-center gap-6">
-            {menu.map((item) => (
+    <header className="sticky top-0 z-50 h-[var(--nav-h)] border-b border-black/[0.06] bg-white/80 backdrop-blur-xl backdrop-saturate-150">
+      <nav aria-label="Main" className="container-x flex h-full items-center justify-between gap-6">
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Metro Metal home">
+          <Image src="/logo.png" width={68} height={66} alt="" className="h-8 w-auto" preload />
+        </Link>
+
+        <ul className="hidden h-full items-stretch lg:flex">
+          {links.map((item) => (
+            <li key={item.url} className="flex">
               <Link
-                key={item.title}
                 href={item.url}
-                className="font-medium text-foreground hover:text-[#742b76] transition-colors duration-200"
+                aria-current={isActive(item.url) ? "page" : undefined}
+                className={cn(
+                  "flex items-center px-3 text-[0.8125rem] text-foreground/75 transition-colors hover:text-foreground",
+                  "aria-[current=page]:text-foreground aria-[current=page]:font-medium",
+                )}
               >
                 {item.title}
               </Link>
-            ))}
-          </div>
-        </div>
-        {/* On the homepage the hero's own CTAs do the job — no navbar button
-            competing with the hero image. */}
-        {!isHome && (
-          <div className="flex gap-3 items-center">
-            <Button size="lg" href={QUERY_HREF}>
-              <Mail className="h-4 w-4" />
-              Send Query
-            </Button>
-          </div>
-        )}
-      </nav>
+            </li>
+          ))}
+        </ul>
 
-      {/* ── Mobile ── logo LEFT · hamburger RIGHT */}
-      <div className="block md:hidden">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href={logo.url} className="flex items-center">
-            <Image
-              src={logo.src}
-              width={150}
-              height={40}
-              className="h-11 w-auto"
-              alt={logo.alt}
-            />
-          </Link>
+        <div className="flex items-center gap-1.5">
+          <QuoteModalButton size="sm" text="Request a quote" />
 
-          {/* Hamburger */}
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               render={
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className={cn(
-                    isHome && "border-foreground/15 bg-transparent hover:bg-foreground/5",
-                  )}
-                >
-                  <Menu className="size-4" />
-                </Button>
+                <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu" />
               }
-            />
-            <SheetContent side="right" className="overflow-y-auto">
-              <SheetHeader>
-                <SheetTitle>
-                  <Link href={logo.url} className="flex items-center">
-                    <Image
-                      src={logo.src}
-                      width={140}
-                      height={38}
-                      className="h-10 w-auto"
-                      alt={logo.alt}
-                    />
-                  </Link>
-                </SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-6 p-4">
-                <div className="flex flex-col gap-4">
-                  {menu.map((item) => (
+            >
+              <Menu className="size-5" />
+            </SheetTrigger>
+            <SheetContent
+              side="top"
+              className="data-[side=top]:h-dvh overflow-y-auto rounded-none border-0 px-6 pb-10 pt-[calc(var(--nav-h)+1rem)] shadow-none"
+            >
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <ul className="flex flex-col">
+                {links.map((item) => (
+                  <li key={item.url}>
                     <Link
-                      key={item.title}
                       href={item.url}
-                      onClick={closeMobile}
-                      className="text-base font-medium text-foreground hover:text-primary transition-colors"
+                      onClick={() => setOpen(false)}
+                      aria-current={isActive(item.url) ? "page" : undefined}
+                      className="block py-2.5 text-[1.75rem] font-semibold tracking-[-0.025em] text-foreground/85 hover:text-foreground aria-[current=page]:text-foreground"
                     >
                       {item.title}
                     </Link>
-                  ))}
-                </div>
-                {/* Same pair as the hero, so the CTAs read as one system */}
-                <Button href="/products" size="lg" onClick={closeMobile}>
-                  Explore Products
-                </Button>
-                <QuoteModalButton
-                  variant="outline"
-                  size="lg"
-                  className="cta-beam"
-                  text="Get a Quote in 24h"
-                />
-              </div>
+                  </li>
+                ))}
+              </ul>
             </SheetContent>
           </Sheet>
         </div>
-      </div>
-      </div>
-    </section>
+      </nav>
+    </header>
   );
 };
 

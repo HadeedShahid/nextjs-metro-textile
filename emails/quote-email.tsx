@@ -4,11 +4,21 @@ export type QuoteEmailData = {
   name: string;
   email: string;
   requirements: string;
+  /** Product the buyer opened the quote form from, when there was one. */
+  product?: string;
   attachmentNames?: string[];
 };
 
+/** Visitor input goes into HTML, so escape it. */
+const esc = (value: string) =>
+  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
 export function quoteEmailHtml(data: QuoteEmailData): string {
-  const { name, email, requirements, attachmentNames = [] } = data;
+  const name = esc(data.name);
+  const email = esc(data.email);
+  const requirements = esc(data.requirements);
+  const product = data.product ? esc(data.product) : "";
+  const attachmentNames = (data.attachmentNames ?? []).map(esc);
   const firstName = name.split(" ")[0] || name;
   return `
 <!DOCTYPE html>
@@ -48,6 +58,13 @@ export function quoteEmailHtml(data: QuoteEmailData): string {
                   </td>
                 </tr>
 
+                ${product ? `
+                <tr>
+                  <td style="padding-top:24px;">
+                    <p style="margin:0 0 8px;color:#71717a;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;">Product</p>
+                    <p style="margin:0;color:#18181b;font-size:15px;font-weight:600;">${product}</p>
+                  </td>
+                </tr>` : ""}
                 <tr>
                   <td style="padding-top:24px;">
                     <p style="margin:0 0 8px;color:#71717a;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;">Project Requirements</p>

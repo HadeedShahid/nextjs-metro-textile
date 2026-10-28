@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     const name = String(form.get("name") ?? "").trim();
     const email = String(form.get("email") ?? "").trim();
     const requirements = String(form.get("requirements") ?? "").trim();
+    const product = String(form.get("product") ?? "").trim() || undefined;
 
     if (!name || !email || !requirements) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
@@ -65,11 +66,12 @@ export async function POST(req: NextRequest) {
       from: RESEND_FROM_EMAIL,
       to: [FORM_RECIPIENT_EMAIL],
       replyTo: email,
-      subject: `Quote Request: ${name}`,
+      subject: product ? `Quote Request: ${product} (${name})` : `Quote Request: ${name}`,
       html: quoteEmailHtml({
         name,
         email,
         requirements,
+        product,
         attachmentNames: files.map((f) => f.name),
       }),
       attachments: attachments.length > 0 ? attachments : undefined,

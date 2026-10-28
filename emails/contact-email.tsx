@@ -8,8 +8,16 @@ export type ContactEmailData = {
   message: string;
 };
 
+/** Visitor input goes into HTML, so escape it. */
+const esc = (value: string) =>
+  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
 export function contactEmailHtml(data: ContactEmailData): string {
-  const { firstName, lastName, email, company, message } = data;
+  const firstName = esc(data.firstName);
+  const lastName = esc(data.lastName);
+  const email = esc(data.email);
+  const company = data.company ? esc(data.company) : data.company;
+  const message = esc(data.message);
   return `
 <!DOCTYPE html>
 <html lang="en">
