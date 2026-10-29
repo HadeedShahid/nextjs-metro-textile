@@ -56,10 +56,14 @@ export function buildCatalog(categories: Category[], products: ProductSummary[])
     });
   }
 
+  // Two levels only, as the Studio enforces. A category that names itself as
+  // its family still counts as a family, and one filed under a subcategory is
+  // left out, so bad data can never loop the tree.
+  const isFamily = (c: Category) => !c.parent || c.parent._ref === c._id;
   for (const node of nodes.values()) {
-    const parentId = node.category.parent?._ref;
-    const parent = parentId ? nodes.get(parentId) : undefined;
-    if (parent) {
+    if (isFamily(node.category)) continue;
+    const parent = nodes.get(node.category.parent!._ref);
+    if (parent && isFamily(parent.category)) {
       node.parent = parent;
       parent.children.push(node);
     }
@@ -74,7 +78,7 @@ export function buildCatalog(categories: Category[], products: ProductSummary[])
   }
 
   const families = [...nodes.values()]
-    .filter((n) => !n.parent)
+    .filter((n) => isFamily(n.category))
     .sort((a, b) => a.title.localeCompare(b.title));
 
   const finish = (node: CatalogNode, base: string) => {

@@ -16,12 +16,18 @@ colors:
   field-stroke: "#d2d2d7"
   destructive: "oklch(0.577 0.245 27.325)"
 typography:
+  hero:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(2.25rem, 1.2rem + 2.6vw, 3.25rem)"
+    fontWeight: 600
+    lineHeight: 1.04
+    letterSpacing: "-0.025em"
   display:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(1.875rem, 1.5rem + 1.6vw, 2.5rem)"
     fontWeight: 600
-    lineHeight: 1.1
-    letterSpacing: "-0.02em"
+    lineHeight: 1.08
+    letterSpacing: "-0.025em"
   headline:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem)"
@@ -231,7 +237,7 @@ Density is moderate and mobile-first. Sections sit 40px apart on phones and 64px
 
 **Key Characteristics:**
 - White and aluminium bands, one die-black band per page.
-- Geist throughout: a modest mobile-first ramp (display 30 to 40px, body 16px) and one 15px/500 size for every control.
+- Geist throughout: a modest mobile-first ramp (the home hero 36 to 52px, display 30 to 40px, body 16px) and one 15px/500 size for every control. Display sizes run tight (-0.025em) so the semibold reads crisp.
 - Everything in view: grids wrap, nothing scrolls sideways.
 - Pills for actions, plum "Label ›" links for navigation, 40px minimum tap height.
 - Borderless rounded aluminium cards, no strokes and no card shadows.
@@ -243,7 +249,7 @@ Density is moderate and mobile-first. Sections sit 40px apart on phones and 64px
 A near-monochrome studio palette of white, aluminium and ink, with one plum voice and one die-black band.
 
 ### Primary
-- **Mark Plum** (`plum`, renders as #7f2f82): the only accent. Fills the "Request a quote" pill everywhere except the die band, and colours every "Label ›" link, inline and prose link, the "View products ›" line on family cards and the quote link on product and type cards. It also marks the hubs on the presence map, and its 20% tint is the text-selection colour.
+- **Mark Plum** (`plum`, renders as #7f2f82): the only accent. Fills the "Request a quote" pill everywhere except the die band, and colours every "Label ›" link, inline and prose link, and the quote link on product and type cards. It also marks the hubs on the presence map, and its 20% tint is the text-selection colour.
 
 ### Neutral
 - **Gallery White** (`gallery-white`): the default page ground, the navbar, the products panel and menu sheet, field backgrounds, and the light pill on the die band.
@@ -271,7 +277,8 @@ A near-monochrome studio palette of white, aluminium and ink, with one plum voic
 **Character:** One grotesk in all roles, ranked by size and weight alone. Headings are semibold with light negative tracking; body copy is 16px at a comfortable 1.55. Sizes are set mobile first and grow only slightly with the viewport.
 
 ### Hierarchy
-- **Display** (600, 30 to 40px fluid, 1.1): page H1s via the page header, the home hero statement, family and type names on their heroes, the catalog overview H1 and the 404 statement.
+- **Hero** (600, 36 to 52px fluid, 1.04, -0.025em, balanced): the home hero statement only.
+- **Display** (600, 30 to 40px fluid, 1.08, -0.025em, balanced): page H1s via the page header, family and type names on their heroes, the catalog overview H1 and the 404 statement.
 - **Headline** (600, 22 to 28px fluid, 1.2): every section heading through the section intro, the product H1 on the detail page, the closing die-band statement, and the statement on a "Get to know" card with no picture.
 - **Title** (600, 17 to 19px fluid, 1.3): headings inside a section: family, type and "Get to know" card names, the "Not in the catalog?" tile, the overview's per-family headings, "About this piece" and the about-band heading.
 - **Item title** (600, 16px): process step names, made-to-mark captions, FAQ questions, journal card titles from sm, and product names from sm (14px on phones).
@@ -344,8 +351,8 @@ Pills that press like a die.
 ### Navigation
 - **Contact bar:** from 768px, a 36px aluminium strip above the navbar with email, phone and WhatsApp in 13px Graphite with their icons, and "Pakistan · China · Hong Kong" on the right. It scrolls away; the navbar stays.
 - **Navbar:** sticky, 64px, plain white with a hairline beneath. Logo 40px tall on the left. From 1024px every section is named in a row (Home, Products, About, Compliance, Journal, Contact) at 15px/500 in ink at 70%, the current page in full ink, followed by the plum quote pill.
-- **Products panel:** Products is a link plus a chevron button. The panel opens on mouse hover or from the button, spans the bar, and lists each family in five columns: a 96×56px cut-out thumbnail, the family name at 15px semibold, then its types at 14px Graphite. A hairline-topped row ends it with "View all products ›". Escape and focus leaving the item close it.
-- **Below 1024px:** the bar holds the quote pill, a ghost WhatsApp icon button (below 768px) and a ghost menu button. The menu is a full-height top sheet: hairline-divided rows at 16px/500 (Home, Products, then each family indented at 15px, then the company pages), the current one semibold, followed by the contact routes with their icons.
+- **Products panel:** Products is a link plus a chevron button. The panel opens on mouse hover or from the button, spans the bar, and lists each family in five columns: a 96×56px cut-out thumbnail, the family name at 15px semibold, then its types at 14px Graphite. A hairline-topped row ends it with "View all products ›". Escape and focus leaving the item close it. Opening, the opaque panel unrolls down from the bar (a clip-path reveal, 320ms strike ease) with a soft shadow beneath, and its columns rise 6px and fade in 40ms apart; closing is a 150ms fade. Under reduced motion only the columns fade.
+- **Below 1024px:** the bar holds the quote pill, a ghost WhatsApp icon button (below 768px) and a ghost menu button. The menu is a full-height top sheet: hairline-divided rows at 16px/500 (Home, All products, then each family indented at 15px, then the company pages), the current one semibold, followed by the contact routes with their icons. Each row leads with a 36px aluminium circle holding an 18px icon (house, grid, building, shield, book, mail) or, for a family, its cut-out thumbnail, and ends with a graphite chevron.
 - **Footer:** aluminium, 14px Graphite. A logo and tagline, then Products, Company and "Get in touch" (with contact icons). On phones the logo and contact columns span the width and Products sits beside Company; links are 40px tall (32px from md). A hairline-style rule sits above the 13px legal row.
 
 ### Family Strip
@@ -356,7 +363,7 @@ Wayfinding at the top of every family and type page, directly under the navbar.
 
 ### Cards / Containers
 - **Corner Style:** tile radius. **Background:** aluminium, or the photo's sampled backdrop grey. **Shadow Strategy:** none (see Elevation). **Border:** none. **Internal Padding:** 12px, 16px from sm, 20px from md.
-- **Family card:** a 2:1 image well (5:2 from xl) holding the cut-out, contained with the grounding shadow and scaled 4% on hover. Below it the Title-size name, a one-line tagline, and from sm a plum "View products ›" line (or the style count) at the foot. On phones a small graphite chevron sits beside the name instead. The whole card is the link.
+- **Family card:** a 2:1 image well (5:2 from xl) holding the cut-out, inset with room around it (10px on phones, 32px then 40px across from sm and lg) so no object touches the well's edge, with the grounding shadow and a 4% hover scale. Below it the Title-size name with a small graphite chevron, a one-line tagline, and on the catalog overview the style count at 13px. The whole card is the link; there is no separate link line.
 - **Product card:** a square image well with the photo cropped 1:1, scaled 3% on hover over 700ms. Below it the name (14px semibold, 16px from sm), a 13px attribute line of up to three values separated by " · " and clipped to one line so a wrapping value hides whole, and a 40px plum "Request a quote" link that carries the product name. A placeholder lead photo (under 1000px wide) gives way to the family cut-out. The name link covers the card; the quote link sits above it.
 - **Type card:** on phones a compact row, a 112px square picture beside the name, tagline, style count and quote link. From sm a picture-led card with a 16:9 well (4:3 when three or more types), then the text block and, at its foot, "Explore ›" and the quote link. The well holds the type's own Sanity image, else a cleared catalog photo, else the family cut-out.
 - **"Get to know" card:** a 16:9 picture (4:3 from sm) over a Title and a 14px Graphite line. A card with no picture becomes a statement card: a Headline at the top and its line at the foot, at least 10rem tall (14rem from sm).
@@ -369,7 +376,7 @@ A section's opening: a Headline, an optional Lede and an optional plum "Label �
 For inner pages. Breadcrumbs at every width, then a Display H1 capped at 56rem, then a Lede in Graphite, then optional children. Padding is 2rem top and bottom (2.5rem from md).
 
 ### Home Hero
-An aluminium band with the Display statement, a Lede, the large quote pill and "Explore products ›". The render is art-directed: phones get a portrait render cropped wide beneath the copy; from 768px a landscape render sits right at 78% width, tucked up beside the actions, with mask fades on its left and top edges; from 1024px it anchors to the right edge at the band's full height (26rem, 30rem from xl) and the copy sits on clear ground at its left. The render strikes on load.
+An aluminium band with the Hero statement, a Lede, the large quote pill and "Explore products ›". The render is art-directed: phones get a portrait render cropped wide beneath the copy; from 768px a landscape render sits right at 78% width, tucked up beside the actions, with mask fades on its left and top edges; from 1024px it anchors to the right edge at the band's full height (26rem, 30rem from xl) and the copy sits on clear ground at its left. The render strikes on load.
 
 ### Family and Type Heroes
 An aluminium band in two columns from md (1.2:1), 2rem tall padding (2.5rem from md). Left: the Display name, a Lede tagline, the style count at 14px, the large quote pill carrying the family or type, and one "›" link ("See every style" or "All {family}"). Right: the family cut-out with the grounding shadow, or the type's own image cropped 4:3 in a tile-radius well. Either one strikes on load.
@@ -406,7 +413,7 @@ One authored motion: the element scales from 1.045 to 1 and sharpens from a 6px 
 - **On load:** 1.2s, once, on the opening image of a page only: the home hero render and the family and type hero images.
 - **On view:** scroll-driven (`animation-timeline: view()`, range entry 10% to cover 45%), on the embossed plate in the home made-to-mark band only. Browsers without view timelines show the static image.
 - **Reduced motion:** both are removed. The element is visible and sharp from the first frame either way.
-- Other transitions are state feedback at 200ms ease-out, with 500 to 700ms strike-eased image hover scales. No scroll reveals, fades or timed carousels.
+- Other transitions are state feedback at 200ms ease-out, with 500 to 700ms strike-eased image hover scales, and the products panel's unroll (see Navigation). No scroll reveals, fades or timed carousels.
 
 ### Imagery
 - **Studio renders** (home hero, made-to-mark, process, die band, family studio shots) live in `public/assets/home`, each WebP with a `.webp.json` provenance sidecar recording `prompt` and `createdAt`. Wells behind full-bleed photos take the photo's own backdrop grey.

@@ -8,7 +8,7 @@ export interface FamilyCardData {
   tagline?: string | null;
   /** Transparent cut-out of the family. */
   image?: { src: string; width: number; height: number };
-  /** Link line, such as "14 styles". */
+  /** A count line, such as "14 styles". */
   more?: string;
 }
 
@@ -39,9 +39,9 @@ export function FamilyGrid({
 }
 
 /**
- * A family as a compact card: the cut-out in a wide well, its name and one
- * line. The whole card is the link; phones show the arrow beside the name,
- * larger screens add the link line underneath.
+ * A family as a compact card: the cut-out sitting with room around it in a
+ * wide well, then its name and one line. The whole card is the link, marked
+ * by the arrow beside the name.
  */
 export default function FamilyCard({ family }: { family: FamilyCardData }) {
   return (
@@ -54,7 +54,7 @@ export default function FamilyCard({ family }: { family: FamilyCardData }) {
             fill
             // Hand-made alpha cut-outs; the optimiser would flatten them.
             unoptimized
-            className="object-contain px-3 pt-3 drop-shadow-[0_10px_14px_rgba(15,15,20,0.14)] transition-transform duration-500 ease-[var(--ease-strike)] group-hover:scale-[1.04] sm:px-5 sm:pt-4"
+            className="object-contain p-2.5 drop-shadow-[0_8px_12px_rgba(15,15,20,0.12)] transition-transform duration-500 ease-[var(--ease-strike)] group-hover:scale-[1.04] sm:px-8 sm:py-5 lg:px-10 lg:py-6"
           />
         )}
       </div>
@@ -65,14 +65,14 @@ export default function FamilyCard({ family }: { family: FamilyCardData }) {
             className="inline-flex items-center gap-0.5 after:absolute after:inset-0 after:rounded-2xl"
           >
             {family.title}
-            <ChevronRight className="size-4 text-muted-foreground sm:hidden" aria-hidden />
+            <ChevronRight
+              className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+              aria-hidden
+            />
           </Link>
         </h3>
         {family.tagline && <p className="text-meta mt-1 text-muted-foreground sm:text-sm">{family.tagline}</p>}
-        <span className="mt-auto hidden items-center gap-0.5 pt-3 text-[0.9375rem] text-primary group-hover:underline sm:inline-flex">
-          {family.more ?? "View products"}
-          <ChevronRight className="size-4" aria-hidden />
-        </span>
+        {family.more && <p className="text-meta mt-auto pt-2 text-muted-foreground">{family.more}</p>}
       </div>
     </article>
   );

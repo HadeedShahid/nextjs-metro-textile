@@ -201,9 +201,13 @@
       }
     },
     "typographyMeta": {
+      "hero": {
+        "displayName": "Hero",
+        "purpose": "The home hero statement only. 36px on phones to 52px, -0.025em, balanced."
+      },
       "display": {
         "displayName": "Display",
-        "purpose": "Page H1s, the home hero statement, family and type names on their heroes, the catalog overview H1, the 404 statement. 30px on phones to 40px."
+        "purpose": "Page H1s, family and type names on their heroes, the catalog overview H1, the 404 statement. 30px on phones to 40px, -0.025em, balanced."
       },
       "headline": {
         "displayName": "Headline",
