@@ -86,7 +86,7 @@ export default async function PostPage({
     ]);
 
     return (
-        <div className="container-x flex flex-col gap-20 pb-24 pt-10 md:pb-32 md:pt-14">
+        <div className="container-x flex flex-col gap-12 pb-14 pt-8 md:pb-20 md:pt-10">
             <JsonLd data={[blogLd, crumbLd]} />
 
             <article className="mx-auto w-full max-w-4xl">
@@ -102,10 +102,10 @@ export default async function PostPage({
                             ]}
                         />
                     </div>
-                    <h1 className="max-w-[20ch] text-[clamp(2.25rem,4.6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em]">
+                    <h1 className="text-display max-w-[24ch]">
                         {post.title}
                     </h1>
-                    <div className="flex items-center gap-2 text-[0.9375rem] text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <time dateTime={post.publishedAt}>
                             {formatDate(post.publishedAt)}
                         </time>
@@ -116,7 +116,7 @@ export default async function PostPage({
 
                 {/* Banner */}
                 {bannerUrl && (
-                    <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[2rem] bg-muted">
+                    <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-muted">
                         <Image
                             src={bannerUrl}
                             alt={post.title}
@@ -129,8 +129,8 @@ export default async function PostPage({
                 )}
 
                 {/* Body */}
-                <div className="mt-10 md:mt-12">
-                    <div className="prose mx-auto max-w-[68ch] prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-[1.75rem] prose-h3:mt-8 prose-h3:text-[1.375rem] prose-p:text-[#424245] prose-p:leading-[1.7] prose-li:text-[#424245] prose-strong:text-foreground prose-a:text-primary prose-a:underline-offset-2 prose-blockquote:border-l-foreground/20 prose-blockquote:text-foreground md:prose-lg">
+                <div className="mt-8 md:mt-10">
+                    <div className="prose mx-auto max-w-[68ch] prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-headline prose-h3:mt-8 prose-h3:text-title prose-p:text-foreground/85 prose-p:leading-[1.7] prose-li:text-foreground/85 prose-strong:text-foreground prose-a:text-primary prose-a:underline-offset-2 prose-blockquote:border-l-foreground/20 prose-blockquote:text-foreground md:prose-lg">
                         {Array.isArray(post.body) && (
                             <PortableText
                                 value={post.body}
@@ -157,7 +157,7 @@ export default async function PostPage({
                 <div className="mx-auto mt-12 max-w-[68ch] border-t border-border pt-6">
                     <Link
                         href="/blogs"
-                        className="inline-flex items-center gap-1.5 text-[1.0625rem] text-primary hover:underline"
+                        className="inline-flex items-center gap-1.5 text-base text-primary hover:underline"
                     >
                         <ArrowLeft className="h-4 w-4" aria-hidden /> All articles
                     </Link>
@@ -166,9 +166,9 @@ export default async function PostPage({
 
             {/* Related posts */}
             {related.length > 0 && (
-                <section aria-labelledby="more-title" className="border-t border-border pt-14">
+                <section aria-labelledby="more-title" className="border-t border-border pt-10">
                     <h2 id="more-title" className="text-headline">More from the journal.</h2>
-                    <ul className="mt-10 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+                    <ul className="mt-6 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
                         {related.map((p) => (
                             <li key={p._id}>
                                 <BlogPostCard post={p} />
@@ -179,10 +179,10 @@ export default async function PostPage({
             )}
 
             {/* Closing CTA */}
-            <section className="flex flex-col items-start justify-between gap-6 rounded-[2rem] bg-muted px-7 py-10 md:flex-row md:items-center md:px-12">
+            <section className="flex flex-col items-start justify-between gap-5 rounded-2xl bg-muted px-6 py-8 md:flex-row md:items-center md:px-10">
                 <div>
                     <h2 className="text-title">Specifying trims for an upcoming range?</h2>
-                    <p className="mt-2 text-[1.0625rem] text-muted-foreground">
+                    <p className="mt-2 text-base text-muted-foreground">
                         Our team helps brands turn a design into a buildable, compliant trims spec.
                     </p>
                 </div>

@@ -26,10 +26,10 @@ export default function StyleGrid({ title, lede, products, quoteFor, fallback, i
     <section
       id={id}
       aria-labelledby={`${id ?? "styles"}-title`}
-      className={cn("scroll-mt-[var(--nav-h)] py-24 md:py-32", className)}
+      className={cn("scroll-mt-[var(--nav-h)] py-10 md:py-14 lg:py-16", className)}
     >
-      <SectionIntro id={`${id ?? "styles"}-title`} className="container-x mb-10 md:mb-14" title={title} lede={lede} />
-      <ul className="container-x grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      <SectionIntro id={`${id ?? "styles"}-title`} className="container-x mb-5 md:mb-6" title={title} lede={lede} />
+      <ul className="container-x grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-4 lg:grid-cols-4">
         {products.map((product) => (
           <li key={product._id}>
             <ProductCard product={product} fallback={fallback} />
@@ -46,21 +46,20 @@ export default function StyleGrid({ title, lede, products, quoteFor, fallback, i
 /** The catalog's last tile: the piece the buyer has in mind but cannot see here. */
 export function MadeToSpecTile({ quoteFor, compact = false }: { quoteFor: string; compact?: boolean }) {
   return (
-    // Compact tiles span the row on phones, so they only turn square beside four-up product tiles.
+    // Compact tiles span the row on phones, so they only turn square beside four-up product
+    // tiles; there the column sets the size, since a stretched height would widen the square.
     <div
       className={cn(
-        "flex flex-col justify-end rounded-3xl bg-muted p-7 md:p-8",
-        compact ? "lg:aspect-square" : "aspect-square",
+        "flex h-full min-h-40 flex-col justify-end rounded-2xl bg-muted p-3 sm:p-4 md:p-5",
+        compact && "lg:h-auto lg:aspect-square",
       )}
     >
-      <h3 className={cn("font-semibold tracking-[-0.02em]", compact ? "text-[1.1875rem]" : "text-title")}>
-        Not in the catalog?
-      </h3>
-      <p className="mt-2 max-w-[20rem] text-[0.9375rem] text-muted-foreground">
+      <h3 className="text-title">Not in the catalog?</h3>
+      <p className="text-meta mt-1 max-w-[20rem] text-muted-foreground sm:text-sm">
         Send a drawing, tech pack or sample and we&apos;ll quote it to your spec.
       </p>
-      <div className="mt-5">
-        <QuoteModalButton product={quoteFor} size="default" text="Request a quote" />
+      <div className="mt-3">
+        <QuoteModalButton product={quoteFor} size="sm" className="h-10 px-3 sm:px-4" text="Request a quote" />
       </div>
     </div>
   );

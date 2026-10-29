@@ -12,7 +12,7 @@ const HUBS = [
 /** The group's three hubs: a quiet aluminium map and three named columns. */
 export default function Presence({ className }: { className?: string }) {
   return (
-    <section aria-labelledby="presence-title" className={cn("py-24 md:py-32", className)}>
+    <section aria-labelledby="presence-title" className={cn("py-10 md:py-14 lg:py-16", className)}>
       <div className="container-x">
         <SectionIntro
           id="presence-title"
@@ -24,7 +24,7 @@ export default function Presence({ className }: { className?: string }) {
           viewBox={`0 0 ${MAP_VB.w} ${MAP_VB.h}`}
           role="img"
           aria-label="Map of Asia marking Metro hubs in Pakistan, China and Hong Kong"
-          className="mt-12 w-full md:mt-16"
+          className="mx-auto mt-6 w-full max-w-3xl md:mt-8"
         >
           <g>
             {COUNTRY_PATHS.map((d, i) => (
@@ -47,12 +47,12 @@ export default function Presence({ className }: { className?: string }) {
           ))}
         </svg>
 
-        <ul className="mt-10 grid gap-8 border-t border-border pt-8 sm:grid-cols-3">
+        <ul className="mt-8 grid gap-6 border-t border-border pt-6 sm:grid-cols-3">
           {HUBS.map((hub) => (
             <li key={hub.country}>
               <p className="text-title">{hub.country}</p>
-              <p className="mt-1 text-[1.0625rem]">{hub.company}</p>
-              <p className="text-[0.9375rem] text-muted-foreground">{hub.role}</p>
+              <p className="mt-1 text-base">{hub.company}</p>
+              <p className="text-sm text-muted-foreground">{hub.role}</p>
             </li>
           ))}
         </ul>

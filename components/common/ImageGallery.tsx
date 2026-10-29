@@ -38,7 +38,7 @@ export default function ImageGallery({
 
   if (!count) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-[2rem] bg-muted text-muted-foreground">
+      <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-muted text-muted-foreground">
         Photo coming soon
       </div>
     )
@@ -52,7 +52,7 @@ export default function ImageGallery({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-[2rem] bg-muted"
+        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-muted"
         aria-label={`View ${label(active)} full screen`}
       >
         <Image
@@ -63,22 +63,23 @@ export default function ImageGallery({
           sizes="(max-width: 1024px) 100vw, 58vw"
           className="object-cover"
         />
-        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/85 text-foreground opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/85 text-foreground backdrop-blur transition-opacity lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
           <Expand className="size-4" aria-hidden />
         </span>
       </button>
 
       {count > 1 && (
-        <ul className="no-scrollbar mt-4 flex gap-3 overflow-x-auto pb-1" aria-label="Photos">
+        // Thumbnails wrap onto a second row rather than scrolling sideways.
+        <ul className="mt-3 grid grid-cols-5 gap-2 sm:flex sm:flex-wrap sm:gap-3" aria-label="Photos">
           {images.map((image, i) => (
-            <li key={image?._key ?? i} className="shrink-0">
+            <li key={image?._key ?? i}>
               <button
                 type="button"
                 onClick={() => setActive(i)}
                 aria-label={`Show photo ${i + 1}`}
                 aria-current={i === active ? "true" : undefined}
                 className={cn(
-                  "relative block size-[4.5rem] overflow-hidden rounded-2xl bg-muted ring-offset-2 transition md:size-20",
+                  "relative block aspect-square w-full overflow-hidden rounded-xl bg-muted ring-offset-2 transition sm:size-[4.5rem] sm:rounded-2xl md:size-20",
                   i === active ? "ring-2 ring-foreground" : "opacity-70 hover:opacity-100",
                 )}
               >

@@ -1,7 +1,5 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import PageHeader from "@/components/base/PageHeader";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Presence from "@/components/Presence";
 import ClosingBand from "@/components/home/ClosingBand";
 
@@ -50,13 +48,11 @@ export default function CompliancePage() {
       />
 
       <section aria-label="Certifications" className="container-x">
-        <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+        <div className="grid gap-3 md:grid-cols-2 md:gap-4">
           {STANDARDS.map((standard) => (
-            <article key={standard.title} className="rounded-[2rem] bg-muted p-8 md:p-12">
-              <h2 className="text-[clamp(1.75rem,2.6vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em]">
-                {standard.title}
-              </h2>
-              <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+            <article key={standard.title} className="rounded-2xl bg-muted p-5 md:p-6">
+              <h2 className="text-title">{standard.title}</h2>
+              <p className="mt-1.5 max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
                 {standard.body}
               </p>
             </article>
@@ -64,28 +60,17 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      <section aria-labelledby="principles-title" className="on-die mt-24 bg-die text-die-foreground md:mt-32">
-        <div className="relative h-[22rem] md:h-[32rem]">
-          <Image
-            src="/assets/home/die-zipper.webp"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-[70%_50%] opacity-80"
-          />
-          <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-die to-transparent" />
-          <div className="container-x relative flex h-full items-end pb-10 md:pb-14">
-            <h2 id="principles-title" className="text-headline max-w-3xl">
-              Beyond the certificate.
-            </h2>
-          </div>
-        </div>
-        <div className="container-x pb-24 pt-6 md:pb-32">
-          <ul className="grid gap-x-10 gap-y-10 border-t border-white/12 pt-10 md:grid-cols-3">
+      {/* A light band, so the closing band stays the page's one die-black band. */}
+      <section aria-labelledby="principles-title" className="mt-10 bg-muted py-10 md:mt-14 md:py-14 lg:mt-16 lg:py-16">
+        <div className="container-x">
+          <h2 id="principles-title" className="text-headline">
+            Beyond the certificate.
+          </h2>
+          <ul className="mt-5 grid gap-x-10 gap-y-6 md:mt-6 md:grid-cols-3">
             {PRINCIPLES.map((p) => (
               <li key={p.title}>
-                <h3 className="text-[1.3125rem] font-semibold tracking-[-0.02em]">{p.title}</h3>
-                <p className="mt-2 text-[1.0625rem] leading-relaxed text-die-muted">{p.body}</p>
+                <h3 className="text-base font-semibold">{p.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
               </li>
             ))}
           </ul>
@@ -93,10 +78,6 @@ export default function CompliancePage() {
       </section>
 
       <Presence />
-
-      <div className="container-x pb-10 md:hidden">
-        <Breadcrumbs items={CRUMBS} />
-      </div>
 
       <ClosingBand />
     </>

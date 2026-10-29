@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import { QuoteModalButton } from "@/components/QuoteModal";
 import { urlFor } from "@/sanity/image";
 import { leadProduct, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
+import MoreLink from "@/components/base/MoreLink";
 
 /**
  * A type's opening inside its family: the name, one line, the quote action,
@@ -19,43 +18,36 @@ export default function TypeHero({ type }: { type: CatalogNode }) {
 
   return (
     <section aria-labelledby="type-title" className="overflow-hidden bg-muted">
-      <div className="container-x grid items-center gap-10 pb-14 pt-12 md:grid-cols-[1fr_1fr] md:gap-12 md:pb-20 md:pt-16">
+      <div className="container-x grid items-center gap-6 py-8 md:grid-cols-[1.2fr_1fr] md:gap-10 md:py-10">
         <div>
           <h1 id="type-title" className="text-display text-balance">
             {type.title}
           </h1>
-          {type.tagline && <p className="text-lede mt-4 max-w-lg text-muted-foreground">{type.tagline}</p>}
+          {type.tagline && <p className="text-lede mt-3 max-w-lg text-muted-foreground">{type.tagline}</p>}
           {type.products.length > 0 && (
-            <p className="mt-3 text-[0.9375rem] text-muted-foreground">{styleCount(type.products.length)}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{styleCount(type.products.length)}</p>
           )}
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
             <QuoteModalButton product={type.title} size="lg" text="Request a quote" />
             {family && (
-              <Link
-                href={family.href}
-                className="group inline-flex items-center gap-0.5 text-[1.0625rem] text-primary hover:underline"
-              >
-                All {runningName(family.title)}
-                <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-              </Link>
+              <MoreLink href={family.href}>All {runningName(family.title)}</MoreLink>
             )}
           </div>
         </div>
         {own ? (
-          <div className="strike-on-load relative aspect-square overflow-hidden rounded-[2rem]">
+          <div className="strike-on-load relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
-              src={urlFor(own).width(1200).height(1200).fit("crop").url()}
+              src={urlFor(own).width(1000).height(750).fit("crop").url()}
               alt={ownAlt ?? ""}
               fill
               preload
-              sizes="(min-width: 768px) 45vw, 92vw"
+              sizes="(min-width: 768px) 30rem, 92vw"
               className="object-cover"
             />
           </div>
         ) : (
           cutout && (
-            // Runs a little past the column on phones, like the family hero.
-            <div className="strike-on-load mx-[-6%] w-[112%] md:mx-0 md:w-[118%]">
+            <div className="strike-on-load">
               <Image
                 src={cutout.src}
                 alt={cutout.alt}
@@ -64,7 +56,7 @@ export default function TypeHero({ type }: { type: CatalogNode }) {
                 preload
                 // Hand-made alpha cut-out; the optimiser would flatten it.
                 unoptimized
-                className="h-auto w-full drop-shadow-[0_18px_24px_rgba(15,15,20,0.14)]"
+                className="h-auto w-full drop-shadow-[0_12px_18px_rgba(15,15,20,0.14)]"
               />
             </div>
           )

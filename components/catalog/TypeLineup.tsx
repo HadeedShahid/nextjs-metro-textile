@@ -15,17 +15,17 @@ interface TypeLineupProps {
 }
 
 /**
- * The types inside a family as large photo tiles: what each one is, how many
- * styles it holds, and the two ways forward, explore or quote.
+ * The types inside a family as photo tiles, all in one row: what each one is,
+ * how many styles it holds, and the two ways forward, explore or quote.
  */
 export default function TypeLineup({ title, lede, types, className }: TypeLineupProps) {
   return (
-    <section aria-labelledby="types-title" className={cn("py-24 md:py-32", className)}>
-      <SectionIntro id="types-title" className="container-x mb-10 md:mb-14" title={title} lede={lede} />
+    <section aria-labelledby="types-title" className={cn("py-10 md:py-14 lg:py-16", className)}>
+      <SectionIntro id="types-title" className="container-x mb-5 md:mb-6" title={title} lede={lede} />
       <ul
         className={cn(
-          "container-x grid gap-5 md:gap-6",
-          types.length >= 3 ? "md:grid-cols-2 lg:grid-cols-3" : types.length === 2 && "md:grid-cols-2",
+          "container-x grid gap-3 sm:grid-cols-2 md:gap-4",
+          types.length >= 3 && "md:grid-cols-3",
         )}
       >
         {types.map((type) => {
@@ -34,14 +34,20 @@ export default function TypeLineup({ title, lede, types, className }: TypeLineup
           const photo = own ?? leadProduct(type)?.images?.[0];
           const cutout = type.parent?.defaults?.cutout;
           return (
-            <li key={type.id} className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-muted">
-              <div className="relative aspect-[4/3] overflow-hidden">
+            // Phones: a compact row, picture beside the text. From 640px: a picture-led tile.
+            <li key={type.id} className="group relative flex overflow-hidden rounded-2xl bg-muted sm:flex-col">
+              <div
+                className={cn(
+                  "relative aspect-square w-28 shrink-0 overflow-hidden sm:aspect-[16/9] sm:w-auto",
+                  types.length >= 3 && "sm:aspect-[4/3]",
+                )}
+              >
                 {photo ? (
                   <Image
-                    src={urlFor(photo).width(1000).height(750).fit("crop").url()}
+                    src={urlFor(photo).width(800).height(types.length >= 3 ? 600 : 450).fit("crop").url()}
                     alt=""
                     fill
-                    sizes="(min-width: 1024px) 24rem, (min-width: 768px) 46vw, 92vw"
+                    sizes="(min-width: 1024px) 36rem, (min-width: 640px) 46vw, 7rem"
                     className="object-cover transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
                   />
                 ) : (
@@ -52,22 +58,22 @@ export default function TypeLineup({ title, lede, types, className }: TypeLineup
                       fill
                       // Hand-made alpha cut-out; the optimiser would flatten it.
                       unoptimized
-                      className="object-contain px-6 pt-8 drop-shadow-[0_18px_24px_rgba(15,15,20,0.14)] transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
+                      className="object-contain p-2 drop-shadow-[0_10px_14px_rgba(15,15,20,0.14)] transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
                     />
                   )
                 )}
               </div>
-              <div className="flex flex-1 flex-col px-8 pb-8 pt-7 md:px-9 md:pb-9">
+              <div className="flex min-w-0 flex-1 flex-col p-3 pb-0 sm:p-4 sm:pb-2 md:p-5 md:pb-3">
                 <h3 className="text-title">
-                  <Link href={type.href} className="after:absolute after:inset-0 after:rounded-[2rem]">
+                  <Link href={type.href} className="after:absolute after:inset-0 after:rounded-2xl">
                     {type.title}
                   </Link>
                 </h3>
-                {type.tagline && <p className="mt-2 text-[1.0625rem] text-muted-foreground">{type.tagline}</p>}
-                <p className="mt-3 text-[0.9375rem] text-muted-foreground">{styleCount(type.products.length)}</p>
+                {type.tagline && <p className="text-meta mt-0.5 text-muted-foreground sm:mt-1 sm:text-sm">{type.tagline}</p>}
+                <p className="text-meta mt-1 text-muted-foreground sm:mt-1.5 sm:text-sm">{styleCount(type.products.length)}</p>
                 {/* Sits above the tile link but lets clicks through, except on the quote button. */}
-                <div className="pointer-events-none relative z-10 mt-auto flex items-center gap-6 pt-6">
-                  <span className="inline-flex items-center gap-0.5 text-[1.0625rem] text-primary group-hover:underline">
+                <div className="pointer-events-none relative z-10 mt-auto flex items-center gap-5 sm:pt-2">
+                  <span className="hidden items-center gap-0.5 text-sm text-primary group-hover:underline sm:inline-flex">
                     Explore
                     <ChevronRight className="size-4" aria-hidden />
                   </span>
@@ -75,7 +81,7 @@ export default function TypeLineup({ title, lede, types, className }: TypeLineup
                     product={type.title}
                     variant="link"
                     size="sm"
-                    className="pointer-events-auto h-auto px-0 text-[1.0625rem]"
+                    className="pointer-events-auto h-10 px-0 text-sm"
                     text="Request a quote"
                   />
                 </div>

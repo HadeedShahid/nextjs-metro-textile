@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight } from "lucide-react";
 import { fetchAllProducts, fetchAllCategories, type Category, type ProductSummary } from "@/lib/api";
 import { buildCatalog, resolvePath, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
 import JsonLd from "@/components/common/JsonLd";
@@ -10,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import SectionIntro from "@/components/base/SectionIntro";
 import FamilyStrip from "@/components/catalog/FamilyStrip";
 import FamilyHero from "@/components/catalog/FamilyHero";
-import FamilyTile from "@/components/catalog/FamilyTile";
+import { FamilyGrid } from "@/components/catalog/FamilyCard";
 import TypeHero from "@/components/catalog/TypeHero";
 import TypeLineup from "@/components/catalog/TypeLineup";
 import Highlights from "@/components/catalog/Highlights";
@@ -19,6 +17,7 @@ import AboutCategory from "@/components/catalog/AboutCategory";
 import FAQSection from "@/components/FAQSection";
 import ClosingBand from "@/components/home/ClosingBand";
 import { DEFAULT_FAQS } from "@/data/faqs";
+import MoreLink from "@/components/base/MoreLink";
 
 // ---------------------------------------------------------------------------
 // SEO resolver — reads metaTitle / metaDescription / h1 / intro from the
@@ -181,7 +180,7 @@ function FamilyPage({ family, families }: { family: CatalogNode; families: Catal
           types={types}
         />
       )}
-      <Highlights family={family} className={showTypes ? "pt-0 md:pt-0" : undefined} />
+      <Highlights family={family} className={showTypes ? "pt-0 md:pt-0 lg:pt-0" : undefined} />
       <StyleGrid
         id="styles"
         title={`All ${name}.`}
@@ -189,7 +188,7 @@ function FamilyPage({ family, families }: { family: CatalogNode; families: Catal
         products={family.products}
         quoteFor={family.title}
         fallback={family.defaults?.cutout}
-        className="pt-0 md:pt-0"
+        className="pt-0 md:pt-0 lg:pt-0"
       />
       <AboutCategory heading={family.category.h1 ?? `About ${runningName(family.title)}`} intro={family.category.intro} />
       <FAQSection lede={`What buyers ask before ordering ${name}.`} items={FAQS} />
@@ -220,7 +219,7 @@ function TypePage({ type, families }: { type: CatalogNode; families: CatalogNode
         <TypeLineup
           title={`More ${runningName(family.title)}.`}
           types={siblings}
-          className="pt-0 md:pt-0"
+          className="pt-0 md:pt-0 lg:pt-0"
         />
       )}
       <AboutCategory heading={type.category.h1 ?? `About ${runningName(type.title)}`} intro={type.category.intro} />
@@ -232,7 +231,7 @@ function TypePage({ type, families }: { type: CatalogNode; families: CatalogNode
 
 const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
 
-/** /products: every family as a stage-sized tile, then a taste of each one. */
+/** /products: every family in one row of cards, then a taste of each one. */
 function CatalogOverview({
   families,
   total,
@@ -246,48 +245,48 @@ function CatalogOverview({
 
   return (
     <>
-      <header className="container-x pb-12 pt-10 md:pb-16 md:pt-14">
+      <header className="container-x pb-6 pt-8 md:pb-8 md:pt-10">
         <h1 className="text-display">All products.</h1>
-        <p className="text-lede mt-5 max-w-2xl text-muted-foreground">
+        <p className="text-lede mt-3 max-w-2xl text-muted-foreground">
           {familyCount} families and {total} styles, each made in your finish and carrying your mark.
         </p>
       </header>
 
-      <section aria-label="Product families" className="container-x grid gap-5 md:grid-cols-6 md:gap-6">
-        {families.map((family, i) => (
-          <FamilyTile
-            key={family.id}
-            family={family}
-            className={i < 2 ? "md:col-span-3 md:h-[32rem]" : "md:col-span-2 md:h-[28rem]"}
-          />
-        ))}
+      <section aria-label="Product families" className="container-x">
+        <FamilyGrid
+          label="Product families"
+          families={families.map((family) => ({
+            title: family.title,
+            href: family.href,
+            tagline: family.tagline,
+            image: family.defaults?.cutout,
+            more: styleCount(family.products.length),
+          }))}
+          trailing={<MadeToSpecTile quoteFor="Custom hardware" />}
+        />
       </section>
 
-      <section aria-labelledby="by-family-title" className="py-24 md:py-32">
+      <section aria-labelledby="by-family-title" className="py-10 md:py-14 lg:py-16">
         <SectionIntro
           id="by-family-title"
-          className="container-x mb-12 md:mb-16"
+          className="container-x mb-8 md:mb-10"
           title="A first look at each."
           lede="Four styles from every family. Open one to see them all."
         />
-        <div className="container-x flex flex-col gap-20 md:gap-24">
+        <div className="container-x flex flex-col gap-12 md:gap-14">
           {families.map((family) => (
             <section key={family.id} aria-labelledby={`family-${family.slug}`}>
-              <div className="mb-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-border pb-4">
+              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-border pb-3">
                 <h3 id={`family-${family.slug}`} className="text-title">
                   {family.title}
                 </h3>
-                <Link
-                  href={family.href}
-                  className="group inline-flex items-center gap-0.5 text-[1.0625rem] text-primary hover:underline"
-                >
-                  {family.products.length > 1
+                <MoreLink href={family.href}>
+{family.products.length > 1
                     ? `See all ${styleCount(family.products.length)}`
                     : `Explore ${runningName(family.title)}`}
-                  <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-                </Link>
+</MoreLink>
               </div>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
+              <ul className="grid grid-cols-2 gap-x-3 gap-y-8 md:gap-x-4 lg:grid-cols-4">
                 {family.products.slice(0, 4).map((product) => (
                   <li key={product._id}>
                     <ProductCard product={product} fallback={family.defaults?.cutout} />

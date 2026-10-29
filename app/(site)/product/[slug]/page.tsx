@@ -10,7 +10,8 @@ import {
   type Crumb,
 } from "@/lib/structured-data";
 import { PortableText } from "next-sanity";
-import { IconBrandWhatsapp, IconMailFilled } from "@tabler/icons-react";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { Mail, Paperclip } from "lucide-react";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import ImageGallery from "@/components/common/ImageGallery";
 import BlogSection from "@/components/common/BlogSection";
@@ -18,7 +19,7 @@ import RelatedProducts from "@/components/common/RelatedProducts";
 import FAQSection from "@/components/FAQSection";
 import { QuoteModalButton } from "@/components/QuoteModal";
 import { Button } from "@/components/ui/button";
-import { CONTACT_EMAIL, CONTACT_WHATSAPP_NUMBER } from "@/constants";
+import { CONTACT_EMAIL, CONTACT_WHATSAPP_NUMBER, MAX_QUOTE_ATTACHMENTS } from "@/constants";
 import { DEFAULT_FAQS } from "@/data/faqs";
 
 // The questions a buyer has on a product page: minimums, samples, timing.
@@ -178,25 +179,25 @@ export default async function ProductDetailPage({
     <>
       <JsonLd data={[productLd, breadcrumbSchema(jsonLdCrumbs)]} />
 
-      <section className="container-x pb-20 pt-8 md:pb-28 md:pt-12">
+      <section className="container-x pb-14 pt-6 md:pb-16 md:pt-8">
         <Breadcrumbs items={breadcrumbs} />
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+        <div className="mt-5 grid gap-8 md:grid-cols-[1.1fr_1fr] lg:gap-12">
           <ImageGallery images={product.images || []} alt={product.title} />
 
-          <div className="min-w-0 lg:sticky lg:top-[calc(var(--nav-h)+2rem)] lg:self-start">
-            <h1 className="text-[clamp(2.25rem,3.6vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.035em]">
+          <div className="min-w-0 md:sticky md:top-[calc(var(--nav-h)+1.5rem)] md:self-start">
+            <h1 className="text-headline">
               {product.title}
             </h1>
-            <p className="text-lede mt-4 text-muted-foreground">
+            <p className="mt-3 text-base text-muted-foreground">
               Made to order to your spec, in your finish and with your branding.
               Samples come first; bulk follows your sign-off.
             </p>
 
             {specs.length > 0 && (
-              <dl className="mt-8 border-t border-border">
+              <dl className="mt-6 border-t border-border">
                 {specs.map((spec) => (
-                  <div key={spec.label} className="flex justify-between gap-6 border-b border-border py-3.5 text-[0.9375rem]">
+                  <div key={spec.label} className="flex justify-between gap-6 border-b border-border py-2.5 text-sm">
                     <dt className="text-muted-foreground">{spec.label}</dt>
                     <dd className="text-right font-medium">{spec.value}</dd>
                   </div>
@@ -204,23 +205,28 @@ export default async function ProductDetailPage({
               </dl>
             )}
 
-            <div className="mt-8 hidden flex-col gap-3 lg:flex">
+            {/* From 768px the actions sit beside the photos; phones use the bar at the foot. */}
+            <div className="mt-6 hidden flex-col gap-2.5 md:flex">
               <QuoteModalButton product={product.title} size="lg" className="w-full" text="Request a quote" />
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 <Button href={emailHref} variant="secondary" size="lg">
-                  <IconMailFilled aria-hidden /> Email
+                  <Mail aria-hidden /> Email
                 </Button>
                 <Button href={waHref} external variant="secondary" size="lg">
                   <IconBrandWhatsapp aria-hidden /> WhatsApp
                 </Button>
               </div>
             </div>
+            <p className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
+              <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden />
+              Attach drawings, a tech pack or photos to your quote request, up to {MAX_QUOTE_ATTACHMENTS} files.
+            </p>
           </div>
         </div>
 
-        <div className="mt-20 grid gap-10 border-t border-border pt-12 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
+        <div className="mt-12 grid gap-6 border-t border-border pt-8 lg:grid-cols-[1fr_1.35fr] lg:gap-12">
           <h2 className="text-title">About this piece</h2>
-          <div className="prose prose-lg max-w-[65ch] prose-p:text-muted-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-a:text-primary">
+          <div className="prose max-w-[65ch] prose-p:text-muted-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-a:text-primary">
             {product.description ? (
               <PortableText value={product.description} />
             ) : (
@@ -249,7 +255,7 @@ export default async function ProductDetailPage({
       <BlogSection className="bg-muted" />
 
       {/* Phone: the quote action stays within thumb reach. */}
-      <div data-quote-bar className="fixed inset-x-0 bottom-0 z-40 flex gap-3 border-t border-black/[0.06] bg-white/85 px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden">
+      <div data-quote-bar className="fixed inset-x-0 bottom-0 z-40 flex gap-3 border-t border-black/[0.06] bg-white/85 px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl md:hidden">
         <QuoteModalButton product={product.title} size="lg" className="flex-1" text="Request a quote" />
         <Button href={waHref} external variant="secondary" size="icon-lg" aria-label={`Ask about ${product.title} on WhatsApp`}>
           <IconBrandWhatsapp className="size-5" aria-hidden />

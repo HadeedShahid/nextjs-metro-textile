@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import PageHeader from "@/components/base/PageHeader";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
 import LogoRow from "@/components/home/LogoRow";
 import Presence from "@/components/Presence";
 import ClosingBand from "@/components/home/ClosingBand";
@@ -25,7 +24,7 @@ export default function AboutUsPage() {
       />
 
       <div className="container-x">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-muted md:aspect-[21/9]">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted md:aspect-[21/9]">
           <Image
             src="/assets/about-us.jpg"
             alt="A row of production machines on a Metro factory floor"
@@ -37,12 +36,12 @@ export default function AboutUsPage() {
         </div>
       </div>
 
-      <section aria-labelledby="story-title" className="py-24 md:py-32">
-        <div className="container-x grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      <section aria-labelledby="story-title" className="py-10 md:py-14 lg:py-16">
+        <div className="container-x grid gap-4 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <h2 id="story-title" className="text-headline">
             Decades of making the details.
           </h2>
-          <div className="max-w-[62ch] space-y-5 text-[1.1875rem] leading-relaxed text-muted-foreground">
+          <div className="max-w-[62ch] space-y-5 text-base leading-relaxed text-muted-foreground">
             <p>
               Metro Metal is a partner to the global leather and textile industry. We provide
               accessories to the global soft and hard goods industry. Our company is based in
@@ -70,10 +69,6 @@ export default function AboutUsPage() {
       </div>
 
       <Presence />
-
-      <div className="container-x pb-10 md:hidden">
-        <Breadcrumbs items={CRUMBS} />
-      </div>
 
       <ClosingBand />
     </>

@@ -9,6 +9,8 @@ import type { ApiResponse } from "@/lib/network-client";
 export type NavCategory = {
   title: string;
   slug: string;
+  /** Sub-categories that hold at least one product. */
+  types: { title: string; slug: string }[];
 };
 
 export type Category = {
@@ -116,7 +118,11 @@ const CATEGORY_PATH = `"categoryPath": select(
 
 const NAV_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent)] | order(title asc) {
   title,
-  "slug": slug.current
+  "slug": slug.current,
+  "types": *[_type == "category" && parent._ref == ^._id && count(*[_type == "product" && category._ref == ^._id]) > 0] | order(title asc) {
+    title,
+    "slug": slug.current
+  }
 }`;
 
 const ALL_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
