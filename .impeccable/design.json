@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T12:00:00Z",
+  "generatedAt": "2026-10-28T17:05:03+00:00",
   "title": "Design System: Metro Metal",
   "extensions": {
     "colorMeta": {
@@ -203,35 +203,43 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Page H1s, family and type names on their heroes, the 404 statement, the closing die-band statement."
+        "purpose": "Page H1s, the home hero statement, family and type names on their heroes, the catalog overview H1, the 404 statement. 30px on phones to 40px."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Every section heading, and the statement on a picture-less \"Get to know\" card."
+        "purpose": "Every section heading, the product H1, the closing die-band statement, and picture-less \"Get to know\" statements. 22 to 28px."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Headings inside a section; type tile, \"Get to know\" card and about-band headings."
-      },
-      "card-title": {
-        "displayName": "Card Title",
-        "purpose": "Product names, process steps, FAQ questions."
+        "purpose": "Headings inside a section: family, type and \"Get to know\" card names, the \"Not in the catalog?\" tile, per-family overview headings. 17 to 19px."
       },
       "lede": {
         "displayName": "Lede",
-        "purpose": "The one line under a heading, in Graphite."
+        "purpose": "The one line under a heading, in Graphite. 16 to 18px."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running copy, links, tile lines."
+        "purpose": "Running copy, buyer quotes, FAQ answers, menu rows. 16px."
       },
-      "caption": {
-        "displayName": "Caption",
-        "purpose": "Attribute lines, style counts, figcaptions."
+      "item-title": {
+        "displayName": "Item Title",
+        "purpose": "Process steps, made-to-mark captions, FAQ questions, journal and product names from sm (product names 14px on phones)."
       },
-      "label-small": {
-        "displayName": "Label Small",
-        "purpose": "Nav links, family strip labels and footer."
+      "control": {
+        "displayName": "Control",
+        "purpose": "Every button, nav link and \"Label ›\" link. 15px/500."
+      },
+      "field": {
+        "displayName": "Field",
+        "purpose": "Text inside inputs and textareas. 17px."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Card body lines, style counts, spec rows, footer, trust labels, card quote links, the attachment hint. Tailwind text-sm, 14px."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Contact bar, dates, product attribute lines, phone taglines, family strip labels, legal row. 13px."
       }
     },
     "shadows": [
@@ -241,9 +249,14 @@
         "purpose": "Every pill on :active, paired with translateY(1px)."
       },
       {
-        "name": "object-grounding",
-        "value": "drop-shadow(0 18px 24px rgba(15,15,20,0.14))",
-        "purpose": "filter on transparent cut-out renders wherever they sit (tiles, heroes, cards, product fallbacks); never on containers."
+        "name": "object-grounding-card",
+        "value": "drop-shadow(0 10px 14px rgba(15,15,20,0.14))",
+        "purpose": "filter under transparent cut-outs in family, type and product cards; never on containers."
+      },
+      {
+        "name": "object-grounding-hero",
+        "value": "drop-shadow(0 12px 18px rgba(15,15,20,0.14))",
+        "purpose": "filter under the cut-out on family and type heroes."
       },
       {
         "name": "focus-die-edge",
@@ -254,6 +267,11 @@
         "name": "field-focus",
         "value": "0 0 0 4px rgb(29 29 31 / 0.1)",
         "purpose": "Input and textarea focus, with ink border."
+      },
+      {
+        "name": "quote-bar-glass",
+        "value": "background: rgb(255 255 255 / 0.85); backdrop-filter: blur(24px); border-top: 1px solid rgb(0 0 0 / 0.06)",
+        "purpose": "The phone quote bar on product pages, below 768px."
       }
     ],
     "motion": [
@@ -270,22 +288,22 @@
       {
         "name": "strike-on-load",
         "value": "strike 1.2s var(--ease-strike) both",
-        "purpose": "Opening render of a page only (home hero, family hero render, type hero image); animation: none under prefers-reduced-motion."
+        "purpose": "Opening image of a page only (home hero render, family and type hero images); animation: none under prefers-reduced-motion."
       },
       {
         "name": "strike-on-view",
         "value": "strike linear both; animation-timeline: view(); animation-range: entry 10% cover 45%",
-        "purpose": "Home embossed plate only; gated on @supports (animation-timeline: view()); none under reduced motion."
+        "purpose": "The embossed plate in the home made-to-mark band only; gated on @supports (animation-timeline: view()); none under reduced motion."
       },
       {
         "name": "state-transition",
         "value": "200ms ease-out",
-        "purpose": "Pill colour, shadow and transform feedback; chevron nudge."
+        "purpose": "Pill colour, shadow and transform feedback; chevron nudge; products panel chevron rotation."
       },
       {
         "name": "image-hover",
         "value": "transform 700ms var(--ease-strike), scale 1.03",
-        "purpose": "Product, family and type tile images on hover; the family strip thumbnail scales 1.06 over 500ms."
+        "purpose": "Product, type and journal images on hover; family card cut-outs scale 1.04 and strip thumbnails 1.06 over 500ms."
       }
     ],
     "breakpoints": [
@@ -307,11 +325,28 @@
       }
     ],
     "imagery": {
-      "studioRenders": "public/assets/home/*.webp, each with a .webp.json sidecar {prompt, createdAt} recording origin and every grade or crop.",
-      "cutOuts": "public/assets/bento/*.webp transparent (strip thumbnails 320px in public/assets/bento/thumb), served unoptimized, object-contain bottom, object-grounding shadow. Last fallback for every catalog image spot, including placeholder product photos.",
-      "catalogPhotos": "Sanity images cropped square 800x800 fit=crop in an aluminium well; type tiles 4:3; type heroes and Get to know cards square cover; detail gallery 4:3; journal 16:10 or 16:9.",
-      "clientMarks": "Greyscale, 75% opacity, multiply blend, per-mark optical height, no boxes.",
-      "leadSpots": "Type tiles, type heroes and Get to know cards use studio renders, cut-outs, Sanity images set on that type or card, or catalog photos on the LEAD_PHOTOS allowlist (data/families.ts) that are at least 1000px wide (canLead in lib/catalog.ts). Client-marked catalog photos stay in the style grids."
+      "studioRenders": "public/assets/home/*.webp, each with a .webp.json sidecar {prompt, createdAt} recording origin and every grade or crop. Home hero is art-directed: portrait render below 768px, landscape from 768px with left and top mask fades.",
+      "cutOuts": "public/assets/bento/*.webp transparent (small thumbnails in public/assets/bento/thumb for the family strip and products panel), served unoptimized, object-contain, grounding shadow. Last fallback for every catalog image spot, including placeholder product photos.",
+      "catalogPhotos": "Sanity images: square in product cards, 4:3 or 16:9 in type and Get to know cards and the type hero, 4:3 in the detail gallery; journal 16:10.",
+      "clientMarks": "Greyscale, 75% opacity, multiply blend, per-mark optical height, four-column grid on phones and one justified row from lg, no boxes.",
+      "leadSpots": "Type cards, type heroes and Get to know cards use studio renders, cut-outs, Sanity images set on that type or card, or catalog photos on the LEAD_PHOTOS allowlist (data/families.ts) at least 1000px wide. Client-marked catalog photos stay in the style grids."
+    },
+    "icons": {
+      "library": "lucide-react outline, stroke 2 (1.75 inside discs); Tabler only for the WhatsApp brand mark.",
+      "sizes": "16px inline; 14px beside 13px contact-bar text; 18px inside a 36px aluminium disc; 20px beside the 15px WhatsApp link and on the contact page; 24px inside 44px icon buttons.",
+      "usedOn": [
+        "contact routes (contact bar, menu, footer, contact page, product actions, quote bar)",
+        "trust promises",
+        "process steps",
+        "attachment hint"
+      ],
+      "notUsedOn": [
+        "product cards",
+        "family cards",
+        "section headings",
+        "buyer quotes",
+        "FAQ items"
+      ]
     }
   },
   "components": [
@@ -319,100 +354,101 @@
       "name": "Quote Pill",
       "kind": "button",
       "refersTo": "button-primary-large",
-      "description": "The plum pill; only the quote action wears it. Debosses 1px when pressed.",
+      "description": "The plum pill, 44px; only the quote action wears it. Debosses 1px when pressed.",
       "html": "<button class=\"ds-pill-plum\">Request a quote</button>",
-      "css": ".ds-pill-plum{display:inline-flex;align-items:center;height:48px;padding:0 28px;border:1px solid transparent;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 1.0625rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-plum:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-pill-plum:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-plum:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
-    },
-    {
-      "name": "Ink Pill",
-      "kind": "button",
-      "refersTo": "button-ink",
-      "description": "Non-quote primary action.",
-      "html": "<button class=\"ds-pill-ink\">Browse products</button>",
-      "css": ".ds-pill-ink{display:inline-flex;align-items:center;height:48px;padding:0 28px;border:0;border-radius:9999px;background:var(--foreground,#1d1d1f);color:#fff;font:500 1.0625rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-ink:hover{background:#3a3a3c}.ds-pill-ink:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-ink:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+      "css": ".ds-pill-plum{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;height:44px;padding:0 24px;background:var(--primary,#7f2f82);color:#fff}.ds-pill-plum:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-pill-plum:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-plum:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
       "name": "Secondary Pill",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Aluminium side action (Email, WhatsApp).",
-      "html": "<button class=\"ds-pill-alu\">Email</button>",
-      "css": ".ds-pill-alu{display:inline-flex;align-items:center;height:40px;padding:0 20px;border:0;border-radius:9999px;background:var(--muted,#f5f5f7);color:var(--foreground,#1d1d1f);font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-pill-alu:hover{background:#e8e8ed}.ds-pill-alu:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-alu:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+      "description": "Aluminium side action with its icon (Email, WhatsApp).",
+      "html": "<button class=\"ds-pill-alu\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg>Email</button>",
+      "css": ".ds-pill-alu{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;height:44px;padding:0 24px;background:var(--muted,#f5f5f7);color:var(--foreground,#1d1d1f)}.ds-pill-alu:hover{background:#e8e8ed}.ds-pill-alu:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-pill-alu:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
       "name": "More Link",
       "kind": "custom",
       "refersTo": "link-more",
-      "description": "Plum 'Label ›' link that pairs with a pill.",
+      "description": "Plum 15px 'Label ›' link with a 40px tap height.",
       "html": "<a class=\"ds-more\" href=\"#\">Explore products<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a>",
-      "css": ".ds-more{display:inline-flex;align-items:center;gap:2px;color:var(--primary,#7f2f82);font:400 1.0625rem/1.47 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;text-decoration:none;text-underline-offset:.22em}.ds-more svg{transition:transform .2s}.ds-more:hover{text-decoration:underline}.ds-more:hover svg{transform:translateX(2px)}.ds-more:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
-    },
-    {
-      "name": "Family Strip",
-      "kind": "nav",
-      "refersTo": "family-strip-item",
-      "description": "Cut-out thumbnails over 13px Graphite labels; the family in view reads in ink at medium weight. Scrolls on phones.",
-      "html": "<nav class=\"ds-strip\"><a href=\"#\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><rect x=\"18\" y=\"8\" width=\"44\" height=\"28\" rx=\"8\" fill=\"none\" stroke=\"#a1a1a6\" stroke-width=\"5\"/></svg></span>Buckles</a><a href=\"#\" aria-current=\"page\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><circle cx=\"40\" cy=\"22\" r=\"17\" fill=\"#c9c9cf\"/></svg></span>Buttons</a><a href=\"#\"><span class=\"ds-strip-thumb\"><svg viewBox=\"0 0 80 44\" width=\"80\" height=\"44\"><rect x=\"14\" y=\"10\" width=\"52\" height=\"24\" rx=\"4\" fill=\"#b9b9bf\"/></svg></span>Plates</a></nav>",
-      "css": ".ds-strip{display:flex;gap:20px;justify-content:center;overflow-x:auto;scrollbar-width:none;padding:28px 12px 20px;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-strip a{display:flex;flex-direction:column;align-items:center;gap:8px;width:5.75rem;flex:none;font-size:.8125rem;line-height:1.25;color:var(--muted-foreground,#6e6e73);text-decoration:none;transition:color .2s}.ds-strip a:hover,.ds-strip a[aria-current]{color:var(--foreground,#1d1d1f)}.ds-strip a[aria-current]{font-weight:500}.ds-strip-thumb{display:block;width:80px;height:44px;transition:transform .5s cubic-bezier(.16,1,.3,1)}.ds-strip a:hover .ds-strip-thumb{transform:scale(1.06)}.ds-strip a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+      "css": ".ds-more{display:inline-flex;align-items:center;min-height:40px;gap:2px;color:var(--primary,#7f2f82);font:400 .9375rem/1.4 Geist,ui-sans-serif,system-ui,sans-serif;text-decoration:none;text-underline-offset:.22em}.ds-more svg{transition:transform .2s}.ds-more:hover{text-decoration:underline}.ds-more:hover svg{transform:translateX(2px)}.ds-more:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
       "name": "Field",
       "kind": "input",
       "refersTo": "input",
       "description": "48px white field; focus turns the stroke ink with a soft 10% ring.",
-      "html": "<input class=\"ds-field\" placeholder=\"john@company.com\">",
-      "css": ".ds-field{height:48px;width:100%;max-width:360px;padding:0 16px;border:1px solid var(--input,#d2d2d7);border-radius:1.225rem;background:#fff;color:var(--foreground,#1d1d1f);font:400 1.0625rem/1.47 Geist,ui-sans-serif,system-ui,sans-serif;outline:none;transition:border-color .15s,box-shadow .15s}.ds-field::placeholder{color:var(--muted-foreground,#6e6e73)}.ds-field:focus-visible{border-color:var(--foreground,#1d1d1f);box-shadow:0 0 0 4px rgb(29 29 31/.1)}"
+      "html": "<input class=\"ds-field\" placeholder=\"you@company.com\">",
+      "css": ".ds-field{height:48px;width:100%;max-width:360px;padding:0 16px;border:1px solid var(--input,#d2d2d7);border-radius:1.225rem;background:#fff;color:var(--foreground,#1d1d1f);font:400 1.0625rem/1.5 Geist,ui-sans-serif,system-ui,sans-serif;outline:none;transition:border-color .15s,box-shadow .15s}.ds-field::placeholder{color:var(--muted-foreground,#6e6e73)}.ds-field:focus-visible{border-color:var(--foreground,#1d1d1f);box-shadow:0 0 0 4px rgb(29 29 31/.1)}"
     },
     {
       "name": "Global Nav",
       "kind": "nav",
       "refersTo": "nav-bar",
-      "description": "Sticky 52px translucent bar with 13px links and a small quote pill.",
-      "html": "<header class=\"ds-nav\"><span class=\"ds-nav-logo\">M</span><ul><li><a href=\"#\" aria-current=\"page\">Products</a></li><li><a href=\"#\">Buckles</a></li><li><a href=\"#\">Buttons</a></li><li><a href=\"#\">About</a></li></ul><button class=\"ds-nav-quote\">Request a quote</button></header>",
-      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:52px;padding:0 32px;background:rgb(255 255 255/.8);backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid rgb(0 0 0/.06);font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-nav-logo{font-weight:700;color:var(--primary,#7f2f82)}.ds-nav ul{display:flex;list-style:none;margin:0;padding:0}.ds-nav a{display:block;padding:0 12px;font-size:.8125rem;color:rgb(29 29 31/.75);text-decoration:none}.ds-nav a:hover,.ds-nav a[aria-current=page]{color:#1d1d1f}.ds-nav a[aria-current=page]{font-weight:500}.ds-nav-quote{height:32px;padding:0 14px;border:0;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 .875rem/1 inherit;cursor:pointer}.ds-nav-quote:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}"
+      "description": "36px aluminium contact bar over a plain white sticky 64px navbar naming every section at 15px/500, with a Products chevron and the plum quote pill.",
+      "html": "<div class=\"ds-cbar\"><a href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg>shahid@metro-metal.com</a><a href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z\"/></svg>+92 301 8474268</a></div><header class=\"ds-nav\"><span class=\"ds-nav-logo\">MM</span><ul><li><a href=\"#\">Home</a></li><li><a href=\"#\" aria-current=\"page\">Products</a><button aria-label=\"Show product families\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></button></li><li><a href=\"#\">About</a></li><li><a href=\"#\">Compliance</a></li><li><a href=\"#\">Journal</a></li><li><a href=\"#\">Contact</a></li></ul><button class=\"ds-nav-quote\">Request a quote</button></header>",
+      "css": ".ds-cbar{display:flex;gap:24px;align-items:center;height:36px;padding:0 32px;background:var(--muted,#f5f5f7);color:var(--muted-foreground,#6e6e73);font:400 .8125rem/1.4 Geist,ui-sans-serif,system-ui,sans-serif}.ds-cbar a{display:inline-flex;align-items:center;gap:6px;color:inherit;text-decoration:none}.ds-cbar a:hover{color:#1d1d1f;text-decoration:underline}.ds-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:64px;padding:0 32px;background:#fff;border-bottom:1px solid var(--border,#e3e3e8);font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-nav-logo{font-weight:700;color:var(--foreground,#1d1d1f)}.ds-nav ul{display:flex;align-items:stretch;height:100%;list-style:none;margin:0;padding:0}.ds-nav li{display:flex;align-items:center}.ds-nav a{display:flex;align-items:center;height:100%;padding:0 12px;font-size:.9375rem;font-weight:500;color:rgb(29 29 31/.7);text-decoration:none;transition:color .2s}.ds-nav a:hover,.ds-nav a[aria-current=page]{color:#1d1d1f}.ds-nav li button{display:flex;align-items:center;justify-content:center;width:36px;height:100%;border:0;background:none;color:rgb(29 29 31/.7);cursor:pointer}.ds-nav-quote{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;height:40px;padding:0 20px;background:var(--primary,#7f2f82);color:#fff}.ds-nav-quote:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-nav a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}.ds-nav-quote:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
-      "name": "Product Tile",
-      "kind": "card",
-      "refersTo": "tile-product-image",
-      "description": "Square aluminium image well, name, one-line attribute list (a wrapping value hides whole) and a plum quote link.",
-      "html": "<article class=\"ds-ptile\"><div class=\"ds-ptile-well\"><svg viewBox=\"0 0 24 24\" width=\"72\" height=\"72\" fill=\"none\" stroke=\"#6e6e73\" stroke-width=\"1.2\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/></svg></div><h3>Prong Button Style 04</h3><p>Brass · Gold finish · 15mm</p><a href=\"#\">Request a quote</a></article>",
-      "css": ".ds-ptile{width:260px;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-ptile-well{aspect-ratio:1;border-radius:2rem;background:var(--muted,#f5f5f7);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform .7s cubic-bezier(.16,1,.3,1)}.ds-ptile:hover .ds-ptile-well svg{transform:scale(1.03)}.ds-ptile h3{margin:16px 4px 0;font-size:1.1875rem;font-weight:600;letter-spacing:-.02em;color:#1d1d1f}.ds-ptile p{margin:4px 4px 0;height:1.4em;overflow:hidden;font-size:.9375rem;line-height:1.4;color:#6e6e73}.ds-ptile a{display:inline-block;margin:12px 4px 0;font-size:.9375rem;color:var(--primary,#7f2f82);text-decoration:none}.ds-ptile a:hover{text-decoration:underline}"
+      "name": "Trust Promise",
+      "kind": "custom",
+      "refersTo": "icon-disc",
+      "description": "An 18px outline icon in a 36px aluminium disc beside a 14px/500 label; also the process-step marker.",
+      "html": "<div class=\"ds-trust\"><span class=\"ds-disc\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 22h14\"/><path d=\"M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z\"/><path d=\"M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13\"/></svg></span><span>Your logo, your finish</span></div>",
+      "css": ".ds-trust{display:flex;align-items:center;gap:10px;font:500 .875rem/1.375 Geist,ui-sans-serif,system-ui,sans-serif;color:var(--foreground,#1d1d1f)}.ds-disc{display:flex;flex:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9999px;background:var(--muted,#f5f5f7)}"
     },
     {
-      "name": "Type Tile",
+      "name": "Family Card",
       "kind": "card",
-      "refersTo": "tile-type",
-      "description": "4:3 image well over the type name, tagline, style count, and Explore plus quote links.",
-      "html": "<article class=\"ds-type\"><div class=\"ds-type-well\"><svg viewBox=\"0 0 120 90\" width=\"60%\"><circle cx=\"60\" cy=\"45\" r=\"26\" fill=\"#c9c9cf\"/><circle cx=\"60\" cy=\"45\" r=\"10\" fill=\"#f5f5f7\"/></svg></div><div class=\"ds-type-body\"><h3>Prong Buttons</h3><p>Pressed on without sewing.</p><p class=\"ds-type-count\">8 styles</p><div class=\"ds-type-links\"><a href=\"#\">Explore<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a><a href=\"#\">Request a quote</a></div></div></article>",
-      "css": ".ds-type{width:340px;display:flex;flex-direction:column;overflow:hidden;border-radius:2rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f}.ds-type-well{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}.ds-type-well svg{transition:transform .7s cubic-bezier(.16,1,.3,1)}.ds-type:hover .ds-type-well svg{transform:scale(1.03)}.ds-type-body{padding:28px 36px 36px}.ds-type h3{margin:0;font-size:clamp(1.375rem,2vw,1.75rem);line-height:1.16;letter-spacing:-.02em;font-weight:600}.ds-type p{margin:8px 0 0;font-size:1.0625rem;color:#6e6e73}.ds-type .ds-type-count{margin-top:12px;font-size:.9375rem}.ds-type-links{display:flex;gap:24px;padding-top:24px}.ds-type-links a{display:inline-flex;align-items:center;gap:2px;font-size:1.0625rem;color:var(--primary,#7f2f82);text-decoration:none}.ds-type-links a:hover{text-decoration:underline}.ds-type-links a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+      "refersTo": "card-family",
+      "description": "Aluminium card: cut-out in a 2:1 well, Title name, one tagline line, plum 'View products ›' at the foot.",
+      "html": "<article class=\"ds-fam\"><div class=\"ds-fam-well\"><svg viewBox=\"0 0 120 60\" width=\"70%\" aria-hidden=\"true\"><rect x=\"22\" y=\"14\" width=\"76\" height=\"34\" rx=\"10\" fill=\"none\" stroke=\"#a1a1a6\" stroke-width=\"7\"/></svg></div><div class=\"ds-fam-body\"><h3>Buckles</h3><p>Roller, prong and box buckles in metal.</p><span>View products<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></span></div></article>",
+      "css": ".ds-fam{width:280px;display:flex;flex-direction:column;overflow:hidden;border-radius:1.575rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f;cursor:pointer}.ds-fam-well{aspect-ratio:2/1;display:flex;align-items:flex-end;justify-content:center;padding:16px 20px 0}.ds-fam-well svg{filter:drop-shadow(0 10px 14px rgba(15,15,20,.14));transition:transform .5s cubic-bezier(.16,1,.3,1)}.ds-fam:hover .ds-fam-well svg{transform:scale(1.04)}.ds-fam-body{padding:12px 16px 16px}.ds-fam h3{margin:0;font-size:clamp(1.0625rem,1rem + .25vw,1.1875rem);line-height:1.3;letter-spacing:-.01em;font-weight:600}.ds-fam p{margin:4px 0 0;font-size:.875rem;color:#6e6e73}.ds-fam span{display:inline-flex;align-items:center;gap:2px;padding-top:12px;font-size:.9375rem;color:var(--primary,#7f2f82)}.ds-fam:hover span{text-decoration:underline}"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card-product-image",
+      "description": "Square aluminium image well, 14 to 16px semibold name, 13px one-line attribute list, and a 40px plum quote link.",
+      "html": "<article class=\"ds-ptile\"><div class=\"ds-ptile-well\"><svg viewBox=\"0 0 24 24\" width=\"72\" height=\"72\" fill=\"none\" stroke=\"#6e6e73\" stroke-width=\"1.2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/></svg></div><h3>Prong Button Style 04</h3><p>Brass · Gold finish · 15mm</p><a href=\"#\">Request a quote</a></article>",
+      "css": ".ds-ptile{width:220px;display:flex;flex-direction:column;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-ptile-well{aspect-ratio:1;border-radius:1.575rem;background:var(--muted,#f5f5f7);display:flex;align-items:center;justify-content:center;overflow:hidden}.ds-ptile-well svg{transition:transform .7s cubic-bezier(.16,1,.3,1)}.ds-ptile:hover .ds-ptile-well svg{transform:scale(1.03)}.ds-ptile h3{margin:10px 2px 0;font-size:1rem;line-height:1.375;font-weight:600;color:#1d1d1f}.ds-ptile p{margin:2px 2px 0;height:1.4em;overflow:hidden;font-size:.8125rem;line-height:1.4;color:#6e6e73}.ds-ptile a{display:inline-flex;align-items:center;height:40px;margin:0 2px;font-size:.875rem;font-weight:500;color:var(--primary,#7f2f82);text-decoration:none}.ds-ptile a:hover{text-decoration:underline}.ds-ptile a:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
       "name": "Not in the Catalog Tile",
       "kind": "card",
       "refersTo": "tile-made-to-spec",
-      "description": "The aluminium tile every style grid closes on, carrying the quote pill.",
+      "description": "The aluminium tile every style and family grid closes on, carrying a 40px quote pill.",
       "html": "<div class=\"ds-spec\"><h3>Not in the catalog?</h3><p>Send a drawing, tech pack or sample and we'll quote it to your spec.</p><button>Request a quote</button></div>",
-      "css": ".ds-spec{width:300px;aspect-ratio:1;display:flex;flex-direction:column;justify-content:flex-end;padding:32px;border-radius:2rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f}.ds-spec h3{margin:0;font-size:clamp(1.375rem,2vw,1.75rem);line-height:1.16;letter-spacing:-.02em;font-weight:600}.ds-spec p{margin:8px 0 0;max-width:20rem;font-size:.9375rem;color:#6e6e73}.ds-spec button{align-self:flex-start;margin-top:20px;height:40px;padding:0 20px;border:0;border-radius:9999px;background:var(--primary,#7f2f82);color:#fff;font:500 .9375rem/1 inherit;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}.ds-spec button:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-spec button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-spec button:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+      "css": ".ds-spec{width:240px;min-height:10rem;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;border-radius:1.575rem;background:var(--muted,#f5f5f7);font-family:Geist,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f}.ds-spec h3{margin:0;font-size:clamp(1.0625rem,1rem + .25vw,1.1875rem);line-height:1.3;letter-spacing:-.01em;font-weight:600}.ds-spec p{margin:4px 0 0;max-width:20rem;font-size:.875rem;color:#6e6e73}.ds-spec button{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;align-self:flex-start;margin-top:12px;height:40px;padding:0 16px;background:var(--primary,#7f2f82);color:#fff}.ds-spec button:hover{background:color-mix(in oklab,var(--primary,#7f2f82) 88%,black)}.ds-spec button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-spec button:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
+    },
+    {
+      "name": "Phone Quote Bar",
+      "kind": "custom",
+      "refersTo": "quote-bar",
+      "description": "Below 768px on product pages: translucent white bar fixed to the foot with the quote pill and a 44px WhatsApp icon button.",
+      "html": "<div class=\"ds-qbar\"><button class=\"ds-qbar-quote\">Request a quote</button><button class=\"ds-qbar-wa\" aria-label=\"Ask on WhatsApp\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21\"/><path d=\"M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1\"/></svg></button></div>",
+      "css": ".ds-qbar{display:flex;gap:12px;width:360px;padding:12px 20px;background:rgb(255 255 255/.85);backdrop-filter:blur(24px);border-top:1px solid rgb(0 0 0/.06);font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-qbar-quote{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;flex:1;justify-content:center;height:44px;padding:0 24px;background:var(--primary,#7f2f82);color:#fff}.ds-qbar-wa{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;justify-content:center;width:44px;height:44px;padding:0;background:var(--muted,#f5f5f7);color:#1d1d1f}.ds-qbar-wa:hover{background:#e8e8ed}.ds-qbar button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-qbar button:focus-visible{outline:2px solid var(--ring,#1d1d1f);outline-offset:3px}"
     },
     {
       "name": "Die Band",
       "kind": "custom",
       "refersTo": "band-die",
-      "description": "The one near-black band: display statement, Die Grey lede, light quote pill.",
-      "html": "<section class=\"ds-die\"><h2>Your mark, in metal.</h2><p>Made across Pakistan, China and Hong Kong.</p><button>Request a quote</button></section>",
-      "css": ".ds-die{padding:72px 32px;text-align:center;background:#0b0b0c;color:#f5f5f7;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-die h2{margin:0;font-size:clamp(2.75rem,6.6vw,6rem);line-height:1.02;letter-spacing:-.035em;font-weight:600}.ds-die p{margin:20px 0 0;font-size:1.25rem;color:#a1a1a6}.ds-die button{margin-top:36px;height:48px;padding:0 28px;border:0;border-radius:9999px;background:#fff;color:#1d1d1f;font:500 1.0625rem/1 inherit;cursor:pointer}.ds-die button:hover{background:#e8e8ed}.ds-die button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-die button:focus-visible{outline:2px solid #f5f5f7;outline-offset:3px}"
+      "description": "The one near-black closing band: headline statement, Die Grey lede, light quote pill and a WhatsApp link.",
+      "html": "<section class=\"ds-die\"><h2>Your mark, in metal.</h2><p>Made across Pakistan, China and Hong Kong. Shipped worldwide.</p><div><button>Request a quote</button><a href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21\"/><path d=\"M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1\"/></svg>Message us on WhatsApp</a></div></section>",
+      "css": ".ds-die{padding:48px 20px 64px;text-align:center;background:#0b0b0c;color:#f5f5f7;font-family:Geist,ui-sans-serif,system-ui,sans-serif}.ds-die h2{margin:0;font-size:clamp(1.375rem,1.15rem + .9vw,1.75rem);line-height:1.2;letter-spacing:-.015em;font-weight:600}.ds-die p{margin:12px 0 0;font-size:clamp(1rem,.95rem + .25vw,1.125rem);color:#a1a1a6}.ds-die div{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:center;margin-top:24px}.ds-die button{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:9999px;font:500 .9375rem/1 Geist,ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.01em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out;height:44px;padding:0 24px;background:#fff;color:#1d1d1f}.ds-die button:hover{background:#e8e8ed}.ds-die button:active{transform:translateY(1px);box-shadow:inset 0 1px 2px rgb(0 0 0/.25)}.ds-die a{display:inline-flex;align-items:center;gap:6px;font-size:.9375rem;color:#f5f5f7;text-decoration:none}.ds-die a:hover{text-decoration:underline}.ds-die button:focus-visible,.ds-die a:focus-visible{outline:2px solid #f5f5f7;outline-offset:3px}"
     }
   ],
   "narrative": {
     "northStar": "The Die and the Strike",
-    "overview": "Metro Metal's catalog is presented the way a maker presents its finest objects: one piece of hardware per viewport, at studio scale, with one sentence about it. The ground is gallery white and aluminium grey, alternating in full-width bands, broken once per page by a near-black die band where the object is lit from above. Everything else steps back so the metal reads.\n\nThe world's ritual is the die coming down on the mark. It shows up in two places and nowhere else: the strike motion (an image settling from slightly large and soft to exact and sharp) and the pressed state of every pill (a 1px deboss). Focus is the die edge, a 2px ink ring offset 3px. The current item in a wayfinding row (the global nav, the family strip) reads in full ink at medium weight against graphite neighbours; nothing is filled to show selection. There is no decorative motion, no eyebrow label and no icon tile; size alone ranks content.\n\nDensity is low and confident. Sections breathe at 96px on phones and 128px on desktop, headings are large and tight, copy is short, and the one accent, plum, is spent on the quote action and on text links.",
+    "overview": "Metro Metal's catalog reads like a well-kept trade site: a normal white navbar that names every section, a contact bar above it, and pages that show everything at once in plain grids. The hardware is still the subject. Photographs and cut-out renders sit in soft aluminium wells, copy is short, and type is modest, so a buyer on a phone can take in the whole product range without scrolling sideways or decoding an unusual layout. The ground is gallery white and aluminium grey in full-width bands, closed by one near-black die band where objects are lit from above.\n\nThe world's ritual is still the die coming down on the mark. It shows up in two places: the strike motion (an opening image settling from slightly large and soft to exact and sharp) and the pressed state of every pill (a 1px deboss). Focus is the die edge, a 2px ink ring offset 3px. The current item in a wayfinding row (the nav, the family strip, the menu) reads in full ink against graphite neighbours; nothing is filled to show selection.\n\nDensity is moderate and mobile-first. Sections sit 40px apart on phones and 64px on desktop, cards sit 12 to 16px apart, and touch targets are at least 40px. Icons appear where they speed up scanning: contact routes, trust promises, process steps and the attachment hint. The one accent, plum, is spent on the quote action and on text links.",
     "keyCharacteristics": [
       "White and aluminium bands, one die-black band per page.",
-      "Geist throughout, semibold and tightly tracked at display sizes, 17px body.",
-      "Pills for actions, \"Label ›\" plum links for navigation.",
-      "Borderless rounded tiles on aluminium, with no strokes and no card shadows.",
-      "States are impressions: deboss on press, die-edge ring on focus. The current page reads in full ink at medium weight.",
+      "Geist throughout: a modest mobile-first ramp (display 30 to 40px, body 16px) and one 15px/500 size for every control.",
+      "Everything in view: grids wrap, nothing scrolls sideways.",
+      "Pills for actions, plum \"Label ›\" links for navigation, 40px minimum tap height.",
+      "Borderless rounded aluminium cards, no strokes and no card shadows.",
+      "Outline icons beside contact routes, promises and steps, never on product cards or headings.",
       "One authored motion, the strike, always visible from the first frame and removed under reduced motion."
     ],
     "rules": [
@@ -433,13 +469,33 @@
       },
       {
         "name": "The Scale-Utility Rule",
-        "body": "Headings use the display, headline, title and lede scale utilities. A new one-off clamp is a defect, not a new step.",
+        "body": "Headings use the display, headline, title and lede utilities; small text uses `text-sm` and `text-meta`. A new one-off size or clamp is a defect, not a new step.",
         "section": "typography"
+      },
+      {
+        "name": "The One Control Size Rule",
+        "body": "Buttons, nav links and \"›\" links share one 15px/500 size, so every pressable thing reads as the same kind of thing.",
+        "section": "typography"
+      },
+      {
+        "name": "The All-in-View Rule",
+        "body": "Nothing scrolls sideways. Rows that do not fit wrap into a grid, the family strip becomes five equal cells, and gallery thumbnails wrap to a second line. There are no carousels and no hidden overflow.",
+        "section": "layout"
+      },
+      {
+        "name": "The Thumb Reach Rule",
+        "body": "Every control and quote link is at least 40px tall, and icon buttons, menu rows, strip items and FAQ triggers are 44 to 48px. On a product page below 768px, the quote action lives in a bar fixed to the foot of the screen, and the footer pads itself 5.5rem so the bar never covers it.",
+        "section": "layout"
       },
       {
         "name": "The Impression Rule",
         "body": "Shadows go inward. The only outward shadow grounds a cut-out object, and it is never put on a container.",
         "section": "elevation"
+      },
+      {
+        "name": "The Working Icon Rule",
+        "body": "Icons are lucide-react outlines at stroke 2 (1.75 inside discs); the WhatsApp brand mark comes from Tabler and is the only Tabler icon. They sit beside a label and help a buyer find something faster: contact routes (mail, phone, WhatsApp) in the contact bar, menu, footer, contact page and product actions; the four trust promises; the four process steps; and the attachment hint. Promises and steps set their 18px icon in a 36px aluminium circle. Inline icons are 16px (14px beside 13px contact-bar text, 20px beside the 15px WhatsApp link and on the contact page, 24px inside 44px icon buttons). Product and family cards, section headings, buyer quotes and FAQ items carry no content icons; the chevrons on links, accordions and the products disclosure are controls, not content.",
+        "section": "components"
       },
       {
         "name": "The Die Edge Rule",
@@ -448,28 +504,32 @@
       },
       {
         "name": "The Cleared Lead Rule",
-        "body": "Lead spots (type tiles, type heroes and \"Get to know\" cards) show only studio renders, cut-outs, images set on that type or card in Sanity, or catalog photos on the `LEAD_PHOTOS` allowlist that are at least 1000px wide. Catalog photos that carry a client's mark never lead. They stay in the style grids.",
+        "body": "Lead spots (type cards, type heroes and \"Get to know\" cards) show only studio renders, cut-outs, images set on that type or card in Sanity, or catalog photos on the `LEAD_PHOTOS` allowlist that are at least 1000px wide. Catalog photos that carry a client's mark never lead. They stay in the style grids.",
         "section": "components"
       }
     ],
     "dos": [
-      "Do let one object own each viewport, at studio scale, on white, aluminium or die.",
-      "Do spend plum only on the quote pill and text links. On the die band, use the light pill.",
-      "Do open sections with the Section Intro and inner pages with the Page Header, using the scale utilities.",
-      "Do express state as impressions: 1px deboss on press and a 2px ink ring offset 3px on focus. Mark the current page with full ink at medium weight.",
-      "Do carry the product name into every quote action that has one.",
-      "Do ship a `.webp.json` provenance sidecar beside every new raster.",
-      "Do crop catalog photos square in an aluminium well with the tile radius.",
-      "Do lead with studio renders or cleared catalog photos only. Client-marked photos stay in the style grids.",
-      "Do close every style grid on the \"Not in the catalog?\" tile."
+      "**Do** write layouts for phones first, then widen at sm 640, md 768, lg 1024 and xl 1280.",
+      "**Do** show every item at once in a wrapping grid, 12px apart on phones and 16px from md.",
+      "**Do** space sections at 2.5rem, 3.5rem from md and 4rem from lg, and drop the top padding of a second same-ground section.",
+      "**Do** keep every control and quote link at least 40px tall, and icon buttons 44px.",
+      "**Do** spend plum only on the quote pill and text links. On the die band, use the light pill.",
+      "**Do** open sections with the Section Intro and inner pages with the Page Header, using the scale utilities.",
+      "**Do** put a 16px outline icon beside contact routes, and an 18px icon in a 36px aluminium disc beside promises and steps.",
+      "**Do** express state as impressions: 1px deboss on press and a 2px ink ring offset 3px on focus. Mark the current page with full ink.",
+      "**Do** carry the product name into every quote action that has one.",
+      "**Do** ship a `.webp.json` provenance sidecar beside every new raster.",
+      "**Do** close every style grid and family grid on the \"Not in the catalog?\" tile."
     ],
     "donts": [
-      "Don't put an eyebrow, kicker, overline or numbered tag above a heading.",
-      "Don't add borders or drop shadows to tiles. The only outward shadow grounds a cut-out object.",
-      "Don't add a second authored motion, timed carousels or fade-in reveals. The strike never starts from opacity 0.",
-      "Don't use off-palette greys or reds (Tailwind slate, gray or red scales). Use the named tokens.",
-      "Don't use icon tiles or glyph icons as decoration. Icons appear only as functional chevrons, controls and brand marks (WhatsApp, mail).",
-      "Don't use more than one die band on a page."
+      "**Don't** build rows that scroll sideways, or carousels of any kind.",
+      "**Don't** put an eyebrow, kicker, overline or numbered tag above a heading.",
+      "**Don't** put icons on product or family cards, section headings, buyer quotes or FAQ items.",
+      "**Don't** add borders or drop shadows to cards. The only outward shadow grounds a cut-out object.",
+      "**Don't** add a second authored motion, timed carousels or fade-in reveals. The strike never starts from opacity 0.",
+      "**Don't** use off-palette greys or reds (Tailwind slate, gray or red scales). Use the named tokens.",
+      "**Don't** add one-off type sizes or clamps outside the ramp.",
+      "**Don't** use more than one die band on a page."
     ]
   }
 }

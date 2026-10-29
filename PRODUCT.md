@@ -45,7 +45,13 @@ Metro Metal makes and sources the metal and leather hardware brands put their na
 - The company name is **Metro Metal**. "Metro Textile" in product copy is a legacy name.
 - The group companies were already published on the old site, and the Presence section reuses them: Metro Metal (China), Metro Company (Hong Kong) and Metro Textiles Sourcing (Pakistan).
 - The logo is `public/logo.png`. The established accent is plum (`oklch(0.4533 0.1522 326.27)`, ≈ `#7f2f82`).
-- **Owner's direction:** an Apple-style site, very heavy on imagery and product-led, because Metro Metal sells physical products the way Apple does. This is a binding brief for the visual direction.
+- **Owner's direction:** a clean, imagery-led site, product-led because Metro Metal sells physical products. This is a binding brief for the visual direction.
+- **Owner's revision (2026-10-28):** after seeing the Apple-style build, the owner asked for a simple, conventional site for non-designer buyers, who would expect something closer to a typical business or WordPress site:
+  - Everything is visible up front. There are no horizontal scrolling rows; the product lineup shows all at once.
+  - Type and sections are smaller, and nothing is oversized.
+  - The navbar is a normal one, with every section named and visible.
+
+  The revision keeps the clean look and the focus on imagery, and it overrides the Apple-style scale wherever the two conflict.
 
 ## Evidence on Hand
 

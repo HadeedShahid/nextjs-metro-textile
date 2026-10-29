@@ -1,5 +1,5 @@
 import { fetchRelatedProducts } from "@/lib/api"
-import ProductCarousel from "./ProductCarousel"
+import ProductGrid from "./ProductGrid"
 
 interface RelatedProductsProps {
   categoryId: string
@@ -8,14 +8,14 @@ interface RelatedProductsProps {
   categoryHref: string
 }
 
-/** Other styles from the same category, as a snapping rail. */
+/** Other styles from the same category, as a grid. */
 const RelatedProducts = async ({ categoryId, currentProductId, categoryTitle, categoryHref }: RelatedProductsProps) => {
   const { data: products } = await fetchRelatedProducts(categoryId, currentProductId)
 
   if (!products || products.length === 0) return null
 
   return (
-    <ProductCarousel
+    <ProductGrid
       title={`More ${categoryTitle.toLowerCase()}.`}
       lede="Other styles in this family. Any of them can be made in your finish."
       products={products}

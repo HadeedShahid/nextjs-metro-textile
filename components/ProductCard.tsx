@@ -42,7 +42,7 @@ export default function ProductCard({ product, priority = false, fallback }: Pro
 
   return (
     <article className="group relative flex h-full flex-col">
-      <div className="relative aspect-square overflow-hidden rounded-3xl bg-muted">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted">
         {placeholder && fallback ? (
           <Image
             src={fallback.src}
@@ -50,15 +50,15 @@ export default function ProductCard({ product, priority = false, fallback }: Pro
             fill
             // Hand-made alpha cut-out; the optimiser would flatten it.
             unoptimized
-            className="object-contain p-6 drop-shadow-[0_18px_24px_rgba(15,15,20,0.14)] transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
+            className="object-contain p-4 drop-shadow-[0_10px_14px_rgba(15,15,20,0.14)] transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
           />
         ) : image ? (
           <Image
-            src={urlFor(image).width(800).height(800).fit("crop").url()}
+            src={urlFor(image).width(600).height(600).fit("crop").url()}
             alt={product.title}
             fill
             preload={priority}
-            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 30vw"
+            sizes="(max-width: 768px) 48vw, (max-width: 1024px) 32vw, 18rem"
             className="object-cover transition-transform duration-700 ease-[var(--ease-strike)] group-hover:scale-[1.03]"
           />
         ) : (
@@ -67,22 +67,22 @@ export default function ProductCard({ product, priority = false, fallback }: Pro
           </div>
         )}
         {product.isFeatured && (
-          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium backdrop-blur">
             Featured
           </span>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col px-1 pt-4">
-        <h3 className="text-[1.1875rem] font-semibold leading-snug tracking-[-0.02em]">
+      <div className="flex flex-1 flex-col px-0.5 pt-2.5">
+        <h3 className="text-sm font-semibold leading-snug sm:text-base">
           {/* The title link covers the whole tile; the quote link sits above it. */}
-          <Link href={productUrl} className="after:absolute after:inset-0 after:rounded-3xl">
+          <Link href={productUrl} className="after:absolute after:inset-0 after:rounded-2xl">
             {product.title}
           </Link>
         </h3>
         {attrs.length > 0 && (
           // One line only: a value that wraps is hidden whole, separator and all.
-          <p className="mt-1 flex h-[1.4em] flex-wrap gap-x-1.5 overflow-hidden text-[0.9375rem] leading-[1.4] text-muted-foreground">
+          <p className="text-meta mt-0.5 flex h-[1.4em] flex-wrap gap-x-1.5 overflow-hidden text-muted-foreground">
             {attrs.map((attr, i) => (
               <span key={i} className={i ? "before:mr-1.5 before:content-['·']" : undefined}>
                 {attr}
@@ -90,12 +90,13 @@ export default function ProductCard({ product, priority = false, fallback }: Pro
             ))}
           </p>
         )}
-        <div className="relative z-10 mt-auto pt-3">
+        <div className="relative z-10 mt-auto">
           <QuoteModalButton
             product={product.title}
             variant="link"
             size="sm"
-            className="h-auto px-0 text-[0.9375rem]"
+            // A 40px tall row, so the quote is easy to tap on a phone.
+            className="h-10 px-0 text-sm"
             text="Request a quote"
           />
         </div>

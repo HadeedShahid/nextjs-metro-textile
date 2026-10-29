@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import MoreLink from "./MoreLink";
 import { cn } from "@/lib/utils";
 
 interface SectionIntroProps {
@@ -15,7 +14,7 @@ interface SectionIntroProps {
 }
 
 /**
- * A section's opening: a large statement heading, an optional one-line lede
+ * A section's opening: a statement heading, an optional one-line lede
  * and a quiet "›" link. No eyebrow labels; the heading carries the weight.
  */
 export default function SectionIntro({
@@ -33,7 +32,7 @@ export default function SectionIntro({
     // The outer box takes the caller's layout (often container-x); the inner
     // one caps the measure, so a left-aligned intro stays on the page edge.
     <div className={className}>
-      <div className={cn("flex max-w-3xl flex-col gap-4", centered && "mx-auto items-center text-center")}>
+      <div className={cn("flex max-w-3xl flex-col gap-2", centered && "mx-auto items-center text-center")}>
         <Heading id={id} className="text-headline">
           {title}
         </Heading>
@@ -48,16 +47,9 @@ export default function SectionIntro({
           </p>
         )}
         {action && (
-          <Link
-            href={action.href}
-            className={cn(
-              "group mt-1 inline-flex items-center gap-0.5 text-[1.0625rem] hover:underline",
-              tone === "die" ? "text-die-foreground" : "text-primary",
-            )}
-          >
+          <MoreLink href={action.href} tone={tone} className="-mb-2">
             {action.label}
-            <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </Link>
+          </MoreLink>
         )}
       </div>
     </div>

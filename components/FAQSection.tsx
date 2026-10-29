@@ -28,18 +28,18 @@ export default function FAQSection({
   items = DEFAULT_FAQS,
 }: FAQSectionProps) {
   return (
-    <section className="py-24 md:py-32">
-      <div className="container-x grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-        <div className="lg:sticky lg:top-[calc(var(--nav-h)+3rem)] lg:self-start">
+    <section className="py-10 md:py-14 lg:py-16">
+      <div className="container-x grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)] lg:self-start">
           <h2 className="text-headline">{title}</h2>
-          <p className="text-lede mt-4 text-muted-foreground">{lede}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <p className="text-lede mt-3 text-muted-foreground">{lede}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
             <QuoteModalButton size="lg" text="Request a quote" />
             <Link
               href={CONTACT_WHATSAPP_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[1.0625rem] text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-[0.9375rem] text-primary hover:underline"
             >
               <IconBrandWhatsapp className="size-5" aria-hidden />
               Ask on WhatsApp
@@ -50,10 +50,10 @@ export default function FAQSection({
         <Accordion className="border-t border-border">
           {items.map((faq) => (
             <AccordionItem key={faq.question} value={faq.question} className="border-b border-border">
-              <AccordionTrigger className="py-6 text-[1.1875rem] font-semibold leading-snug tracking-[-0.02em] hover:no-underline md:text-[1.3125rem] **:data-[slot=accordion-trigger-icon]:mt-1 **:data-[slot=accordion-trigger-icon]:size-5">
+              <AccordionTrigger className="min-h-12 py-3.5 text-base font-semibold leading-snug [text-wrap:pretty] hover:no-underline **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="max-w-[62ch] pb-6 text-[1.0625rem] leading-relaxed text-muted-foreground">
+              <AccordionContent className="max-w-[65ch] pb-4 text-base leading-relaxed text-muted-foreground">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

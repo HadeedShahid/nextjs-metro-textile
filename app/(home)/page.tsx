@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import HomeHero from "@/components/home/HomeHero";
+import TrustRow from "@/components/home/TrustRow";
 import LogoRow from "@/components/home/LogoRow";
 import Lineup from "@/components/home/Lineup";
 import MadeToMark from "@/components/home/MadeToMark";
 import ProcessBand from "@/components/home/ProcessBand";
 import BuyerQuotes, { type BuyerQuote } from "@/components/home/BuyerQuotes";
 import ClosingBand from "@/components/home/ClosingBand";
-import ProductCarousel from "@/components/common/ProductCarousel";
+import ProductGrid from "@/components/common/ProductGrid";
 import FAQSection from "@/components/FAQSection";
 import BlogSection from "@/components/common/BlogSection";
 import JsonLd from "@/components/common/JsonLd";
@@ -59,16 +60,20 @@ export default async function Home() {
     <>
       <JsonLd data={faqPageSchema(homeFaqs)} />
       <HomeHero />
+      <TrustRow />
       <LogoRow />
       <Lineup />
       <MadeToMark />
       <ProcessBand />
       {sampler && sampler.length > 0 && (
-        <ProductCarousel
+        <ProductGrid
           title="From the catalog."
           lede="Recent styles from every family. Ask for any of them in your finish and size."
-          products={sampler}
+          products={sampler.slice(0, 8)}
           viewAllHref="/products"
+          phoneLimit={4}
+          // Follows the white process band, so one gap separates them, not two.
+          className="pt-0 md:pt-0 lg:pt-0"
         />
       )}
       <BuyerQuotes quotes={quotes} />
