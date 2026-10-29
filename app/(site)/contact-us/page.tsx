@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
-import { Mail, Phone } from "lucide-react";
 import PageHeader from "@/components/base/PageHeader";
 import ContactForm from "@/components/forms/ContactForm";
 import Presence from "@/components/Presence";
 import { QuoteModalButton } from "@/components/QuoteModal";
-import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF,
-} from "@/constants";
+import { CONTACT_ROUTES } from "@/constants";
+import { CONTACT_ICONS } from "@/components/common/contact-icons";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -23,11 +16,6 @@ export const metadata: Metadata = {
 
 const CRUMBS = [{ label: "Home", href: "/" }, { label: "Contact" }];
 
-const ROUTES = [
-  { label: "Email", value: CONTACT_EMAIL, href: CONTACT_EMAIL_HREF, Icon: Mail, external: false },
-  { label: "Phone", value: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF, Icon: Phone, external: false },
-  { label: "WhatsApp", value: CONTACT_PHONE_DISPLAY, href: CONTACT_WHATSAPP_HREF, Icon: IconBrandWhatsapp, external: true },
-];
 
 export default function ContactUsPage() {
   return (
@@ -45,23 +33,26 @@ export default function ContactUsPage() {
           <div>
             <h2 className="text-title">Reach us directly</h2>
             <ul className="mt-6 border-t border-border">
-              {ROUTES.map(({ label, value, href, Icon, external }) => (
-                <li key={label} className="border-b border-border">
-                  <Link
-                    href={href}
-                    className="group flex items-center gap-4 py-4"
-                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  >
-                    <Icon className="size-5 shrink-0 text-muted-foreground" aria-hidden />
-                    <span className="min-w-0">
-                      <span className="block text-meta text-muted-foreground">{label}</span>
-                      <span className="block break-words text-base font-medium tracking-[-0.015em] group-hover:underline">
-                        {value}
+              {CONTACT_ROUTES.map(({ kind, label, value, href, external }) => {
+                const Icon = CONTACT_ICONS[kind];
+                return (
+                  <li key={kind} className="border-b border-border">
+                    <Link
+                      href={href}
+                      className="group flex items-center gap-4 py-4"
+                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      <Icon className="size-5 shrink-0 text-muted-foreground" aria-hidden />
+                      <span className="min-w-0">
+                        <span className="block text-meta text-muted-foreground">{label}</span>
+                        <span className="block break-words text-base font-medium tracking-[-0.015em] group-hover:underline">
+                          {value}
+                        </span>
                       </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
             <p className="mt-6 text-sm text-muted-foreground">
               Working across Pakistan, China and Hong Kong.

@@ -13,6 +13,8 @@ import BlogPostCard from "@/components/common/BlogPostCard";
 import JsonLd from "@/components/common/JsonLd";
 import { QuoteModalButton } from "@/components/QuoteModal";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/structured-data";
+import { dataOrThrow } from "@/lib/sanity-fetch";
+import { SITE_NAME } from "@/lib/seo";
 
 export async function generateMetadata({
     params,
@@ -37,7 +39,7 @@ export async function generateMetadata({
         alternates: { canonical: `/blog/${slug}` },
         openGraph: {
             type: "article",
-            title: `${post.title} | Metro Metal`,
+            title: `${post.title} | ${SITE_NAME}`,
             description,
             publishedTime: post.publishedAt,
             images: image ? [{ url: image, width: 1200, height: 630 }] : undefined,
@@ -51,10 +53,8 @@ export default async function PostPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const { data: post, ok } = await fetchPostBySlug(slug);
-
     // A failed fetch must not be cached as a 404.
-    if (!ok) throw new Error(`Could not load post "${slug}"`);
+    const post = dataOrThrow(await fetchPostBySlug(slug), `post "${slug}"`);
     if (!post) notFound();
 
     const bannerUrl = post.image

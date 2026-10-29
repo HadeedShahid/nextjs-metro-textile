@@ -30,7 +30,8 @@ export function canLead(p: ProductSummary) {
 }
 
 /** True when the lead photo is known to be a small placeholder rather than a catalog shot. */
-export function hasPlaceholderPhoto(p: ProductSummary) {
+/** A lead photo too small for a tile: the 512px placeholders some products still carry. */
+export function hasPlaceholderPhoto(p: { leadWidth?: number | null }) {
   return p.leadWidth != null && p.leadWidth < LARGE_PHOTO;
 }
 
@@ -119,6 +120,11 @@ export function familyHighlights(node: CatalogNode): CategoryHighlight[] {
 }
 
 export const styleCount = (n: number) => `${n} ${n === 1 ? "style" : "styles"}`;
+
+const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+
+/** A small count as a word for running copy ("Five families"); digits past ten. */
+export const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
 
 /** A category name for running text: lower case, but acronyms such as PU stay as they are. */
 export const runningName = (title: string) =>

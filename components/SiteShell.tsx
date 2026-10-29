@@ -2,13 +2,6 @@ import Navbar from "@/components/Navbar";
 import TopBar from "@/components/TopBar";
 import { fetchNavCategories } from "@/lib/api";
 import { FAMILY_DEFAULTS } from "@/data/families";
-import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF,
-} from "@/constants";
 
 /**
  * Server-rendered page chrome: the contact bar, the global nav and the main
@@ -27,16 +20,10 @@ export default async function SiteShell({ children }: { children: React.ReactNod
     })),
   }));
 
-  const contacts = [
-    { kind: "email" as const, label: CONTACT_EMAIL, href: CONTACT_EMAIL_HREF },
-    { kind: "phone" as const, label: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF },
-    { kind: "whatsapp" as const, label: "WhatsApp", href: CONTACT_WHATSAPP_HREF },
-  ];
-
   return (
     <>
       <TopBar />
-      <Navbar families={families} contacts={contacts} />
+      <Navbar families={families} />
       <main id="main" tabIndex={-1} className="outline-none">
         {children}
       </main>

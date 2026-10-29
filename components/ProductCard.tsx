@@ -2,17 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/image";
 import { QuoteModalButton } from "@/components/QuoteModal";
+import { hasPlaceholderPhoto } from "@/lib/catalog";
+import type { SanityImage, Specification } from "@/lib/api";
 
 interface ProductCardProps {
   product: {
     _id: string;
     title: string;
     slug: { current: string };
-    images: any[];
+    images: SanityImage[];
     category: { title: string } | null;
     isFeatured?: boolean;
     excerpt?: string | null;
-    specifications?: { label: string | null; value: string | null }[] | null;
+    specifications?: Specification[] | null;
     /** Pixel width of the lead photo; small ones are placeholders. */
     leadWidth?: number | null;
   };
@@ -31,7 +33,7 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
  */
 export default function ProductCard({ product, priority = false, fallback }: ProductCardProps) {
   const image = product.images?.[0];
-  const placeholder = Boolean(fallback) && product.leadWidth != null && product.leadWidth < 1000;
+  const placeholder = Boolean(fallback) && hasPlaceholderPhoto(product);
   const productUrl = `/product/${product.slug.current}`;
 
   // Up to three spec values as one quiet attribute line.

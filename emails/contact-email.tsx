@@ -1,4 +1,5 @@
 import { COMPANY_NAME } from "@/constants";
+import { esc } from "./escape";
 
 export type ContactEmailData = {
   firstName: string;
@@ -8,9 +9,6 @@ export type ContactEmailData = {
   message: string;
 };
 
-/** Visitor input goes into HTML, so escape it. */
-const esc = (value: string) =>
-  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 export function contactEmailHtml(data: ContactEmailData): string {
   const firstName = esc(data.firstName);

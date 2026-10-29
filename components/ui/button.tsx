@@ -46,7 +46,6 @@ export interface ButtonProps
   extends
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
   href?: string;
   external?: boolean;
 }
@@ -57,7 +56,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
-      asChild = false,
       href,
       external = false,
       ...props
@@ -70,7 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           href={href}
           className={cn(buttonVariants({ variant, size, className }))}
           {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-          {...(props as any)}
+          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         />
       );
     }

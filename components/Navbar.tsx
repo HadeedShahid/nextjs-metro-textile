@@ -4,12 +4,14 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Mail, Menu, Phone } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { QuoteModalButton } from "./QuoteModal";
+import { CONTACT_ICONS } from "./common/contact-icons";
+import { CONTACT_ROUTES, CONTACT_WHATSAPP_HREF } from "@/constants";
 import { cn } from "@/lib/utils";
 import MoreLink from "@/components/base/MoreLink";
 
@@ -24,7 +26,6 @@ interface NavFamily {
 interface NavbarProps {
   /** Product families from Sanity (top-level categories) with their types. */
   families?: NavFamily[];
-  contacts?: Array<{ kind: "email" | "phone" | "whatsapp"; label: string; href: string }>;
 }
 
 const COMPANY_LINKS = [
@@ -34,7 +35,6 @@ const COMPANY_LINKS = [
   { title: "Contact", url: "/contact-us" },
 ];
 
-const CONTACT_ICONS = { email: Mail, phone: Phone, whatsapp: IconBrandWhatsapp };
 
 const LINK =
   "flex items-center px-3 text-[0.9375rem] font-medium text-foreground/70 transition-colors hover:text-foreground aria-[current=page]:text-foreground";
@@ -44,7 +44,7 @@ const LINK =
  * opens a panel listing each family and its types, on hover or from its
  * arrow button, so buyers can see the whole catalog without leaving the page.
  */
-const Navbar = ({ families = [], contacts = [] }: NavbarProps) => {
+const Navbar = ({ families = [] }: NavbarProps) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [productsOpen, setProductsOpen] = React.useState(false);
@@ -59,8 +59,6 @@ const Navbar = ({ families = [], contacts = [] }: NavbarProps) => {
   }, [pathname]);
 
   React.useEffect(() => () => window.clearTimeout(closeTimer.current), []);
-
-  const whatsapp = contacts.find((contact) => contact.kind === "whatsapp");
 
   const isActive = (url: string) => (url === "/" ? pathname === "/" : pathname?.startsWith(url));
 
@@ -191,18 +189,16 @@ const Navbar = ({ families = [], contacts = [] }: NavbarProps) => {
 
         <div className="flex items-center gap-1">
           <QuoteModalButton className="px-4 lg:hidden" text="Request a quote" />
-          {whatsapp && (
-            <Button
-              href={whatsapp.href}
-              external
-              variant="ghost"
-              size="icon-lg"
-              className="md:hidden"
-              aria-label="Message us on WhatsApp"
-            >
-              <IconBrandWhatsapp className="size-6" aria-hidden />
-            </Button>
-          )}
+          <Button
+            href={CONTACT_WHATSAPP_HREF}
+            external
+            variant="ghost"
+            size="icon-lg"
+            className="md:hidden"
+            aria-label="Message us on WhatsApp"
+          >
+            <IconBrandWhatsapp className="size-6" aria-hidden />
+          </Button>
           <QuoteModalButton className="hidden lg:inline-flex" text="Request a quote" />
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -246,26 +242,23 @@ const Navbar = ({ families = [], contacts = [] }: NavbarProps) => {
                 ))}
               </ul>
 
-              {contacts.length > 0 && (
-                <ul className="mt-8 space-y-3 text-[0.9375rem] text-muted-foreground">
-                  {contacts.map((contact) => {
-                    const Icon = CONTACT_ICONS[contact.kind];
-                    const external = contact.kind === "whatsapp";
-                    return (
-                      <li key={contact.kind}>
-                        <a
-                          href={contact.href}
-                          {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                          className="inline-flex items-center gap-2 hover:text-foreground hover:underline"
-                        >
-                          <Icon className="size-4" aria-hidden />
-                          {contact.label}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+              <ul className="mt-8 space-y-3 text-[0.9375rem] text-muted-foreground">
+                {CONTACT_ROUTES.map((contact) => {
+                  const Icon = CONTACT_ICONS[contact.kind];
+                  return (
+                    <li key={contact.kind}>
+                      <a
+                        href={contact.href}
+                        {...(contact.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="inline-flex items-center gap-2 hover:text-foreground hover:underline"
+                      >
+                        <Icon className="size-4" aria-hidden />
+                        {contact.linkText}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             </SheetContent>
           </Sheet>
         </div>

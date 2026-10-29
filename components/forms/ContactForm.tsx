@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Send, AlertCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { submitForm } from "@/lib/submit-form";
 
 type Status = "idle" | "loading" | "error";
 
@@ -29,21 +30,13 @@ export default function ContactForm() {
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim(),
     };
 
-    let json: { error?: string } = {};
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      json = await res.json().catch(() => ({}));
-      if (!res.ok || json.error) throw new Error(json.error);
-    } catch (err) {
+    const error = await submitForm(
+      data,
+      "We couldn't send your message. Check your connection and try again, or email us directly.",
+    );
+    if (error) {
       setStatus("error");
-      setErrorMsg(
-        (err instanceof Error && err.message) ||
-          "We couldn't send your message. Check your connection and try again, or email us directly.",
-      );
+      setErrorMsg(error);
       return;
     }
 

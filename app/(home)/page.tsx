@@ -13,7 +13,7 @@ import BlogSection from "@/components/common/BlogSection";
 import JsonLd from "@/components/common/JsonLd";
 import { faqPageSchema } from "@/lib/structured-data";
 import { fetchCatalogSampler } from "@/lib/api";
-import { DEFAULT_FAQS } from "@/data/faqs";
+import { pickFaqs } from "@/data/faqs";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -49,9 +49,7 @@ const HOME_FAQ_QUESTIONS = [
   "What are your typical lead times?",
   "Which regions does Metro Metal supply, and on what terms?",
 ];
-const homeFaqs = HOME_FAQ_QUESTIONS.map((q) => DEFAULT_FAQS.find((f) => f.question === q)).filter(
-  (f): f is (typeof DEFAULT_FAQS)[number] => Boolean(f),
-);
+const homeFaqs = pickFaqs(HOME_FAQ_QUESTIONS);
 
 export default async function Home() {
   const { data: sampler } = await fetchCatalogSampler(2);

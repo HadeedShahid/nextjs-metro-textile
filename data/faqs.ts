@@ -45,3 +45,9 @@ export const DEFAULT_FAQS = [
       "Quality is checked at multiple stages: incoming material inspection, in-process checks against approved sealed samples, and a pre-shipment inspection before goods are packed. Buyers are welcome to arrange their own third-party inspections and factory audits.",
   },
 ];
+
+export type Faq = (typeof DEFAULT_FAQS)[number];
+
+/** The FAQs with these exact questions, in the order given; a renamed question is simply skipped. */
+export const pickFaqs = (questions: string[]): Faq[] =>
+  questions.map((q) => DEFAULT_FAQS.find((f) => f.question === q)).filter((f): f is Faq => Boolean(f));

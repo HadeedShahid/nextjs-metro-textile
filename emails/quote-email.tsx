@@ -1,4 +1,5 @@
 import { COMPANY_NAME } from "@/constants";
+import { esc } from "./escape";
 
 export type QuoteEmailData = {
   name: string;
@@ -9,9 +10,6 @@ export type QuoteEmailData = {
   attachmentNames?: string[];
 };
 
-/** Visitor input goes into HTML, so escape it. */
-const esc = (value: string) =>
-  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 export function quoteEmailHtml(data: QuoteEmailData): string {
   const name = esc(data.name);

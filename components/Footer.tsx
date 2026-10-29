@@ -1,16 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
-import {
-  COMPANY_NAME,
-  COMPANY_TAGLINE,
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF,
-} from "@/constants";
+import { CONTACT_ICONS } from "@/components/common/contact-icons";
+import { COMPANY_NAME, COMPANY_TAGLINE, CONTACT_ROUTES } from "@/constants";
 import { fetchNavCategories } from "@/lib/api";
 
 type FooterLink = {
@@ -39,11 +30,12 @@ export default async function Footer() {
     ...(categories ?? []).map((cat) => ({ name: cat.title, href: `/products/${cat.slug}` })),
   ];
 
-  const contactLinks = [
-    { name: CONTACT_EMAIL, href: CONTACT_EMAIL_HREF, external: false, Icon: Mail },
-    { name: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF, external: false, Icon: Phone },
-    { name: "WhatsApp", href: CONTACT_WHATSAPP_HREF, external: true, Icon: IconBrandWhatsapp },
-  ];
+  const contactLinks: FooterLink[] = CONTACT_ROUTES.map((route) => ({
+    name: route.linkText,
+    href: route.href,
+    external: route.external,
+    Icon: CONTACT_ICONS[route.kind],
+  }));
 
   const columns: { title: string; links: FooterLink[] }[] = [
     { title: "Products", links: productLinks },

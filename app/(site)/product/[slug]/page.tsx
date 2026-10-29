@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchProductBySlug } from "@/lib/api";
+import { dataOrThrow } from "@/lib/sanity-fetch";
 import { urlFor } from "@/sanity/image";
 import { toPlainText } from "@/lib/portable-text";
 import JsonLd from "@/components/common/JsonLd";
@@ -19,8 +20,9 @@ import RelatedProducts from "@/components/common/RelatedProducts";
 import FAQSection from "@/components/FAQSection";
 import { QuoteModalButton } from "@/components/QuoteModal";
 import { Button } from "@/components/ui/button";
-import { CONTACT_EMAIL, CONTACT_WHATSAPP_NUMBER, MAX_QUOTE_ATTACHMENTS } from "@/constants";
-import { DEFAULT_FAQS } from "@/data/faqs";
+import { CONTACT_EMAIL, MAX_QUOTE_ATTACHMENTS, whatsappHref } from "@/constants";
+import { pickFaqs } from "@/data/faqs";
+import { SITE_NAME } from "@/lib/seo";
 
 // The questions a buyer has on a product page: minimums, samples, timing.
 const PRODUCT_FAQ_QUESTIONS = [
@@ -29,9 +31,7 @@ const PRODUCT_FAQ_QUESTIONS = [
   "What are your typical lead times?",
   "Do you offer custom, OEM and private-label accessories?",
 ];
-const productFaqs = PRODUCT_FAQ_QUESTIONS.map((q) => DEFAULT_FAQS.find((f) => f.question === q)).filter(
-  (f): f is (typeof DEFAULT_FAQS)[number] => Boolean(f),
-);
+const productFaqs = pickFaqs(PRODUCT_FAQ_QUESTIONS);
 
 /** Absolute /products path for a product's category. */
 function categoryHref(category: {
@@ -84,7 +84,7 @@ export async function generateMetadata({
     description,
     alternates: { canonical: `/product/${slug}` },
     openGraph: {
-      title: `${title} | Metro Metal`,
+      title: `${title} | ${SITE_NAME}`,
       description,
       type: "website",
       images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : undefined,
@@ -98,49 +98,25 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data: product, ok } = await fetchProductBySlug(slug);
-
   // A failed fetch must not be cached as a 404.
-  if (!ok) throw new Error(`Could not load product "${slug}"`);
+  const product = dataOrThrow(await fetchProductBySlug(slug), `product "${slug}"`);
   if (!product) notFound();
 
-  const breadcrumbs: { label: string; href?: string }[] = [
-    { label: "Home", href: "/" },
-    { label: "Products", href: "/products" },
-  ];
-
-  if (product.category) {
-    if (product.category.parent) {
-      breadcrumbs.push({
-        label: product.category.parent.title,
-        href: `/products/${product.category.parent.slug}`,
-      });
-    }
-    breadcrumbs.push({
-      label: product.category.title,
-      href: `/products/${product.category.parent ? `${product.category.parent.slug}/` : ""}${product.category.slug}`,
-    });
-  }
-  breadcrumbs.push({ label: product.title });
-
-  // JSON-LD: Product + BreadcrumbList (no offers/price — quote-based B2B).
-  const jsonLdCrumbs: Crumb[] = [
+  // One trail drives both the visible breadcrumbs and the BreadcrumbList JSON-LD.
+  const trail: Crumb[] = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
   ];
-  if (product.category) {
-    if (product.category.parent) {
-      jsonLdCrumbs.push({
-        name: product.category.parent.title,
-        path: `/products/${product.category.parent.slug}`,
-      });
-    }
-    jsonLdCrumbs.push({
-      name: product.category.title,
-      path: categoryHref(product.category),
-    });
+  if (product.category?.parent) {
+    trail.push({ name: product.category.parent.title, path: `/products/${product.category.parent.slug}` });
   }
-  jsonLdCrumbs.push({ name: product.title, path: `/product/${product.slug.current}` });
+  if (product.category) {
+    trail.push({ name: product.category.title, path: categoryHref(product.category) });
+  }
+  trail.push({ name: product.title, path: `/product/${product.slug.current}` });
+  const breadcrumbs = trail.map((crumb, i) =>
+    i === trail.length - 1 ? { label: crumb.name } : { label: crumb.name, href: crumb.path },
+  );
 
   const categoryPath = product.category
     ? product.category.parent
@@ -156,13 +132,13 @@ export default async function ProductDetailPage({
       : undefined,
     images: (product.images ?? [])
       .slice(0, 4)
-      .map((img: any) => urlFor(img).width(1200).height(1200).fit("max").url()),
+      .map((img) => urlFor(img).width(1200).height(1200).fit("max").url()),
     categoryPath,
   });
 
-  const specs: { label: string; value: string }[] = Array.isArray(product.specifications)
-    ? product.specifications.filter((s: any) => s?.label && s?.value)
-    : [];
+  const specs = (product.specifications ?? []).filter(
+    (s): s is { label: string; value: string } => Boolean(s?.label && s?.value),
+  );
 
   const familyHref = product.category ? categoryHref(product.category) : "/products";
 
@@ -171,13 +147,13 @@ export default async function ProductDetailPage({
   )}&body=${encodeURIComponent(
     `Hi, I'd like more information about ${product.title}: pricing, MOQ and lead time. Thank you.`,
   )}`;
-  const waHref = `https://wa.me/${CONTACT_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  const waHref = whatsappHref(
     `Hi, I'm interested in ${product.title}. Could you share pricing, MOQ and lead time?`,
-  )}`;
+  );
 
   return (
     <>
-      <JsonLd data={[productLd, breadcrumbSchema(jsonLdCrumbs)]} />
+      <JsonLd data={[productLd, breadcrumbSchema(trail)]} />
 
       <section className="container-x pb-14 pt-6 md:pb-16 md:pt-8">
         <Breadcrumbs items={breadcrumbs} />
