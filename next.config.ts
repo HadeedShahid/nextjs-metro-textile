@@ -1,22 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Pin the root to this app: a stray lockfile in the parent folder otherwise
+  // makes Turbopack watch the whole parent tree.
+  turbopack: {
+    root: __dirname,
+  },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'deifkwefumgah.cloudfront.net',
-      },
-    ],
+    // Product, category and journal photos are served by Sanity's CDN.
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
   },
 };
 

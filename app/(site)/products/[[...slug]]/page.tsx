@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchAllProducts, fetchAllCategories, type Category, type ProductSummary } from "@/lib/api";
-import { buildCatalog, resolvePath, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
+import { buildCatalog, countWord, resolvePath, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
 import JsonLd from "@/components/common/JsonLd";
+import { dataOrThrow } from "@/lib/sanity-fetch";
 import { collectionPageSchema, breadcrumbSchema, type Crumb } from "@/lib/structured-data";
 import ProductCard from "@/components/ProductCard";
 import SectionIntro from "@/components/base/SectionIntro";
@@ -18,6 +19,7 @@ import FAQSection from "@/components/FAQSection";
 import ClosingBand from "@/components/home/ClosingBand";
 import { DEFAULT_FAQS } from "@/data/faqs";
 import MoreLink from "@/components/base/MoreLink";
+import { SITE_NAME } from "@/lib/seo";
 
 // ---------------------------------------------------------------------------
 // SEO resolver — reads metaTitle / metaDescription / h1 / intro from the
@@ -40,6 +42,12 @@ const ALL_PRODUCTS_SEO: ResolvedSeo = {
     "Metro Metal manufactures the full range of garment and leather-goods accessories: buckles, buttons, patches, plates and zippers. With over 20 years supplying apparel and leather brands worldwide, our network spans Pakistan, China and Hong Kong. Every piece can be made in your finish and carry your mark. Open a family to see every style, or request a quote from any product page.",
 };
 
+/** Generated title and description for a category without its own SEO fields. */
+const fallbackSeo = (name: string) => ({
+  metaTitle: `${name} Manufacturer & Supplier`,
+  metaDescription: `Metro Metal manufactures and supplies ${name.toLowerCase()} for global apparel brands. Bulk B2B supply. Request a quote.`,
+});
+
 function resolveCategorySeo(
   slugArray: string[] | undefined,
   categories: Category[],
@@ -50,25 +58,19 @@ function resolveCategorySeo(
   const cat = categories.find((c) => c.slug.current === leafSlug);
 
   if (!cat) {
-    // Unknown slug — generate a generic fallback.
-    const pretty = leafSlug
+    // Unknown slug (or categories failed to load): a readable name from the slug.
+    const name = leafSlug
       .split("-")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
-    return {
-      metaTitle: `${pretty} Manufacturer & Supplier`,
-      metaDescription: `Metro Metal manufactures and supplies ${pretty.toLowerCase()} for global apparel brands. Bulk B2B supply. Request a quote.`,
-      h1: `${pretty} Manufacturer & Supplier`,
-      intro: null,
-    };
+    const seo = fallbackSeo(name);
+    return { ...seo, h1: seo.metaTitle, intro: null };
   }
 
-  const pretty = cat.title;
+  const seo = fallbackSeo(cat.title);
   return {
-    metaTitle: cat.metaTitle ?? `${pretty} Manufacturer & Supplier`,
-    metaDescription:
-      cat.metaDescription ??
-      `Metro Metal manufactures and supplies ${pretty.toLowerCase()} for global apparel brands. Bulk B2B supply. Request a quote.`,
+    metaTitle: cat.metaTitle ?? seo.metaTitle,
+    metaDescription: cat.metaDescription ?? seo.metaDescription,
     h1: cat.h1 ?? null,
     intro: cat.intro ?? null,
   };
@@ -93,7 +95,7 @@ export async function generateMetadata({
     description: seo.metaDescription,
     alternates: { canonical },
     openGraph: {
-      title: `${seo.metaTitle} | Metro Metal`,
+      title: `${seo.metaTitle} | ${SITE_NAME}`,
       description: seo.metaDescription,
       url: canonical,
       type: "website",
@@ -108,16 +110,15 @@ export default async function ProductsPage({
 }) {
   const { slug = [] } = await params;
 
-  const [{ data: products }, { data: categories }] = await Promise.all([
-    fetchAllProducts(),
-    fetchAllCategories(),
-  ]);
+  const [productsRes, categoriesRes] = await Promise.all([fetchAllProducts(), fetchAllCategories()]);
+  const products = dataOrThrow(productsRes, "products");
+  const categories = dataOrThrow(categoriesRes, "categories");
 
   const { families } = buildCatalog(categories ?? [], products ?? []);
   const node = slug.length ? resolvePath(families, slug) : null;
 
   // A path that doesn't resolve to a real category is a 404, not the full catalog.
-  if (slug.length && !node && categories) notFound();
+  if (slug.length && !node) notFound();
 
   // SEO content + structured data for this page.
   const seo = resolveCategorySeo(slug, categories ?? []);
@@ -229,8 +230,6 @@ function TypePage({ type, families }: { type: CatalogNode; families: CatalogNode
   );
 }
 
-const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
-
 /** /products: every family in one row of cards, then a taste of each one. */
 function CatalogOverview({
   families,
@@ -241,7 +240,7 @@ function CatalogOverview({
   total: number;
   seo: ResolvedSeo;
 }) {
-  const familyCount = NUMBER_WORDS[families.length] ?? String(families.length);
+  const familyCount = countWord(families.length);
 
   return (
     <>

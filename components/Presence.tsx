@@ -1,13 +1,13 @@
-import { COUNTRY_PATHS, MAP_VB } from "./presenceMapPaths";
+import { COUNTRY_PATHS, MAP_VB, PIN_COORDS } from "./presenceMapPaths";
 import SectionIntro from "./base/SectionIntro";
 import { cn } from "@/lib/utils";
 
-/** Pin coordinates are real projected geography from scripts/generate-presence-map.mjs. */
+// Pins are real projected geography, written by scripts/generate-presence-map.mjs.
 const HUBS = [
-  { country: "Pakistan", company: "Metro Textiles Sourcing", role: "Business and operations", x: 256.9, y: 169.3 },
-  { country: "China", company: "Metro Metal", role: "Business and operations", x: 557.2, y: 108.3 },
-  { country: "Hong Kong", company: "Metro Company", role: "Business", x: 687.7, y: 259.3 },
-];
+  { country: "Pakistan", company: "Metro Textiles Sourcing", role: "Business and operations" },
+  { country: "China", company: "Metro Metal", role: "Business and operations" },
+  { country: "Hong Kong", company: "Metro Company", role: "Business" },
+].map((hub) => ({ ...hub, x: PIN_COORDS[hub.country][0], y: PIN_COORDS[hub.country][1] }));
 
 /** The group's three hubs: a quiet aluminium map and three named columns. */
 export default function Presence({ className }: { className?: string }) {

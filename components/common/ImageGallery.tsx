@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { urlFor } from "@/sanity/image"
 import { cn } from "@/lib/utils"
+import type { SanityImage } from "@/lib/api"
 
 /**
  * Product photos at studio scale: one large frame on the aluminium ground,
@@ -16,7 +17,7 @@ export default function ImageGallery({
   images = [],
   alt = "Product",
 }: {
-  images: any[]
+  images: SanityImage[]
   alt?: string
 }) {
   const [active, setActive] = React.useState(0)

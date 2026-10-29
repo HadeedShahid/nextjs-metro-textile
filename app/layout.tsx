@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
     url: siteUrl,
     locale: OG_LOCALE,
-    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
+    images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",

@@ -1,13 +1,5 @@
-import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
-import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF,
-} from "@/constants";
+import { CONTACT_ROUTES } from "@/constants";
+import { CONTACT_ICONS } from "@/components/common/contact-icons";
 
 const LINK = "inline-flex items-center gap-1.5 transition-colors hover:text-foreground hover:underline";
 
@@ -21,24 +13,21 @@ export default function TopBar() {
     <div className="hidden bg-muted text-meta text-muted-foreground md:block">
       <div className="container-x flex h-9 items-center justify-between gap-6">
         <ul className="flex items-center gap-6">
-          <li>
-            <a href={CONTACT_EMAIL_HREF} className={LINK}>
-              <Mail className="size-3.5" aria-hidden />
-              {CONTACT_EMAIL}
-            </a>
-          </li>
-          <li>
-            <a href={CONTACT_PHONE_HREF} className={LINK}>
-              <Phone className="size-3.5" aria-hidden />
-              {CONTACT_PHONE_DISPLAY}
-            </a>
-          </li>
-          <li>
-            <Link href={CONTACT_WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className={LINK}>
-              <IconBrandWhatsapp className="size-4" aria-hidden />
-              WhatsApp
-            </Link>
-          </li>
+          {CONTACT_ROUTES.map((route) => {
+            const Icon = CONTACT_ICONS[route.kind];
+            return (
+              <li key={route.kind}>
+                <a
+                  href={route.href}
+                  className={LINK}
+                  {...(route.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <Icon className="size-3.5" aria-hidden />
+                  {route.linkText}
+                </a>
+              </li>
+            );
+          })}
         </ul>
         <p>Pakistan · China · Hong Kong</p>
       </div>

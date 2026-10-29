@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AlertCircle, Loader2, Paperclip, X } from "lucide-react";
 import { toast } from "sonner";
+import { submitForm } from "@/lib/submit-form";
 import {
   MAX_QUOTE_ATTACHMENT_BYTES,
   MAX_QUOTE_ATTACHMENTS,
@@ -105,6 +106,9 @@ function QuoteForm({
   const [errorMsg, setErrorMsg] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  // Unique per form, so the open dialog's fields never share ids with another form on the page.
+  const uid = React.useId();
+  const fieldId = (name: string) => `${uid}-${name}`;
 
   function addFiles(picked: FileList | null) {
     if (!picked?.length) return;
@@ -150,25 +154,19 @@ function QuoteForm({
 
     const form = e.currentTarget;
     const data = new FormData();
-    data.set("type", "quote");
     if (product) data.set("product", product);
     data.set("name", (form.elements.namedItem("name") as HTMLInputElement).value.trim());
     data.set("email", (form.elements.namedItem("email") as HTMLInputElement).value.trim());
     data.set("requirements", (form.elements.namedItem("requirements") as HTMLTextAreaElement).value.trim());
     for (const file of files) data.append("files", file);
 
-    let json: { error?: string } = {};
-    try {
-      // No Content-Type header — the browser sets the multipart boundary itself
-      const res = await fetch("/api/contact", { method: "POST", body: data });
-      json = await res.json().catch(() => ({}));
-      if (!res.ok || json.error) throw new Error(json.error);
-    } catch (err) {
+    const error = await submitForm(
+      data,
+      "We couldn't send your request. Check your connection and try again, or email us directly.",
+    );
+    if (error) {
       setStatus("error");
-      setErrorMsg(
-        (err instanceof Error && err.message) ||
-          "We couldn't send your request. Check your connection and try again, or email us directly.",
-      );
+      setErrorMsg(error);
       return;
     }
 
@@ -193,25 +191,25 @@ function QuoteForm({
         )}
 
         <div className="grid gap-2">
-          <Label htmlFor="name">
+          <Label htmlFor={fieldId("name")}>
             Name <span aria-hidden className="text-destructive">*</span>
           </Label>
-          <Input id="name" name="name" autoComplete="name" placeholder="John Doe" required />
+          <Input id={fieldId("name")} name="name" autoComplete="name" placeholder="John Doe" required />
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="email">
+          <Label htmlFor={fieldId("email")}>
             Email <span aria-hidden className="text-destructive">*</span>
           </Label>
-          <Input id="email" name="email" type="email" autoComplete="email" placeholder="john@company.com" required />
+          <Input id={fieldId("email")} name="email" type="email" autoComplete="email" placeholder="john@company.com" required />
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="requirements">
+          <Label htmlFor={fieldId("requirements")}>
             What you need <span aria-hidden className="text-destructive">*</span>
           </Label>
           <Textarea
-            id="requirements"
+            id={fieldId("requirements")}
             name="requirements"
             required
             placeholder={

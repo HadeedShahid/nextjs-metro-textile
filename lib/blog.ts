@@ -1,8 +1,10 @@
+/** A publish date as "Jun 12, 2026". Fixed to UTC so the server and the browser always print the same day. */
 export const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 
 /** Rough reading time in minutes from a plain-text string (~200 wpm). */

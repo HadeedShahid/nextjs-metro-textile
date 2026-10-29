@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { sanityFetch } from "@/lib/sanity-fetch";
+import { dataOrThrow, sanityFetch } from "@/lib/sanity-fetch";
 import { siteUrl } from "@/lib/seo";
 
 type SitemapData = {
@@ -37,7 +37,8 @@ function categoryPath(cat: SitemapData["categories"][number]): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { data } = await sanityFetch<SitemapData>(SITEMAP_QUERY);
+  // Throwing keeps the last good sitemap rather than caching one with no products.
+  const data = dataOrThrow(await sanityFetch<SitemapData>(SITEMAP_QUERY), "sitemap data");
 
   const now = new Date();
   const url = (path: string) => `${siteUrl}${path}`;

@@ -4,12 +4,17 @@ import { COMPANY_NAME } from "@/constants";
  * Single source of truth for SEO/metadata across the app.
  *
  * The production domain is NOT hardcoded. Set `NEXT_PUBLIC_SITE_URL` (e.g.
- * https://www.metrometal.com) when the site goes live and every piece of
- * SEO — metadataBase, canonicals, sitemap, robots, OG images, JSON-LD —
- * updates from this one value.
+ * https://www.metrometal.com) and every piece of SEO (metadataBase,
+ * canonicals, sitemap, robots, OG images, JSON-LD) updates from this one
+ * value. Until it is set, Vercel's production domain is used, so canonicals
+ * and the sitemap never point at localhost on the live site.
  */
+const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : undefined;
+
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  process.env.NEXT_PUBLIC_SITE_URL ?? vercelProductionUrl ?? "http://localhost:3000"
 ).replace(/\/$/, "");
 
 /** Brand name used everywhere ("Metro Metal"). */
@@ -37,18 +42,6 @@ export const OG_LOCALE = "en_US";
 export const QUALITY_CERTIFICATION = "ISO 9001";
 export const OEKO_TEX = "OEKO-TEX Standard 100";
 
-// ─── Unconfirmed business facts ───────────────────────────────────────────────
-// Placeholder tokens that ship visibly so they're easy to find and replace.
-// Search the codebase for "_PENDING" to surface everything awaiting real values.
-export const PENDING = {
-  moq: "[MOQ_PENDING]",
-  leadTime: "[LEAD_TIME_PENDING]",
-  sampleTime: "[SAMPLE_LEAD_TIME_PENDING]",
-  foundingYear: "[FOUNDING_YEAR_PENDING]",
-  employeeCount: "[EMPLOYEE_COUNT_PENDING]",
-  incoterms: "[INCOTERMS_PENDING]",
-  linkedinUrl: "[LINKEDIN_URL_PENDING]",
-} as const;
 
 /** Build an absolute URL from a path (for canonicals, OG urls, sitemap, JSON-LD). */
 export function absoluteUrl(path = "/"): string {

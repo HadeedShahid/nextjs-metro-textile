@@ -206,27 +206,6 @@
   }
 }
 
-/* Legacy alias, kept so any remaining usage lands on the same container. */
-@utility main-container {
-  width: min(100% - 2.5rem, 75rem);
-  margin-inline: auto;
-
-  @media (width >= 48rem) {
-    width: min(100% - 4rem, 75rem);
-  }
-}
-
-.breakout {
-  @apply relative left-1/2 right-1/2;
-  width: 100vw;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
-@utility no-scrollbar {
-  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
-}
-
 /* Slim scrollbar for scrolling panels (quote sheet). */
 @utility thin-scrollbar {
   scrollbar-width: thin;

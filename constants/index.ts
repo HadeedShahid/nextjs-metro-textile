@@ -1,6 +1,3 @@
-// ─── API Keys ─────────────────────────────────────────────────────────────────
-export const RESEND_API_KEY = process.env.RESEND_API_KEY ?? "";
-
 // ─── Company ──────────────────────────────────────────────────────────────────
 export const COMPANY_NAME = "Metro Metal";
 export const COMPANY_TAGLINE = "Your trusted partner in the global leather and textile industry.";
@@ -21,11 +18,27 @@ export const CONTACT_WHATSAPP_HREF = `https://wa.me/${CONTACT_WHATSAPP_NUMBER}`;
 export const CONTACT_EMAIL_HREF = `mailto:${CONTACT_EMAIL}`;
 export const CONTACT_PHONE_HREF = `tel:${CONTACT_PHONE_E164}`;
 
-export const MAPS_HREF = "https://maps.google.com/?q=Metro+Metal";
+/** WhatsApp chat link, optionally opening with a prefilled message. */
+export const whatsappHref = (text?: string) =>
+  text ? `${CONTACT_WHATSAPP_HREF}?text=${encodeURIComponent(text)}` : CONTACT_WHATSAPP_HREF;
 
-// ─── Email sending ────────────────────────────────────────────────────────────
-export const RESEND_FROM_EMAIL = "onboarding@resend.dev";
-export const FORM_RECIPIENT_EMAIL = "hadeed.shahid08@gmail.com";
+export type ContactRoute = {
+  kind: "email" | "phone" | "whatsapp";
+  label: string;
+  /** The address or number itself. */
+  value: string;
+  /** What a compact link shows: the address, the number, or "WhatsApp". */
+  linkText: string;
+  href: string;
+  external: boolean;
+};
+
+/** Every way to reach the team, in the order the site lists them. */
+export const CONTACT_ROUTES: ContactRoute[] = [
+  { kind: "email", label: "Email", value: CONTACT_EMAIL, linkText: CONTACT_EMAIL, href: CONTACT_EMAIL_HREF, external: false },
+  { kind: "phone", label: "Phone", value: CONTACT_PHONE_DISPLAY, linkText: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF, external: false },
+  { kind: "whatsapp", label: "WhatsApp", value: CONTACT_PHONE_DISPLAY, linkText: "WhatsApp", href: CONTACT_WHATSAPP_HREF, external: true },
+];
 
 // ─── Quote attachments ────────────────────────────────────────────────────────
 /** Vercel functions cap request bodies at 4.5 MB, so 4 MB total is the real ceiling. */

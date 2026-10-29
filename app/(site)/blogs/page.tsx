@@ -9,6 +9,7 @@ import JsonLd from "@/components/common/JsonLd";
 import PageHeader from "@/components/base/PageHeader";
 import ClosingBand from "@/components/home/ClosingBand";
 import { breadcrumbSchema } from "@/lib/structured-data";
+import { dataOrThrow } from "@/lib/sanity-fetch";
 
 export const metadata: Metadata = {
   title: "Blog: Sourcing Insights & Guides",
@@ -56,7 +57,7 @@ function Lead({ post }: { post: PostListItem }) {
 }
 
 export default async function BlogsPage() {
-  const { data: posts } = await fetchAllPosts();
+  const posts = dataOrThrow(await fetchAllPosts(), "posts");
   const safePosts = posts ?? [];
   const [lead, ...rest] = safePosts;
 

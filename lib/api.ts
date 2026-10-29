@@ -1,10 +1,16 @@
 import { cache } from "react";
-import { sanityFetch } from "@/lib/sanity-fetch";
-import type { ApiResponse } from "@/lib/network-client";
+import type { PortableTextBlock } from "next-sanity";
+import type { SanityImageObject } from "@sanity/image-url";
+import { sanityFetch, type ApiResponse } from "@/lib/sanity-fetch";
 
 // ---------------------------------------------------------------------------
 // Shared types
 // ---------------------------------------------------------------------------
+
+/** An image field as Sanity stores it: an asset reference, plus hotspot/crop and alt when set. */
+export type SanityImage = SanityImageObject & { _key?: string; alt?: string | null };
+
+export type Specification = { label: string | null; value: string | null };
 
 export type NavCategory = {
   title: string;
@@ -25,7 +31,7 @@ export type Category = {
   /** One line under the name on the category page and its tile. */
   tagline?: string | null;
   /** Large image at the top of a family page; a cut-out or a photo. */
-  heroImage?: ({ alt?: string | null } & Record<string, unknown>) | null;
+  heroImage?: SanityImage | null;
   /** The "Get to know" cards on a family page. */
   highlights?: CategoryHighlight[] | null;
 };
@@ -34,18 +40,18 @@ export type CategoryHighlight = {
   _key: string;
   title: string;
   body?: string | null;
-  image?: ({ alt?: string | null } & Record<string, unknown>) | null;
+  image?: SanityImage | null;
 };
 
 export type ProductSummary = {
   _id: string;
   title: string;
   slug: { current: string };
-  images: any[];
+  images: SanityImage[];
   isFeatured: boolean;
   isPopular: boolean;
   excerpt?: string | null;
-  specifications?: { label: string | null; value: string | null }[] | null;
+  specifications?: Specification[] | null;
   /** Full category path for /products/[...slug], e.g. "patches/leather-patches". */
   categoryPath?: string | null;
   /** Pixel width of the lead photo, so small placeholders can be kept out of large frames. */
@@ -62,9 +68,9 @@ export type ProductDetail = {
   _id: string;
   title: string;
   slug: { current: string };
-  images: any[];
-  description: any[] | null;
-  specifications: any | null;
+  images: SanityImage[];
+  description: PortableTextBlock[] | null;
+  specifications: Specification[] | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
   category: {
@@ -83,7 +89,7 @@ export type PostSummary = {
 };
 
 export type PostSummaryWithImage = PostSummary & {
-  image: any | null;
+  image: SanityImage | null;
 };
 
 export type PostListItem = PostSummaryWithImage & {
@@ -95,13 +101,8 @@ export type PostDetail = {
   title: string;
   slug: { current: string };
   publishedAt: string;
-  image: any | null;
-  body: any[] | null;
-};
-
-export type CategoryShowcaseData = {
-  category: { _id: string; title: string; slug: string } | null;
-  products: ProductSummary[];
+  image: SanityImage | null;
+  body: PortableTextBlock[] | null;
 };
 
 // ---------------------------------------------------------------------------
@@ -116,16 +117,8 @@ const CATEGORY_PATH = `"categoryPath": select(
     category->slug.current
   )`;
 
-const NAV_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent)] | order(title asc) {
-  title,
-  "slug": slug.current,
-  "types": *[_type == "category" && parent._ref == ^._id && count(*[_type == "product" && category._ref == ^._id]) > 0] | order(title asc) {
-    title,
-    "slug": slug.current
-  }
-}`;
-
-const ALL_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
+/** Every field a product tile needs, shared by all product list queries so they stay in step. */
+const PRODUCT_CARD = `{
   _id,
   ${CATEGORY_PATH},
   title,
@@ -136,13 +129,19 @@ const ALL_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] {
   isPopular,
   "excerpt": pt::text(description),
   specifications[]{label, value},
-  "category": category->{
-    _id,
+  "category": category->{ _id, title, slug, parent }
+}`;
+
+const NAV_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent)] | order(title asc) {
+  title,
+  "slug": slug.current,
+  "types": *[_type == "category" && parent._ref == ^._id && count(*[_type == "product" && category._ref == ^._id]) > 0] | order(title asc) {
     title,
-    slug,
-    parent
+    "slug": slug.current
   }
-} | order(title asc)`;
+}`;
+
+const ALL_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current)] ${PRODUCT_CARD} | order(title asc)`;
 
 const ALL_CATEGORIES_QUERY = `*[_type == "category" && defined(slug.current)] {
   _id,
@@ -189,65 +188,13 @@ const ALL_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(pub
 
 const POST_DETAIL_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
-const PARENT_CATEGORIES_QUERY = `*[_type == "category" && !defined(parent) && defined(slug.current)] | order(title asc) {
-  title,
-  "slug": slug.current,
-  "image": coalesce(
-    image,
-    *[_type == "product" && category->slug.current == ^.slug.current && defined(images[0])][0].images[0]
-  ),
-  "productCount": count(*[_type == "product" && (
-    category->slug.current == ^.slug.current ||
-    category->parent->slug.current == ^.slug.current
-  )]),
-  "subcategories": *[_type == "category" && parent->slug.current == ^.slug.current] | order(title asc)[0...3]{ title, "slug": slug.current }
-}`;
-
-const CATEGORY_SHOWCASE_QUERY = `{
-  "category": *[_type == "category" && slug.current == $slug][0] {
-    _id,
-    title,
-    "slug": slug.current
-  },
-  "products": *[_type == "product" && (
-    category->slug.current == $slug ||
-    category->parent->slug.current == $slug ||
-    category->parent->parent->slug.current == $slug
-  )] | order(_createdAt desc) [0...12] {
-    _id,
-    ${CATEGORY_PATH},
-    title,
-    slug,
-    images,
-    isFeatured,
-    isPopular,
-    "excerpt": pt::text(description),
-    specifications[]{label, value},
-    "category": category->{
-      _id,
-      title,
-      slug
-    }
-  }
-}`;
-
 // A cross-section of the catalog: the newest two products from each family
 // whose lead photo is large enough to show at tile size (skips placeholders).
 const CATALOG_SAMPLER_QUERY = `*[_type == "category" && !defined(parent)] | order(title asc) {
   "items": *[_type == "product" && defined(slug.current)
     && (category._ref == ^._id || category->parent._ref == ^._id)
     && images[0].asset->metadata.dimensions.width >= 1000
-  ] | order(_createdAt desc) [0...$perFamily] {
-    _id,
-    ${CATEGORY_PATH},
-    title,
-    slug,
-    images,
-    isFeatured,
-    isPopular,
-    specifications[]{label, value},
-    "category": category->{ _id, title, slug }
-  }
+  ] | order(_createdAt desc) [0...$perFamily] ${PRODUCT_CARD}
 }.items[]`;
 
 const LATEST_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) [0...8] {
@@ -258,25 +205,11 @@ const LATEST_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(
   publishedAt
 }`;
 
-const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category._ref == $categoryId && _id != $currentProductId] | order(_createdAt desc) [0...8] {
-  _id,
-  ${CATEGORY_PATH},
-  title,
-  slug,
-  images,
-  category->{
-    title,
-    "slug": slug
-  },
-  isFeatured,
-  isPopular,
-  "excerpt": pt::text(description),
-  specifications[]{label, value}
-}`;
+const RELATED_PRODUCTS_QUERY = `*[_type == "product" && defined(slug.current) && category._ref == $categoryId && _id != $currentProductId] | order(_createdAt desc) [0...8] ${PRODUCT_CARD}`;
 
 // ---------------------------------------------------------------------------
 // Fetch functions
-// All functions inherit 15-minute ISR and the "sanity" tag from sanityFetch.
+// All functions inherit 15-minute ISR and the "all" tag from sanityFetch.
 // Hit POST /api/purge to bust all cached data at once.
 // ---------------------------------------------------------------------------
 
@@ -322,26 +255,6 @@ export const fetchPostBySlug = cache(
   (slug: string): Promise<ApiResponse<PostDetail>> =>
     sanityFetch<PostDetail>(POST_DETAIL_QUERY, { slug }),
 );
-
-export type CatalogCategory = {
-  title: string;
-  slug: string;
-  image: any | null;
-  productCount: number;
-  subcategories: { title: string; slug: string }[];
-};
-
-/** All top-level (parent) categories — used in ParentCategoryShowcase and TrustedProducts. */
-export function fetchParentCategories(): Promise<ApiResponse<CatalogCategory[]>> {
-  return sanityFetch<CatalogCategory[]>(PARENT_CATEGORIES_QUERY);
-}
-
-/** Category info + its products for the homepage showcase carousel. */
-export function fetchCategoryShowcase(
-  categorySlug: string,
-): Promise<ApiResponse<CategoryShowcaseData>> {
-  return sanityFetch<CategoryShowcaseData>(CATEGORY_SHOWCASE_QUERY, { slug: categorySlug });
-}
 
 /** Newest presentable products from every family, for the homepage rail. */
 export function fetchCatalogSampler(perFamily = 2): Promise<ApiResponse<ProductSummary[]>> {
