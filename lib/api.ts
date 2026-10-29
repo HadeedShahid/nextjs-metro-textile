@@ -49,7 +49,6 @@ export type ProductSummary = {
   slug: { current: string };
   images: SanityImage[];
   isFeatured: boolean;
-  isPopular: boolean;
   excerpt?: string | null;
   specifications?: Specification[] | null;
   /** Full category path for /products/[...slug], e.g. "patches/leather-patches". */
@@ -109,10 +108,9 @@ export type PostDetail = {
 // Queries
 // ---------------------------------------------------------------------------
 
-/** A product's full category path ("parent/child"), so links to a
- *  subcategory land on its own filtered listing rather than every product. */
+/** A product's category path ("family/subcategory"), so links to a
+ *  subcategory land on its own listing rather than the whole family. */
 const CATEGORY_PATH = `"categoryPath": select(
-    defined(category->parent->parent) => category->parent->parent->slug.current + "/" + category->parent->slug.current + "/" + category->slug.current,
     defined(category->parent) => category->parent->slug.current + "/" + category->slug.current,
     category->slug.current
   )`;
@@ -126,7 +124,6 @@ const PRODUCT_CARD = `{
   images,
   "leadWidth": images[0].asset->metadata.dimensions.width,
   isFeatured,
-  isPopular,
   "excerpt": pt::text(description),
   specifications[]{label, value},
   "category": category->{ _id, title, slug, parent }

@@ -152,14 +152,24 @@
 }
 
 /* ── Type scale: mobile first, one role per job ───────────────────────────
-   display 30→40 · headline 22→28 · title 17→19 · lede 16→18 · body 16 ·
-   small 14 (Tailwind text-sm) · meta 13. Controls (buttons, nav, "›" links)
-   share one 15px/500 size. */
+   hero 36→52 (home only) · display 30→40 · headline 22→28 · title 17→19 ·
+   lede 16→18 · body 16 · small 14 (Tailwind text-sm) · meta 13. Controls
+   (buttons, nav, "›" links) share one 15px/500 size. Display sizes run
+   tight (-0.025em, ~1.05 leading) so Geist's semibold reads crisp. */
+@utility text-hero {
+  font-size: clamp(2.25rem, 1.2rem + 2.6vw, 3.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
 @utility text-display {
   font-size: clamp(1.875rem, 1.5rem + 1.6vw, 2.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   font-weight: 600;
+  text-wrap: balance;
 }
 
 @utility text-headline {

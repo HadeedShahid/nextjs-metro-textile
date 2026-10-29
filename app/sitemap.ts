@@ -8,7 +8,6 @@ type SitemapData = {
     slug: string;
     _updatedAt: string;
     parentSlug: string | null;
-    grandparentSlug: string | null;
   }[];
   posts: { slug: string; _updatedAt: string }[];
 };
@@ -20,20 +19,16 @@ const SITEMAP_QUERY = `{
   "categories": *[_type == "category" && defined(slug.current)]{
     "slug": slug.current,
     _updatedAt,
-    "parentSlug": parent->slug.current,
-    "grandparentSlug": parent->parent->slug.current
+    "parentSlug": parent->slug.current
   },
   "posts": *[_type == "post" && defined(slug.current)]{
     "slug": slug.current, _updatedAt
   }
 }`;
 
-/** Build the hierarchical /products path the catch-all route expects. */
+/** The /products path the catch-all route expects: family, then subcategory. */
 function categoryPath(cat: SitemapData["categories"][number]): string {
-  const segments = [cat.grandparentSlug, cat.parentSlug, cat.slug].filter(
-    Boolean,
-  );
-  return `/products/${segments.join("/")}`;
+  return `/products/${cat.parentSlug ? `${cat.parentSlug}/` : ""}${cat.slug}`;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

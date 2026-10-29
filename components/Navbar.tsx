@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Menu } from "lucide-react";
+import { BookOpen, Building2, ChevronDown, ChevronRight, House, LayoutGrid, Mail, Menu, ShieldCheck, type LucideIcon } from "lucide-react";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
@@ -28,11 +28,11 @@ interface NavbarProps {
   families?: NavFamily[];
 }
 
-const COMPANY_LINKS = [
-  { title: "About", url: "/about-us" },
-  { title: "Compliance", url: "/compliance" },
-  { title: "Journal", url: "/blogs" },
-  { title: "Contact", url: "/contact-us" },
+const COMPANY_LINKS: { title: string; url: string; icon: LucideIcon }[] = [
+  { title: "About", url: "/about-us", icon: Building2 },
+  { title: "Compliance", url: "/compliance", icon: ShieldCheck },
+  { title: "Journal", url: "/blogs", icon: BookOpen },
+  { title: "Contact", url: "/contact-us", icon: Mail },
 ];
 
 
@@ -43,6 +43,8 @@ const LINK =
  * Global nav: a plain white bar with every section named in full. Products
  * opens a panel listing each family and its types, on hover or from its
  * arrow button, so buyers can see the whole catalog without leaving the page.
+ * The panel unrolls downward from the bar, opaque from the first frame, and
+ * its columns follow a beat behind; closing is a quick fade.
  */
 const Navbar = ({ families = [] }: NavbarProps) => {
   const pathname = usePathname();
@@ -129,12 +131,17 @@ const Navbar = ({ families = [] }: NavbarProps) => {
 
             <div
               id="products-panel"
-              hidden={!productsOpen}
-              className="absolute inset-x-0 top-full border-b border-border bg-white"
+              data-open={productsOpen || undefined}
+              inert={!productsOpen}
+              className="group/panel invisible absolute inset-x-0 top-full border-b border-border bg-white opacity-0 shadow-[0_18px_30px_-18px_rgb(15_15_20/0.22)] [clip-path:inset(0_0_100%_0)] [transition:opacity_150ms_ease-out,visibility_0s_150ms,clip-path_0s_150ms] data-[open]:visible data-[open]:opacity-100 data-[open]:[clip-path:inset(0_0_-3rem_0)] data-[open]:[transition:clip-path_320ms_var(--ease-strike)] motion-reduce:[clip-path:none]"
             >
               <div className="container-x grid grid-cols-5 gap-6 py-7">
-                {families.map((family) => (
-                  <div key={family.url}>
+                {families.map((family, i) => (
+                  <div
+                    key={family.url}
+                    style={{ "--i": i } as React.CSSProperties}
+                    className="translate-y-1.5 opacity-0 transition-[opacity,translate] duration-150 group-data-[open]/panel:translate-y-0 group-data-[open]/panel:opacity-100 group-data-[open]/panel:delay-[calc(40ms+var(--i)*25ms)] group-data-[open]/panel:duration-300 group-data-[open]/panel:ease-[var(--ease-strike)] motion-reduce:translate-y-0"
+                  >
                     <Link href={family.url} className="group block">
                       <span className="relative block h-14 w-24">
                         {family.thumb && (
@@ -213,16 +220,28 @@ const Navbar = ({ families = [] }: NavbarProps) => {
             >
               <SheetTitle className="sr-only">Menu</SheetTitle>
               <ul className="border-t border-border">
-                <MenuRow href="/" current={isActive("/")} onNavigate={() => setMenuOpen(false)}>
+                <MenuRow href="/" icon={<House />} current={isActive("/")} onNavigate={() => setMenuOpen(false)}>
                   Home
                 </MenuRow>
-                <MenuRow href="/products" current={pathname === "/products"} onNavigate={() => setMenuOpen(false)}>
-                  Products
+                <MenuRow
+                  href="/products"
+                  icon={<LayoutGrid />}
+                  current={pathname === "/products"}
+                  onNavigate={() => setMenuOpen(false)}
+                >
+                  All products
                 </MenuRow>
                 {families.map((family) => (
                   <MenuRow
                     key={family.url}
                     href={family.url}
+                    icon={
+                      family.thumb ? (
+                        <Image src={family.thumb} alt="" width={36} height={36} unoptimized className="size-full object-contain p-1" />
+                      ) : (
+                        <LayoutGrid />
+                      )
+                    }
                     current={isActive(family.url)}
                     onNavigate={() => setMenuOpen(false)}
                     nested
@@ -234,6 +253,7 @@ const Navbar = ({ families = [] }: NavbarProps) => {
                   <MenuRow
                     key={item.url}
                     href={item.url}
+                    icon={<item.icon />}
                     current={isActive(item.url)}
                     onNavigate={() => setMenuOpen(false)}
                   >
@@ -267,14 +287,17 @@ const Navbar = ({ families = [] }: NavbarProps) => {
   );
 };
 
+/** One menu line: an icon chip (or a family's cut-out), the name and an arrow. */
 function MenuRow({
   href,
+  icon,
   current,
   nested = false,
   onNavigate,
   children,
 }: {
   href: string;
+  icon: React.ReactNode;
   current?: boolean;
   nested?: boolean;
   onNavigate: () => void;
@@ -287,12 +310,19 @@ function MenuRow({
         onClick={onNavigate}
         aria-current={current ? "page" : undefined}
         className={cn(
-          "block py-3 text-foreground/80 hover:text-foreground aria-[current=page]:text-foreground",
-          nested ? "pl-4 text-[0.9375rem]" : "text-base font-medium",
+          "flex items-center gap-3 py-2.5 text-foreground/80 hover:text-foreground aria-[current=page]:text-foreground",
+          nested ? "pl-6 text-[0.9375rem]" : "text-base font-medium",
           current && "font-semibold",
         )}
       >
-        {children}
+        <span
+          aria-hidden
+          className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted text-foreground/70 [&_svg]:size-[1.125rem]"
+        >
+          {icon}
+        </span>
+        <span className="flex-1">{children}</span>
+        <ChevronRight className="size-4 text-muted-foreground/60" aria-hidden />
       </Link>
     </li>
   );

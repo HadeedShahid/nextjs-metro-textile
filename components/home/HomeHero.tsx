@@ -29,11 +29,11 @@ export default function HomeHero() {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden bg-muted lg:h-[26rem] xl:h-[30rem]">
       <div className="container-x relative z-10 pt-10 md:pt-12 lg:flex lg:h-full lg:items-center lg:pt-0">
-        <div className="flex max-w-[30rem] flex-col items-start lg:max-w-[23rem] xl:max-w-[27rem]">
-          <h1 id="hero-title" className="text-display">
+        <div className="flex max-w-[30rem] flex-col items-start lg:max-w-[25rem] xl:max-w-[29rem]">
+          <h1 id="hero-title" className="text-hero">
             Hardware, made to your mark.
           </h1>
-          <p className="text-lede mt-3 text-muted-foreground">
+          <p className="text-lede mt-4 text-pretty text-muted-foreground">
             Zippers, buttons, buckles, patches and plates for apparel and leather
             brands, sampled and produced to your spec.
           </p>
