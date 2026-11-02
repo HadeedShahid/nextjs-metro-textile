@@ -64,7 +64,7 @@ export default function ImageGallery({
           sizes="(max-width: 1024px) 100vw, 58vw"
           className="object-cover"
         />
-        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/85 text-foreground backdrop-blur transition-opacity lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
+        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-control bg-white/85 text-foreground backdrop-blur transition-opacity lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
           <Expand className="size-4" aria-hidden />
         </span>
       </button>
