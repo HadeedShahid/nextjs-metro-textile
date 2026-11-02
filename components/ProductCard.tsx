@@ -69,7 +69,7 @@ export default function ProductCard({ product, priority = false, fallback }: Pro
           </div>
         )}
         {product.isFeatured && (
-          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-0.5 text-xs font-medium backdrop-blur">
             Featured
           </span>
         )}

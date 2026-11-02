@@ -49,7 +49,7 @@ export function QuoteModal({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={children as React.ReactElement} />
-        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.75rem] p-8 thin-scrollbar sm:max-w-[520px]">
+        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl p-8 thin-scrollbar sm:max-w-[520px]">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold tracking-[-0.02em]">
               {QUOTE_TITLE}
@@ -252,7 +252,7 @@ function QuoteForm({
               {files.map((file, index) => (
                 <li
                   key={`${file.name}-${file.size}`}
-                  className="flex max-w-[180px] items-center gap-1.5 rounded-full border border-border bg-muted py-1 pl-2.5 pr-1 text-xs"
+                  className="flex max-w-[180px] items-center gap-1.5 rounded-md border border-border bg-muted py-1 pl-2.5 pr-1 text-xs"
                 >
                   <span className="truncate">{file.name}</span>
                   <span className="shrink-0 text-muted-foreground">
@@ -261,7 +261,7 @@ function QuoteForm({
                   <button
                     type="button"
                     aria-label={`Remove ${file.name}`}
-                    className="shrink-0 rounded-full p-0.5 text-muted-foreground hover:bg-border hover:text-foreground"
+                    className="shrink-0 rounded-sm p-0.5 text-muted-foreground hover:bg-border hover:text-foreground"
                     onClick={() => removeFile(index)}
                   >
                     <X className="w-3.5 h-3.5" />
