@@ -2,71 +2,29 @@
 version: 1
 slug: "app-home-page-tsx"
 primary_target: "app/(home)/page.tsx"
-related_targets: ["app/(site)/products/[[...slug]]/page.tsx","app/(site)/product/[slug]/page.tsx"]
+related_targets: []
 ---
 
-# Surface brief: Metro Metal storefront (site-wide redesign)
+# Surface brief: Metro Metal home page (traditional)
 
 ## Scope and mode
-Replacement visual world for the whole storefront: home, product listing and detail, about, compliance, contact and journal. Persuade mode for home and the inner marketing pages. Product listing and detail lean toward Operate inside the same world. The journal is Read.
+The home page only (`app/(home)/page.tsx`). Persuade: a first-time visitor should know what Metro Metal makes, see the range, and either search the catalogue or ask for a quote. The catalogue and its search live at `/products` (their own brief).
 
 ## Audience, job, action
-Brand sourcing and product-development buyers judge finish and quality from imagery, then send a quote request (modal with attachments), an email or a WhatsApp message. The primary action is **Request a quote**, prefilled with the product wherever a product is in view.
+Sourcing people at apparel and leather-goods brands and the factories that make for them, often on a phone. They judge the range from the hero and the family tiles, then search, open a family or type, or request a quote.
 
 ## Constraints
-- The owner pinned the brief: **Apple-style, imagery-heavy, product-led**. It beats the roll.
-- Code-led build: no image generation is available.
-- Assets on hand: two hero renders, five bento cutouts, single-object studio shots, two dark mood shots (`cta-pic`, `hero2`), and 205 phone-shot catalog photos in Sanity.
-- Preserve the Sanity data, quote and contact flows, SEO and JSON-LD.
-- No invented claims. MOQ, lead time, Incoterms and the exact ISO number are unconfirmed.
-
-## Grounded directions (by resonance)
-1. Trim card / hardware sample board.
-2. Plater's finish ring.
-3. Tech-pack trims page.
-4. Denim waistband close-up (back patch, rivet, shank).
-5. **The die and its strike: an engraved steel tool and the mark it leaves (assigned, seed 5ec5b347).**
-6. Trade-fair vitrine.
-7. Sealed-sample tag and QC report.
-
-**Resolution:** the pinned Apple product theatre owns palette, type and layout. The assigned die/strike world binds topology, control states and ritual.
-
-## Challenger verdicts
-All six are declined; none beats the direction on both audience identification and product clarity. Each still donates one discipline.
-- **Op-art textile repeat:** declined. Raise: tonal discipline. Ground, ink and one accent only; no decorative mid-greys.
-- **Soundsystem poster:** declined. Raise: rank by scale. Display type is enormous and body is small, never a flat ladder of 24 px headings.
-- **ANSI bulletin board:** declined. Raise: complete keyboard path. Every rail, chip and quote action is reachable and visibly focused.
-- **Cutting-bench select rail:** declined. Raise: state is a mark, not a hue. A rail snaps to pitch and never stops between frames.
-- **Jacquard brocade:** declined. Raise: traceability. Finished object → family → spec → quote request carrying the product name.
-- **Tensegrity column:** declined. Raise: annotations belong to the object. Specs sit beside the image as a measured list, not in floating cards.
+- Owner's words (2026-11-04, after seeing the products-first build): "I really like it... it's very forward... it also makes sense... But I do need a traditional home page too. Traditional hero section, with the products introduction and maybe the categories too. Maybe this can be a good search page."
+- Keep from the earlier home: client logos, how an order works, FAQ and blog. No anonymous buyer quotes. No invented claims (no "popular", no stats).
+- Assets: the studio renders `public/assets/home/hero-desktop.webp` (3168x1344, objects right on a #f5f4f9 field) and `hero-mobile.webp` (1536x2400, objects at the bottom), and the five family cut-outs in `public/assets/bento/`.
 
 ## Direction contract
-THESIS: One piece of hardware per viewport, at studio scale, with one sentence about it. Metro Metal's catalog presented the way a maker presents its finest objects. It refuses the category default: eyebrow-titled card grids, icon tiles and five identical carousels.
-
-OWN-WORLD:
-- **Grounds:** gallery white (#fff) and aluminium grey (#f5f5f7) bands, broken by one near-black die band (#0b0b0c).
-- **Ink:** #1d1d1f; secondary text #6e6e73.
-- **Accent:** plum #7f2f82, reserved for the quote action and text links.
-- **Type:** Geist, with display 56–96 px at −0.035em semibold, 17 px body and 12–14 px captions. No eyebrows.
-- **Controls:** pill buttons and "Learn more ›" links. Tiles are borderless rounded-3xl on #f5f5f7.
-- **States are impressions:** pressed is a 1 px inset deboss, selected is filled ink, focus is a 2 px ink ring offset 3 px.
-
-STORY:
-- **See:** the hardware at full scale.
-- **Understand:** the five families and that Metro makes to the buyer's mark across Pakistan, China and Hong Kong.
-- **Believe:** the client marks and the sample → seal → produce → inspect discipline.
-- **Do:** request a quote that already names what they looked at.
-
-FIRST VIEWPORT:
-- **Desktop:** the full-bleed hero render (objects right, white field left). On the left: "Metro Metal" at 21 px semibold, the headline "Hardware, made to your mark." at clamp(48px, 7vw, 96px), one 21 px line of offer, a plum "Request a quote" pill and an "Explore products ›" link.
-- **Nav:** a sticky 52 px translucent bar with the logo, the families and a small quote pill.
-- **Mobile:** text sits above the cropped portrait render.
-
-FORM: Apple product theatre (the pinned brief) carrying the die-and-strike ritual, candidate 5 of 7, seed 5ec5b347.
-- **Signature interaction:** the lineup rail. Large family tiles snap to pitch, are keyboard-operable, and each tile offers Explore and Quote.
-- **Motion grammar:** the strike. The hero render settles from scale 1.06 to 1 and from blur to sharp as it enters view (scroll-driven, visible by default, disabled under reduced motion). Reveals are otherwise absent.
-
+THESIS: A traditional business home page in the catalogue's world: a hero that says what Metro Metal makes and lets you search, then the range by family, then a few styles. It refuses the Apple-style theatre the owner rejected: giant type, lineup rails, die bands, scroll-driven motion.
+OWN-WORLD: The catalogue's system (DESIGN.md): white ground, ink text, #f5f5f7 wells, hairline cards, plum only for the quote action and links, Geist on fixed steps. The hero band is the render's own ground, #f5f4f9, so the photo meets it with no edge; the Search submit is ink. One extra step for the hero title: 30px, 40px from 768px.
+STORY: Understand what Metro Metal makes and where, see the five families and their types, then search, open a family or type, or request a quote.
+FIRST VIEWPORT: Contact bar and nav as on every page. The hero band is 26rem tall at 1024px and 30rem from 1280px. On the left: the h1 "Garment and leather-goods accessories, made to your logo." (40px, three lines), one lede, a search field with an ink Search button that opens `/products?q=`, then "Request a quote" (plum) and "Browse products" (outline). On the right, the studio render anchored to the band's right edge, its empty field under the text. Tablets tuck the landscape render up at the right beside the actions; phones show the copy, the search, two half-width buttons, then the portrait render faded into the band. Below the band: "Our product range", five family tiles (cut-out in a grey well, name, count, tagline, type links) and a sixth "Something else?" quote tile, in 2 columns on phones and 3 from 768px.
+FORM: The category standard (canon), pinned by the owner's plain request; no roll and no seed. Signature: the hero search hands its words to the catalogue, which opens already filtered.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Unresolved
-Exact ISO standard; MOQ, lead time and Incoterms; Sanity copy that still says "Metro Textile" and "ISO 9002"; real social URLs; permission to feature client logos prominently; a new studio shoot for the catalog.
+Permission to feature client logos; the shank-button photos in Sanity show belts (they appear when someone searches "shank").

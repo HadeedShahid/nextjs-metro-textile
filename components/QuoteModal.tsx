@@ -31,8 +31,7 @@ import {
 } from "@/constants";
 
 const QUOTE_TITLE = "Request a quote";
-const QUOTE_DESCRIPTION =
-  "Tell us what you need: materials, finish, size and quantity. Our team replies within 24 hours.";
+const QUOTE_DESCRIPTION = "Tell us what you need and our team will reply within 24 hours.";
 
 export function QuoteModal({
   children,
@@ -49,14 +48,10 @@ export function QuoteModal({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={children as React.ReactElement} />
-        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl p-8 thin-scrollbar sm:max-w-[520px]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold tracking-[-0.02em]">
-              {QUOTE_TITLE}
-            </DialogTitle>
-            <DialogDescription className="text-[0.9375rem]">
-              {QUOTE_DESCRIPTION}
-            </DialogDescription>
+        <DialogContent className="max-h-[90dvh] gap-5 overflow-y-auto p-6 thin-scrollbar sm:max-w-[440px]">
+          <DialogHeader className="gap-1 pr-8">
+            <DialogTitle className="text-lg font-semibold tracking-[-0.01em]">{QUOTE_TITLE}</DialogTitle>
+            <DialogDescription className="text-sm">{QUOTE_DESCRIPTION}</DialogDescription>
           </DialogHeader>
           <QuoteForm product={product} onSuccess={() => setOpen(false)} />
         </DialogContent>
@@ -67,21 +62,17 @@ export function QuoteModal({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={children as React.ReactElement} />
-      {/* Height must go through the data-[side=bottom] variant — the base
-          sheet's h-auto outweighs a plain h-[85vh] and kills scrolling. */}
+      {/* As tall as the form, up to 92% of the screen; the cap goes through the
+          data-[side=bottom] variant so it outweighs the base sheet's h-auto. */}
       <SheetContent
         side="bottom"
-        className="data-[side=bottom]:h-[85vh] overflow-y-auto rounded-t-2xl thin-scrollbar"
+        className="gap-0 overflow-y-auto rounded-t-xl shadow-none thin-scrollbar data-[side=bottom]:max-h-[92dvh]"
       >
-        <SheetHeader className="text-left px-4 pt-6 pb-0">
-          <SheetTitle className="text-2xl font-semibold tracking-[-0.02em]">
-            {QUOTE_TITLE}
-          </SheetTitle>
-          <SheetDescription className="text-[0.9375rem]">
-            {QUOTE_DESCRIPTION}
-          </SheetDescription>
+        <SheetHeader className="gap-1 px-5 pb-0 pr-12 pt-5 text-left">
+          <SheetTitle className="text-lg font-semibold tracking-[-0.01em]">{QUOTE_TITLE}</SheetTitle>
+          <SheetDescription className="text-sm">{QUOTE_DESCRIPTION}</SheetDescription>
         </SheetHeader>
-        <div className="mt-4 px-4 pb-6">
+        <div className="px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4">
           <QuoteForm product={product} onSuccess={() => setOpen(false)} />
         </div>
       </SheetContent>
@@ -91,9 +82,10 @@ export function QuoteModal({
 
 type QuoteStatus = "idle" | "loading" | "error";
 
+// "4 MB", "1.5 MB", "320 KB": a whole number of megabytes loses its ".0".
 function formatBytes(bytes: number): string {
   return bytes >= 1024 * 1024
-    ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    ? `${Number((bytes / (1024 * 1024)).toFixed(1))} MB`
     : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
 
@@ -182,29 +174,30 @@ function QuoteForm({
 
   return (
     <form className={className} onSubmit={handleSubmit}>
-      <div className="grid gap-4">
+      <div className="grid gap-3.5">
         {product && (
-          <p className="rounded-2xl bg-muted px-4 py-3 text-[0.9375rem]">
-            <span className="text-muted-foreground">Quote for </span>
-            <span className="font-medium">{product}</span>
+          <p className="flex min-w-0 items-center gap-1.5 rounded-md bg-muted px-3 py-2 text-sm">
+            <span className="shrink-0 text-muted-foreground">Quote for</span>
+            <span className="truncate font-medium">{product}</span>
           </p>
         )}
 
-        <div className="grid gap-2">
-          <Label htmlFor={fieldId("name")}>
-            Name <span aria-hidden className="text-destructive">*</span>
-          </Label>
-          <Input id={fieldId("name")} name="name" autoComplete="name" placeholder="John Doe" required />
+        <div className="grid gap-3.5 sm:grid-cols-2 sm:gap-3">
+          <div className="grid gap-1.5">
+            <Label htmlFor={fieldId("name")}>
+              Name <span aria-hidden className="text-destructive">*</span>
+            </Label>
+            <Input id={fieldId("name")} name="name" autoComplete="name" placeholder="Your name" required />
+          </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor={fieldId("email")}>
+              Email <span aria-hidden className="text-destructive">*</span>
+            </Label>
+            <Input id={fieldId("email")} name="email" type="email" autoComplete="email" placeholder="you@company.com" required />
+          </div>
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor={fieldId("email")}>
-            Email <span aria-hidden className="text-destructive">*</span>
-          </Label>
-          <Input id={fieldId("email")} name="email" type="email" autoComplete="email" placeholder="john@company.com" required />
-        </div>
-
-        <div className="grid gap-2">
+        <div className="grid gap-1.5">
           <Label htmlFor={fieldId("requirements")}>
             What you need <span aria-hidden className="text-destructive">*</span>
           </Label>
@@ -214,10 +207,10 @@ function QuoteForm({
             required
             placeholder={
               product
-                ? "Quantity, finish, size, and any branding you need on it…"
-                : "Products, quantities, finishes, sizes, and any branding you need…"
+                ? "Quantity, finish, size and any branding you need on it"
+                : "Products, quantities, finishes, sizes and any branding you need"
             }
-            className="min-h-[120px] resize-none"
+            className="min-h-24 resize-none"
           />
         </div>
 
@@ -233,19 +226,15 @@ function QuoteForm({
               e.target.value = "";
             }}
           />
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full justify-center"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Paperclip className="w-4 h-4" />
-            Attach specs or reference files
-          </Button>
-          <p className="text-xs text-muted-foreground">
-            Optional — up to {MAX_QUOTE_ATTACHMENTS} files,{" "}
-            {formatBytes(MAX_QUOTE_ATTACHMENT_BYTES)} total.
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+            <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
+              <Paperclip aria-hidden />
+              Attach files
+            </Button>
+            <span className="text-xs text-muted-foreground">
+              Optional. Up to {MAX_QUOTE_ATTACHMENTS} files, {formatBytes(MAX_QUOTE_ATTACHMENT_BYTES)} in all.
+            </span>
+          </div>
 
           {files.length > 0 && (
             <ul className="flex flex-wrap gap-1.5">
@@ -255,16 +244,14 @@ function QuoteForm({
                   className="flex max-w-[180px] items-center gap-1.5 rounded-md border border-border bg-muted py-1 pl-2.5 pr-1 text-xs"
                 >
                   <span className="truncate">{file.name}</span>
-                  <span className="shrink-0 text-muted-foreground">
-                    {formatBytes(file.size)}
-                  </span>
+                  <span className="shrink-0 text-muted-foreground">{formatBytes(file.size)}</span>
                   <button
                     type="button"
                     aria-label={`Remove ${file.name}`}
                     className="shrink-0 rounded-sm p-0.5 text-muted-foreground hover:bg-border hover:text-foreground"
                     onClick={() => removeFile(index)}
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="size-3.5" />
                   </button>
                 </li>
               ))}
@@ -273,15 +260,15 @@ function QuoteForm({
         </div>
 
         {status === "error" && (
-          <div role="alert" className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-[0.9375rem] text-destructive">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div role="alert" className="flex items-start gap-2 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
             {errorMsg}
           </div>
         )}
 
-        <Button type="submit" className="w-full mt-2" size="lg" disabled={status === "loading"}>
-          {status === "loading" && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          {status === "loading" ? "Sending…" : "Send request"}
+        <Button type="submit" className="mt-1 w-full" disabled={status === "loading"}>
+          {status === "loading" && <Loader2 className="size-4 animate-spin" aria-hidden />}
+          {status === "loading" ? "Sending" : "Send request"}
         </Button>
       </div>
     </form>

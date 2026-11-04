@@ -1,5 +1,5 @@
-import type { Category, CategoryHighlight, ProductSummary } from "@/lib/api";
-import { FAMILY_DEFAULTS, LEAD_PHOTOS, SUBCATEGORY_TAGLINES, type FamilyDefaults } from "@/data/families";
+import type { Category, ProductSummary } from "@/lib/api";
+import { FAMILY_DEFAULTS, SUBCATEGORY_TAGLINES, type FamilyDefaults, type StudioImage } from "@/data/families";
 
 /** A category with everything a family or subcategory page needs, resolved once. */
 export type CatalogNode = {
@@ -20,16 +20,6 @@ export type CatalogNode = {
 /** Photos at least this wide hold up in large frames; smaller ones are placeholders. */
 const LARGE_PHOTO = 1000;
 
-export function hasLargePhoto(p: ProductSummary) {
-  return Boolean(p.images?.[0]) && (p.leadWidth ?? 0) >= LARGE_PHOTO;
-}
-
-/** A photo fit to lead: large enough, and cleared to feature (see LEAD_PHOTOS). */
-export function canLead(p: ProductSummary) {
-  return hasLargePhoto(p) && LEAD_PHOTOS.has(p.slug.current);
-}
-
-/** True when the lead photo is known to be a small placeholder rather than a catalog shot. */
 /** A lead photo too small for a tile: the 512px placeholders some products still carry. */
 export function hasPlaceholderPhoto(p: { leadWidth?: number | null }) {
   return p.leadWidth != null && p.leadWidth < LARGE_PHOTO;
@@ -111,24 +101,7 @@ export function resolvePath(families: CatalogNode[], slugs: string[]) {
   return node ?? null;
 }
 
-/** The node's lead photo: its first product with a photo cleared to lead. */
-export function leadProduct(node: CatalogNode) {
-  return node.products.find(canLead) ?? null;
-}
-
-/** "Get to know" cards: Sanity's when set, otherwise the built-in ones. */
-export function familyHighlights(node: CatalogNode): CategoryHighlight[] {
-  const fromSanity = (node.category.highlights ?? []).filter((h) => h?.title);
-  if (fromSanity.length) return fromSanity;
-  return (node.defaults?.highlights ?? []).map((h, i) => ({ _key: `default-${i}`, ...h }));
-}
-
 export const styleCount = (n: number) => `${n} ${n === 1 ? "style" : "styles"}`;
-
-const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
-
-/** A small count as a word for running copy ("Five families"); digits past ten. */
-export const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
 
 /** A category name for running text: lower case, but acronyms such as PU stay as they are. */
 export const runningName = (title: string) =>
@@ -137,18 +110,81 @@ export const runningName = (title: string) =>
     .map((word) => (/^[A-Z]{2,}$/.test(word) ? word : word.toLowerCase()))
     .join(" ");
 
+/** One filter on a catalogue view: a link to that family or type, with its count. */
+export type CatalogChip = { label: string; href: string; count: number; active: boolean };
+
+/** A product as the catalogue grid lists it. */
+export type CatalogItem = {
+  product: ProductSummary;
+  /** The type it is filed under ("Shank Buttons"), or its family when it has no type. */
+  typeLabel: string | null;
+  /** The family's studio cut-out, shown in place of a placeholder photo. */
+  fallback: StudioImage | null;
+};
+
+/** A type's name inside its family's row: "Plastic Buttons" reads "Plastic" under "Buttons". */
+export const typeName = (type: string, family: string) => {
+  const short = type.replace(new RegExp(`\\s+${family}$`, "i"), "").trim();
+  return short && short !== type ? short : type;
+};
+
 /**
- * Products with photos cleared to lead, taken from each type in turn
- * (largest type first), with any filed on the family itself at the end, so
- * one odd product cannot lead every picture on the page.
+ * The filters a catalogue view opens on: every family that holds a product,
+ * then, once a family with two or more types is chosen, its types.
  */
-export function framedProducts(node: CatalogNode, exclude: Set<string> = new Set()) {
-  const usable = (p: ProductSummary) => canLead(p) && !exclude.has(p._id);
-  const lanes = node.children.map((c) => c.products.filter(usable));
-  const inLanes = new Set(node.children.flatMap((c) => c.products.map((p) => p._id)));
-  const picked: ProductSummary[] = [];
-  for (let i = 0; lanes.some((lane) => i < lane.length); i++) {
-    for (const lane of lanes) if (lane[i]) picked.push(lane[i]);
+export function catalogChips(families: CatalogNode[], current: CatalogNode | null, allHref = "/products") {
+  const family = current?.parent ?? current;
+  const stocked = families.filter((f) => f.products.length > 0);
+  const total = stocked.reduce((sum, f) => sum + f.products.length, 0);
+
+  const familyChips: CatalogChip[] = [
+    { label: "All products", href: allHref, count: total, active: !family },
+    ...stocked.map((f) => ({ label: f.title, href: f.href, count: f.products.length, active: f.id === family?.id })),
+  ];
+
+  const types = family?.children.filter((c) => c.products.length > 0) ?? [];
+  const typeChips: CatalogChip[] | null =
+    family && types.length >= 2
+      ? [
+          { label: "All", href: family.href, count: family.products.length, active: current === family },
+          ...types.map((t) => ({ label: typeName(t.title, family.title), href: t.href, count: t.products.length, active: t.id === current?.id })),
+        ]
+      : null;
+
+  return { familyChips, typeChips };
+}
+
+/** Every category in the tree, by id. */
+function nodesById(families: CatalogNode[]) {
+  const map = new Map<string, CatalogNode>();
+  for (const family of families) {
+    map.set(family.id, family);
+    for (const child of family.children) map.set(child.id, child);
   }
-  return [...picked, ...node.products.filter((p) => usable(p) && !inLanes.has(p._id))];
+  return map;
+}
+
+/** A node's products type by type, in its chips' order, then any filed on the node itself. */
+function inChipOrder(node: CatalogNode): ProductSummary[] {
+  if (!node.children.length) return node.products;
+  const typed = node.children.flatMap((c) => c.products);
+  const seen = new Set(typed.map((p) => p._id));
+  return [...typed, ...node.products.filter((p) => !seen.has(p._id))];
+}
+
+/** A node's products as grid items, each labelled with its own type and carrying its family's cut-out. */
+export function catalogItems(families: CatalogNode[], node: CatalogNode | null): CatalogItem[] {
+  const byId = nodesById(families);
+  // All products are listed family by family, and every family type by type in
+  // the order its chips read, so the grid and the filters agree.
+  const products = node ? inChipOrder(node) : families.flatMap(inChipOrder);
+  return products.map((product) => {
+    const own = product.category?._id ? byId.get(product.category._id) : undefined;
+    const family = own?.parent ?? own;
+    return {
+      product,
+      typeLabel: own?.title ?? product.category?.title ?? null,
+      fallback: family?.defaults?.cutout ?? null,
+    };
+  });
 }

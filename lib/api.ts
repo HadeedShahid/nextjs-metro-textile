@@ -187,13 +187,6 @@ const POST_DETAIL_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
 // A cross-section of the catalog: the newest two products from each family
 // whose lead photo is large enough to show at tile size (skips placeholders).
-const CATALOG_SAMPLER_QUERY = `*[_type == "category" && !defined(parent)] | order(title asc) {
-  "items": *[_type == "product" && defined(slug.current)
-    && (category._ref == ^._id || category->parent._ref == ^._id)
-    && images[0].asset->metadata.dimensions.width >= 1000
-  ] | order(_createdAt desc) [0...$perFamily] ${PRODUCT_CARD}
-}.items[]`;
-
 const LATEST_POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) [0...8] {
   _id,
   title,
@@ -254,10 +247,6 @@ export const fetchPostBySlug = cache(
 );
 
 /** Newest presentable products from every family, for the homepage rail. */
-export function fetchCatalogSampler(perFamily = 2): Promise<ApiResponse<ProductSummary[]>> {
-  return sanityFetch<ProductSummary[]>(CATALOG_SAMPLER_QUERY, { perFamily });
-}
-
 /** Latest 8 posts with image — used in the BlogSection carousel. */
 export function fetchLatestPosts(): Promise<ApiResponse<PostSummaryWithImage[]>> {
   return sanityFetch<PostSummaryWithImage[]>(LATEST_POSTS_QUERY);

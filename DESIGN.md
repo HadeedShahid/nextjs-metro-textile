@@ -1,450 +1,518 @@
 ---
 name: Metro Metal
-description: Garment and leather-goods hardware, shown clearly on every screen size and made to the buyer's mark.
+description: A plain trade catalogue of garment and leather-goods hardware, products first, every style one step from a quote, behind a traditional home page.
 colors:
-  gallery-white: "#ffffff"
-  aluminium: "#f5f5f7"
-  aluminium-pressed: "#e8e8ed"
+  white: "#ffffff"
   ink: "#1d1d1f"
-  ink-pressed: "#3a3a3c"
   ink-secondary: "#6e6e73"
+  well: "#f5f5f7"
+  well-pressed: "#e8e8ed"
+  hairline: "#e3e3e8"
+  field-stroke: "#d2d2d7"
+  hero-ground: "#f5f4f9"
+  plum: "oklch(0.4533 0.1522 326.27)"
+  plum-pressed: "color-mix(in oklab, oklch(0.4533 0.1522 326.27) 88%, black)"
+  ink-pressed: "#3a3a3c"
+  destructive: "oklch(0.577 0.245 27.325)"
   die: "#0b0b0c"
   die-foreground: "#f5f5f7"
   die-muted: "#a1a1a6"
-  plum: "oklch(0.4533 0.1522 326.27)"
-  hairline: "#e3e3e8"
-  field-stroke: "#d2d2d7"
-  destructive: "oklch(0.577 0.245 27.325)"
 typography:
   hero:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(2.25rem, 1.2rem + 2.6vw, 3.25rem)"
+    fontSize: "1.875rem"
     fontWeight: 600
-    lineHeight: 1.04
+    lineHeight: 1.12
+    letterSpacing: "-0.025em"
+  hero-md:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "2.5rem"
+    fontWeight: 600
+    lineHeight: 1.12
     letterSpacing: "-0.025em"
   display:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.875rem, 1.5rem + 1.6vw, 2.5rem)"
-    fontWeight: 600
-    lineHeight: 1.08
-    letterSpacing: "-0.025em"
-  headline:
-    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem)"
+    fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1.2
+    letterSpacing: "-0.02em"
+  display-md:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1.75rem"
+    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "-0.02em"
+  headline:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 600
+    lineHeight: 1.3
+    letterSpacing: "-0.015em"
+  headline-md:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 600
+    lineHeight: 1.3
     letterSpacing: "-0.015em"
   title:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem)"
+    fontSize: "1.0625rem"
     fontWeight: 600
-    lineHeight: 1.3
+    lineHeight: 1.35
     letterSpacing: "-0.01em"
+  card-title:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 600
+    lineHeight: 1.375
+  card-title-sm:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 600
+    lineHeight: 1.375
   lede:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1rem, 0.95rem + 0.25vw, 1.125rem)"
+    fontSize: "0.9375rem"
     fontWeight: 400
-    lineHeight: 1.5
-    letterSpacing: "-0.005em"
+    lineHeight: 1.55
+  lede-md:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.55
   body:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.55
     letterSpacing: "-0.005em"
-  item-title:
+  small:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 600
-    lineHeight: 1.375
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.43
   control:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 500
     lineHeight: 1
     letterSpacing: "-0.01em"
-  field:
-    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.5
-  small:
-    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.875rem"
-    fontWeight: 400
-    lineHeight: 1.43
   meta:
     fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.4
+  field:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+  field-sm:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+  label:
+    fontFamily: "Geist, Geist Fallback, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 500
+    lineHeight: 1
 rounded:
-  round: "9999px"
+  inset: "0.2rem"
+  card: "0.25rem"
+  dialog: "0.35rem"
   control: "0.5rem"
-  thumb: "0.35rem"
-  tile: "0.45rem"
-  sheet: "0.45rem"
+  pill: "9999px"
 spacing:
-  gutter-mobile: "1.25rem"
-  gutter-desktop: "2rem"
-  container: "75rem"
-  nav-height: "4rem"
-  contact-bar-height: "2.25rem"
-  section-mobile: "2.5rem"
-  section-tablet: "3.5rem"
-  section-desktop: "4rem"
-  intro-gap-mobile: "1.25rem"
-  intro-gap-desktop: "1.5rem"
-  grid-gap-mobile: "0.75rem"
-  grid-gap-desktop: "1rem"
-  card-pad-mobile: "0.75rem"
-  card-pad-sm: "1rem"
-  card-pad-md: "1.25rem"
-  tap-min: "2.5rem"
-  tap-comfort: "2.75rem"
-  icon-disc: "2.25rem"
+  chip-gap: "8px"
+  grid-gap: "12px"
+  grid-gap-wide: "16px"
+  gutter: "20px"
+  gutter-wide: "32px"
+  container: "1200px"
+  section: "40px"
+  section-wide: "56px"
+  section-lg: "64px"
 components:
   button-primary:
     backgroundColor: "{colors.plum}"
-    textColor: "{colors.gallery-white}"
+    textColor: "{colors.white}"
+    typography: "{typography.control}"
     rounded: "{rounded.control}"
-    padding: "0 20px"
     height: "40px"
-    typography: "{typography.control}"
-  button-primary-large:
+    padding: "0 20px"
+  button-primary-hover:
+    backgroundColor: "{colors.plum-pressed}"
+  button-primary-lg:
     backgroundColor: "{colors.plum}"
-    textColor: "{colors.gallery-white}"
-    rounded: "{rounded.control}"
-    padding: "0 24px"
-    height: "44px"
+    textColor: "{colors.white}"
     typography: "{typography.control}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 24px"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.control}"
+    height: "40px"
+    padding: "0 20px"
+  button-outline-sm:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    height: "32px"
+    padding: "0 14px"
+  button-outline-lg:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 24px"
   button-ink:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.gallery-white}"
-    rounded: "{rounded.control}"
-    padding: "0 24px"
-    height: "44px"
+    textColor: "{colors.white}"
     typography: "{typography.control}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 20px"
   button-ink-hover:
     backgroundColor: "{colors.ink-pressed}"
-  button-light:
-    backgroundColor: "{colors.gallery-white}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.control}"
-    padding: "0 24px"
-    height: "44px"
-    typography: "{typography.control}"
-  button-light-hover:
-    backgroundColor: "{colors.aluminium-pressed}"
   button-secondary:
-    backgroundColor: "{colors.aluminium}"
+    backgroundColor: "{colors.well}"
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
-    padding: "0 20px"
-    height: "40px"
-    typography: "{typography.control}"
+    height: "44px"
+    padding: "0 24px"
   button-secondary-hover:
-    backgroundColor: "{colors.aluminium-pressed}"
-  button-icon:
+    backgroundColor: "{colors.well-pressed}"
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
     rounded: "{rounded.control}"
     size: "44px"
-  link-more:
-    textColor: "{colors.plum}"
-    typography: "{typography.control}"
+  chip-family:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.pill}"
+    height: "36px"
+    padding: "0 12px"
+  chip-family-sm:
     height: "40px"
-  input:
-    backgroundColor: "{colors.gallery-white}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.control}"
     padding: "0 16px"
-    height: "48px"
-    typography: "{typography.field}"
-  nav-bar:
-    backgroundColor: "{colors.gallery-white}"
+  chip-family-selected:
+    backgroundColor: "{colors.plum}"
+    textColor: "{colors.white}"
+    rounded: "{rounded.pill}"
+  chip-type:
+    backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
-    height: "{spacing.nav-height}"
-    typography: "{typography.control}"
-  contact-bar:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink-secondary}"
-    height: "{spacing.contact-bar-height}"
-    typography: "{typography.meta}"
-  icon-disc:
-    backgroundColor: "{colors.aluminium}"
+    rounded: "{rounded.pill}"
+    height: "32px"
+    padding: "0 12px"
+  chip-type-selected:
+    backgroundColor: "color-mix(in oklab, oklch(0.4533 0.1522 326.27) 10%, transparent)"
+    textColor: "{colors.plum}"
+    rounded: "{rounded.pill}"
+  input-field:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.field}"
+    rounded: "{rounded.control}"
+    height: "40px"
+    width: "100%"
+    padding: "0 12px"
+  input-field-sm:
+    typography: "{typography.field-sm}"
+  textarea-field:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.field}"
+    rounded: "{rounded.control}"
+    width: "100%"
+    padding: "10px 12px"
+  textarea-field-sm:
+    typography: "{typography.field-sm}"
+  field-label:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+  input-search:
+    backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
-    size: "{spacing.icon-disc}"
-  family-strip-item:
+    height: "40px"
+    width: "100%"
+    padding: "0 36px"
+  input-search-sm:
+    width: "288px"
+  input-search-hero:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 12px 0 36px"
+  hero-band:
+    backgroundColor: "{colors.hero-ground}"
+    textColor: "{colors.ink}"
+  hero-band-lg:
+    height: "26rem"
+  hero-band-xl:
+    height: "30rem"
+  product-card:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "12px"
+  family-tile:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "12px"
+  family-tile-sm:
+    padding: "16px"
+  family-tile-well:
+    backgroundColor: "{colors.well}"
+  quote-tile:
+    backgroundColor: "{colors.well}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "16px"
+  quote-tile-sm:
+    padding: "20px"
+  custom-request:
+    backgroundColor: "{colors.well}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "20px"
+  quote-dialog:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.dialog}"
+    width: "440px"
+    padding: "24px"
+  quote-sheet:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.dialog}"
+    padding: "20px"
+  order-steps:
+    backgroundColor: "{colors.well}"
+    textColor: "{colors.ink}"
+    padding: "40px 0"
+  order-steps-md:
+    padding: "56px 0"
+  order-step-number:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.white}"
+    rounded: "{rounded.pill}"
+    size: "40px"
+  top-bar:
+    backgroundColor: "{colors.well}"
     textColor: "{colors.ink-secondary}"
     typography: "{typography.meta}"
-    height: "{spacing.tap-comfort}"
-  family-strip-item-current:
+    height: "36px"
+  nav:
+    backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
-  card-family:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.tile}"
-    padding: "{spacing.card-pad-mobile}"
-  card-product-image:
-    backgroundColor: "{colors.aluminium}"
-    rounded: "{rounded.tile}"
-  card-type:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.tile}"
-    padding: "{spacing.card-pad-mobile}"
-  card-highlight:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.tile}"
-    padding: "{spacing.card-pad-sm}"
-  tile-made-to-spec:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.tile}"
-    padding: "{spacing.card-pad-mobile}"
-  band-hero:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-    typography: "{typography.display}"
-  band-about:
-    backgroundColor: "{colors.aluminium}"
-    textColor: "{colors.ink}"
-  band-die:
-    backgroundColor: "{colors.die}"
-    textColor: "{colors.die-foreground}"
-    typography: "{typography.headline}"
-  quote-bar:
-    backgroundColor: "rgb(255 255 255 / 0.85)"
-    padding: "12px 20px"
-  quote-sheet:
-    backgroundColor: "{colors.gallery-white}"
-    rounded: "{rounded.sheet}"
-    padding: "32px"
-    width: "520px"
+    height: "64px"
+  footer:
+    backgroundColor: "{colors.well}"
+    textColor: "{colors.ink-secondary}"
+    typography: "{typography.small}"
 ---
 
 # Design System: Metro Metal
 
 ## Overview
 
-**Creative North Star: "The Die and the Strike"**
+**Creative North Star: "The Trade Counter"**
 
-Metro Metal's catalog reads like a well-kept trade site: a normal white navbar that names every section, a contact bar above it, and pages that show everything at once in plain grids. The hardware is still the subject. Photographs and cut-out renders sit in soft aluminium wells, copy is short, and type is modest, so a buyer on a phone can take in the whole product range without scrolling sideways or decoding an unusual layout. The ground is gallery white and aluminium grey in full-width bands, closed by one near-black die band where objects are lit from above.
+Metro Metal is a trade catalogue played straight. A buyer walks up to the counter and every style is laid out on it: the products are the page. Every catalogue view opens on a short header row, the filter chips and the full grid, with nothing to scroll past first. The world is the category standard, chosen on purpose: white ground, ink text, grey photo wells, hairline borders, one plum for the actions that matter. It earns trust through clarity and completeness rather than staging.
 
-The world's ritual is still the die coming down on the mark. It shows up in two places: the strike motion (an opening image settling from slightly large and soft to exact and sharp) and the pressed state of every button (a 1px deboss). Focus is the die edge, a 2px ink ring offset 3px. The current item in a wayfinding row (the nav, the family strip, the menu) reads in full ink against graphite neighbours; nothing is filled to show selection.
+Density is moderate and steady. Type sits on a fixed rem scale that steps once at 768px instead of growing with the window, so a page title reads the same at 1280 and 1920px. Surfaces are flat; a card lifts only slightly on hover. The phone-shot product photos carry the visual weight, cropped square into identical grey wells so the grid reads as one even field.
 
-Density is moderate and mobile-first. Sections sit 40px apart on phones and 64px on desktop, cards sit 12 to 16px apart, and touch targets are at least 40px. Icons appear where they speed up scanning: contact routes, trust promises, process steps and the attachment hint. The one accent, plum, is spent on the quote action and on text links.
+The home page is the shop front in front of the counter. At the owner's request on 2026-11-04 it is a traditional business home page in the same world: one hero band that says what Metro Metal makes and holds a product search, then the client logos, the range as family tiles, a few styles, the order steps on a grey band, the FAQ and the blog. The hero search hands its words to the catalogue, which opens already filtered; the catalogue at `/products` is the search page.
+
+The owner rejected the earlier Apple-style imagery world (hero theatre, family stage pages, lineup rails, marketing bands ahead of the products) on 2026-11-04. The home hero is not a return to it: one band at fixed type steps, no die band, no scroll-driven motion. The die-black band survives only as the closing band on the About, Compliance and Blog index pages and as the product photo lightbox; it is not part of the catalogue or the home page.
 
 **Key Characteristics:**
-- White and aluminium bands, one die-black band per page.
-- Geist throughout: a modest mobile-first ramp (the home hero 36 to 52px, display 30 to 40px, body 16px) and one 15px/500 size for every control. Display sizes run tight (-0.025em) so the semibold reads crisp.
-- Everything in view: grids wrap, nothing scrolls sideways.
-- Firm 8px buttons for actions, plum "Label ›" links for navigation, 40px minimum tap height.
-- Borderless rounded aluminium cards, no strokes and no card shadows.
-- Outline icons beside contact routes, promises and steps, never on product cards or headings.
-- One authored motion, the strike, always visible from the first frame and removed under reduced motion.
+- Products first on every catalogue view: header row, family chips, then the grid, all inside the first viewport at 390, 1280 and 1440px.
+- A traditional home page: one hero band with a search that opens the catalogue, then family tiles with their types as links.
+- Filter chips carry live counts; search narrows the grid as you type and stays in the address.
+- One plum, spent on the quote action, the selected family chip and text links.
+- White cards with a hairline border around a grey photo well.
+- Fixed type steps, Geist throughout, no display face.
+- Flat surfaces; hairlines and grey wells separate, not shadows.
 
 ## Colors
 
-A near-monochrome studio palette of white, aluminium and ink, with one plum voice and one die-black band.
+A near-achromatic Apple-grey neutral set carrying a single saturated plum.
 
 ### Primary
-- **Mark Plum** (`plum`, renders as #7f2f82): the only accent. Fills the "Request a quote" button everywhere except the die band, and colours every "Label ›" link, inline and prose link, and the quote link on product and type cards. It also marks the hubs on the presence map, and its 20% tint is the text-selection colour.
+- **Metro Plum** (oklch(0.4533 0.1522 326.27)): the brand colour. Fills "Request a quote" in the nav, the home hero, under the grid, in the "Something else?" tile, in empty states, as "Start your request" in the order-steps band and as "Send request" in the quote form; fills the selected family chip; colours text links ("Label ›" links, the family tiles' type links, the FAQ and order-steps WhatsApp links, link buttons) and the active nav underline. At 10% it tints the selected type chip, at 20% over white it is the text selection colour. Pressed and hovered, it mixes 12% toward black.
 
 ### Neutral
-- **Gallery White** (`gallery-white`): the default page ground, the navbar, the products panel and menu sheet, field backgrounds, and the light button on the die band.
-- **Aluminium** (`aluminium`): the alternate band ground (home hero, made-to-mark, buyer quotes, journal, related products, footer), the contact bar, the family and type hero bands, the about band, and the ground of every card, image well, secondary button and icon disc.
-- **Pressed Aluminium** (`aluminium-pressed`): hover for secondary and light buttons.
-- **Ink** (`ink`): primary text, the ink button, the current item in the nav, strip and menu, the active gallery thumbnail ring, and the focus ring.
-- **Pressed Ink** (`ink-pressed`): ink button hover.
-- **Graphite** (`ink-secondary`): ledes, taglines, attribute lines, style counts, captions, contact-bar and footer text, card body lines, and the menu's contact routes.
-- **Hairline** (`hairline`): the only divider. The navbar's bottom rule, the products panel, menu rows, spec lists, FAQ items, the trust row's bottom rule, the overview's family headings, and the land on the presence map.
-- **Field Stroke** (`field-stroke`): 1px stroke of inputs, textareas and the outline button.
+- **White** (#ffffff): the page ground, nav, cards, family tiles, chips at rest, every field, the quote dialog and sheet, and the hero's outline button.
+- **Ink** (#1d1d1f): all body text and headings, the focus ring, the selected chip's border when not plum, and the fill of the ink button (the hero Search submit and the 404 page) and of the order-step number circles. Ink Pressed (#3a3a3c) is the ink button's hover.
+- **Ink Secondary** (#6e6e73): meta lines, ledes, type labels on cards, chip and tile counts, the top bar, the footer, placeholders.
+- **Well Grey** (#f5f5f7): photo wells (square on product cards, 16:10 on family tiles), the top bar, the "Need something that isn't listed?" panel, the "Something else?" tile, the About-category band, the order-steps and blog bands on home, the "Quote for" line and file chips in the quote form, and the footer. Well Pressed (#e8e8ed) is the hover of secondary buttons.
+- **Hero Ground** (#f5f4f9): the home hero band only. It is the studio render's own ground, so the render fades into the band with no visible edge.
+- **Hairline** (#e3e3e8): card and tile borders, chip borders, section rules (under the logo row, above From the catalogue), FAQ row dividers, the quote sheet's top edge, nav bottom border.
+- **Field Stroke** (#d2d2d7): every field border (search, quote and contact forms), outline buttons and the dashed empty-state border; one step darker than the hairline so controls read as controls.
+- **Destructive** (oklch(0.577 0.245 27.325)): form errors (invalid field border and ring, the error panel at 10% with destructive text) and the required-field asterisk.
 
-### Tertiary
-- **Die** (`die`): the closing band ground and the gallery lightbox. Text on it is **Die Light** (`die-foreground`), and secondary text on it is **Die Grey** (`die-muted`). Lightbox controls on die use white at 12% (20% on hover).
+### Legacy (inner pages only)
+- **Die Black** (#0b0b0c), **Die Foreground** (#f5f5f7), **Die Muted** (#a1a1a6): still defined and still used by the closing band on About us, Compliance and the Blog index, and by the full-screen product photo lightbox. Not used on home, the products pages or the product page body.
 
 ### Named Rules
-**The One Voice Rule.** Plum fills only the quote action and colours only text links. No plum backgrounds, borders, icons or headings. On the die band the quote button turns light, so plum never sits on black.
+**The One Plum Rule.** Plum marks the quote action, the selected family filter and text links, and nothing else. Never use it for decoration, section grounds or illustration.
 
-**The One Die Rule.** A page gets at most one die-black band, and it carries a lit object. Every element inside it sits under `.on-die`, so the focus ring flips to Die Light.
+**The Grey Well Rule.** Product photos and family cut-outs always sit in a #f5f5f7 well, so photos shot on grey paper and the missing-photo state read as one material.
+
+**The Render Ground Rule.** The hero band takes the colour of the render it carries (#f5f4f9 for the current studio render), so the picture meets the band with no edge. It is not a general section ground.
 
 ## Typography
 
 **Display Font:** Geist (with Geist Fallback, ui-sans-serif, system-ui)
 **Body Font:** Geist
+**Label Font:** Geist
 
-**Character:** One grotesk in all roles, ranked by size and weight alone. Headings are semibold with light negative tracking; body copy is 16px at a comfortable 1.55. Sizes are set mobile first and grow only slightly with the viewport.
+**Character:** One neutral grotesque at every role; hierarchy comes from size and weight (600 headings, 500 controls, 400 text), never from a second family.
+
+Responsive steps are written as separate tokens: the base token holds the phone size and a sibling with a breakpoint suffix holds the size from that width (`-sm` from 640px, `-md` from 768px). `hero` / `hero-md`, `display` / `display-md`, `headline` / `headline-md`, `card-title` / `card-title-sm`, `lede` / `lede-md`, `field` / `field-sm`.
 
 ### Hierarchy
-- **Hero** (600, 36 to 52px fluid, 1.04, -0.025em, balanced): the home hero statement only.
-- **Display** (600, 30 to 40px fluid, 1.08, -0.025em, balanced): page H1s via the page header, family and type names on their heroes, the catalog overview H1 and the 404 statement.
-- **Headline** (600, 22 to 28px fluid, 1.2): every section heading through the section intro, the product H1 on the detail page, the closing die-band statement, and the statement on a "Get to know" card with no picture.
-- **Title** (600, 17 to 19px fluid, 1.3): headings inside a section: family, type and "Get to know" card names, the "Not in the catalog?" tile, the overview's per-family headings, "About this piece" and the about-band heading.
-- **Item title** (600, 16px): process step names, made-to-mark captions, FAQ questions, journal card titles from sm, and product names from sm (14px on phones).
-- **Lede** (400, 16 to 18px fluid, 1.5): the one line under a heading, in Graphite (Die Grey on the die band), about 42rem max.
-- **Body** (400, 16px, 1.55): running copy, buyer quotes, FAQ answers, menu rows. Prose is capped at 65 to 68ch.
-- **Control** (500, 15px): every button, the nav links, the "Label ›" links and the quote-for note.
-- **Small** (400, 14px): card body lines, style counts, spec rows, footer, trust labels (at 500), quote links on cards, the attachment hint.
-- **Meta** (400, 13px): the contact bar, dates, attribute lines on product cards, card taglines on phones, family strip labels (12px on the narrowest phones), and the footer's legal row.
-- **Field** (400, 17px): text inside inputs and textareas.
+- **Hero** (600, 30px, 40px from 768px, 1.12, -0.025em, balanced): the home hero's h1 only, three lines at desktop widths. One step, on one page.
+- **Display** (600, 24px, 28px from 768px, 1.2, -0.02em): the one page title per view on every other page: products page titles, blog posts, the 404 page. Fits one line on desktop.
+- **Headline** (600, 20px, 22px from 768px, 1.3, -0.015em): section headings (Our product range, From the catalogue, How an order works, FAQ, blog) and the product page title.
+- **Title** (600, 17px, 1.35, -0.01em): small panel headings (custom-request panel, About-category heading) and family tile names from 640px (16px/600 below).
+- **Card title** (600, 14px, 15px from 640px, 1.375): product names on cards.
+- **Lede** (400, 15px, 16px from 768px, 1.55): one-line section introductions and the hero's line under the h1.
+- **Body** (400, 16px, 1.55, -0.005em): running text and FAQ answers, capped at 65 to 68ch.
+- **Small** (400, 14px): the meta line under a page title, panel text, footer.
+- **Control** (500, 15px, -0.01em): buttons, nav links, search text.
+- **Field** (400, 16px, 15px from 640px): text typed into the quote and contact fields. 16px on phones keeps iOS from zooming into a focused field.
+- **Label** (500, 14px, line-height 1): field labels; the required asterisk follows 4px after the label text.
+- **Meta** (400, 13px, 1.4): card type labels, family tile counts, taglines and type links on phones (14px from 640px), the top bar, dates, the search result count. Chip counts are 12px tabular figures.
 
 ### Named Rules
-**The No-Eyebrow Rule.** No small label sits above a heading. No kicker, no overline, no uppercase tracked tag, and no "01". The heading carries the weight, and context goes in the lede below it.
+**The Fixed Step Rule.** Sizes are fixed rem steps that change at most once, at one breakpoint. No clamp() or viewport-scaled type.
 
-**The Scale-Utility Rule.** Headings use the display, headline, title and lede utilities; small text uses `text-sm` and `text-meta`. A new one-off size or clamp is a defect, not a new step.
-
-**The One Control Size Rule.** Buttons, nav links and "›" links share one 15px/500 size, so every pressable thing reads as the same kind of thing.
+**The No Eyebrow Rule.** Sections open on their heading, with no small label above it.
 
 ## Layout
 
-The container is 75rem wide, with 1.25rem gutters on phones and 2rem from 768px. Bands run full-bleed and their content sits in the container. Breakpoints are sm 640px, md 768px, lg 1024px and xl 1280px; every layout is written for phones first and widened upward.
+One centred container: `min(100% - 40px, 1200px)`, widening to `min(100% - 64px, 1200px)` from 768px. Under it sit a 36px top bar (from 768px, scrolls away) and a sticky 64px white nav.
 
-**Section rhythm.** Sections are 2.5rem top and bottom on phones, 3.5rem from md and 4rem from lg. A section intro sits 1.25rem above its content (1.5rem from md); the catalog overview's "first look" intro, which heads a stack of sub-sections, takes 2 to 2.5rem. Inner pages open with 2 to 2.5rem above the page header. When two sections share a ground and follow each other, the second drops its top padding, so the rhythm stays one section gap rather than two.
+A catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`) is one vertical stack with 16px between parts: the header row (title and meta line on the left, a 288px search on the right from 640px; stacked on phones), the family chip row, the type chip row when the family has two or more types, then the grid. Chips wrap with 8px gaps. The grid is 2 columns on phones, 3 from 640px, 4 from 1024px, with 12px gaps (16px from 640px). The custom-request panel follows 32px under the grid. Products pages put breadcrumbs above the header row, and an About-category band and the FAQ below the grid.
 
-**Grids.** Card grids sit 12px apart on phones and 16px from md. Product grids add a 24px row gap (32px in the overview's preview rows) so names and quote links stay clear of the next row. Columns:
-- Family cards: 2, then 3 from sm, with a sixth "Not in the catalog?" cell closing the second row.
-- Product grids: 2, then 4 from md (home and related) or 3 from md and 4 from lg (style grids). A grid may show fewer tiles on phones and let its "See all ›" link carry the rest.
-- Type lineups: compact rows on phones, 2 from sm, 3 from md when there are at least three types.
-- "Get to know" cards: 1, 2 from sm, then 3 or 4 by count.
-- Two-part bands (process, FAQ, product detail, about band) split from md or lg at about 1:1, 2:3 or 0.85:1.15, with a 2 to 4rem gap; the text column of the FAQ and the product info column turn sticky below the nav.
+The home page runs in this order: the hero band, the client logos, Our product range, From the catalogue, How an order works, the FAQ, then the blog. Sections after the hero are plain stacked bands, each opening on a headline, a lede and a "›" link. Hairlines divide the white sections down to From the catalogue; from there the grounds alternate (grey order steps, white FAQ, grey blog), so no rule sits between them. Sections pad 40px vertically, 56px from 768px, some (the FAQ) 64px from 1024px.
 
-**Card padding.** 12px on phones, 16px from sm, 20px from md on text-bearing cards.
+- **Hero band:** copy on the left, capped at 34rem (25rem from 1024px, 29rem from 1280px), 32px from the top (48px from 768px). Content height on phones and tablets; 26rem tall from 1024px and 30rem from 1280px, with the copy centred vertically.
+- **Product range:** five family tiles and the "Something else?" tile, 2 columns on phones and 3 from 768px, 12px gaps (16px from 640px).
+- **From the catalogue:** six product cards, 2 columns on phones, 3 from 640px and 6 from 1280px.
+- **Order steps:** a grey band, 40px vertical padding (56px from 768px). A header row with the section intro left and the actions right (stacked on phones, side by side and bottom-aligned from 768px, 40px apart), then the steps 32px below (40px from 768px): one vertical timeline on phones, four columns with 24px gaps from 768px.
+- The **FAQ** (a sticky intro column and the accordion, two columns from 1024px) and the **blog** on a grey band close the page.
 
-### Named Rules
-**The All-in-View Rule.** Nothing scrolls sideways. Rows that do not fit wrap into a grid, the family strip becomes five equal cells, and gallery thumbnails wrap to a second line. There are no carousels and no hidden overflow.
-
-**The Thumb Reach Rule.** Every control and quote link is at least 40px tall, and icon buttons, menu rows, strip items and FAQ triggers are 44 to 48px. On a product page below 768px, the quote action lives in a bar fixed to the foot of the screen, and the footer pads itself 5.5rem so the bar never covers it.
+**The Nothing First Rule.** On catalogue views (`/products`, `/products/[family]`, `/products/[family]/[type]`), no hero, band, rail or banner precedes the grid, and the first row of products is visible without scrolling at 390, 1280 and 1440px. The home page is the one exception and has a traditional hero on purpose, at the owner's request on 2026-11-04.
 
 ## Elevation & Depth
 
-The system is flat. Depth comes from tone (white against aluminium against die), from the navbar's hairline, and from impressions pressed *into* surfaces, never from shadows lifted *off* them. Two surfaces are translucent white with a backdrop blur: the phone quote bar (white at 85%, with a 6% black top rule) and the gallery's expand button.
+Flat by default. Depth comes from the grey well against white and from hairlines. There are two shadows in the vocabulary, both responses to state. The hero render separates from its band by soft edge fades (mask gradients), not by shadow or frame.
 
 ### Shadow Vocabulary
-- **Deboss** (`box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.25)` with `translateY(1px)`): every button on `:active`.
-- **Object grounding** (`filter: drop-shadow(0 10px 14px rgba(15,15,20,0.14))` on cards, `drop-shadow(0 12px 18px rgba(15,15,20,0.14))` on heroes): only under transparent cut-out renders, so the object rests on its ground.
+- **Card lift** (`box-shadow: 0 4px 16px rgb(0 0 0 / 0.07)`): a product card or family tile on hover, with the border darkening to ink at 20%.
+- **Press** (`box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.25)`): every button on :active, with a 1px downward nudge.
 
 ### Named Rules
-**The Impression Rule.** Shadows go inward. The only outward shadow grounds a cut-out object, and it is never put on a container.
+**The Flat Rest Rule.** Nothing casts a shadow at rest. The phone menu sheet and dialogs carry none either.
 
 ## Shapes
 
-The form language is firm, not soft: an established manufacturer, not an app. Anything you press or type into (buttons, icon buttons, fields) takes the 8px control corner. Cards, image wells and the quote-for note use the tile radius (about 7px), with no border, an aluminium fill (or a ground sampled from the photo's own backdrop), and clipped overflow. The small thumbnails on phones (gallery strip, journal list) step down to the thumb radius. The quote dialog uses the sheet radius, and the phone quote sheet rounds only its top corners. Icon discs stay full circles; small tags (the Featured badge, attachment chips) take a 3px corner. Hairline rules (1px) divide lists. They are never boxes.
+Three page corners, each with one job, plus two for overlays. Cards, tiles and panels (product card, family tile, "Something else?" tile, custom-request panel, empty state) take a small 4px corner (`--radius` 0.25rem). Buttons, every field and the search clear button take a firmer 8px corner (`--radius-control`). The quote dialog takes a 5.6px corner (the sheet only on its top edge), and the small insets inside it (the "Quote for" line, file chips, the error panel) a 3.2px one. Filter chips and the order-step numbers are full pills or circles. Borders are 1px hairlines; the empty state alone uses a dashed field-stroke border. Photos are clipped square inside product cards; family cut-outs sit contained in a 16:10 well. The hero render has no frame: it is cropped by the band and dissolves into it at the edges.
 
 ## Components
 
 ### Buttons
-Pills that press like a die.
-- **Shape:** an 8px corner (the control radius), never a full pill. Default 40px tall with 20px padding. Large is 44px with 24px padding and 20px icons. Small is 32px, raised to 40px wherever it is the quote action on a card. Icon buttons are 40px or 44px squares on the same corner. All text is the 15px control size.
-- **Primary (plum):** the quote action, and only the quote action. Hover mixes 12% black into the plum.
-- **Ink:** a non-quote primary, such as "Browse products" on the 404 page.
-- **Light:** the quote button on the die band.
-- **Secondary:** aluminium, for side actions with their icons: Email and WhatsApp on the product page, the WhatsApp icon button in the phone quote bar.
-- **Ghost:** transparent, for the navbar's WhatsApp and menu icon buttons.
-- **Outline:** 1px Field Stroke, transparent fill, for in-form utilities such as attaching files.
-- **Pressed:** every button drops 1px and takes the deboss. Disabled is 40% opacity.
-- **Links ("Label ›"):** 15px plum text with a 16px chevron that nudges 2px right on hover, an underline on hover, and a 40px tall hit area. Die Light on the die band. They pair with a button at a 1.5rem gap.
+Firm, quiet, tactile: they press 1px on click.
+- **Shape:** 8px corner.
+- **Primary (plum):** white text on plum, 40px tall, 20px side padding, 15px/500. "Request a quote" in the nav (from 1024px), the custom-request panel, the "Something else?" tile, the empty state, "Start your request" in the order-steps band, and the full-width "Send request" in the quote form. The large size (44px, 24px side padding) serves the home hero and the phone menu (full width).
+- **Hover / Focus:** plum mixes 12% toward black over 200ms. Focus is a 2px ink outline offset 3px, global for every focusable element.
+- **Outline:** transparent with a #d2d2d7 border, ink text; hover darkens the border to ink at 40% and adds a 3% ink wash. The card's quote button is outline, full card width, 36px. In the hero, "Browse products" is a 44px outline button on white with a trailing arrow (hidden on phones). The small outline (32px, 14px side padding, 14px text) is the quote form's "Attach files", led by a paperclip.
+- **Ink:** white text on ink, 44px, 20px side padding; hover #3a3a3c. Only the hero Search submit and the 404 page's catalogue link.
+- **Secondary:** grey well fill, hover #e8e8ed; used for email and WhatsApp on the product page.
+- **Ghost:** no fill, 5% ink wash on hover; the 44px WhatsApp and menu icons in the phone nav.
+- **Link:** plum text, underline on hover.
 
-### Icons
-**The Working Icon Rule.** Icons are lucide-react outlines at stroke 2 (1.75 inside discs); the WhatsApp brand mark comes from Tabler and is the only Tabler icon. They sit beside a label and help a buyer find something faster: contact routes (mail, phone, WhatsApp) in the contact bar, menu, footer, contact page and product actions; the four trust promises; the four process steps; and the attachment hint. Promises and steps set their 18px icon in a 36px aluminium circle. Inline icons are 16px (14px beside 13px contact-bar text, 20px beside the 15px WhatsApp link and on the contact page, 24px inside 44px icon buttons). Product and family cards, section headings, buyer quotes and FAQ items carry no content icons; the chevrons on links, accordions and the products disclosure are controls, not content.
-
-### Navigation
-- **Contact bar:** from 768px, a 36px aluminium strip above the navbar with email, phone and WhatsApp in 13px Graphite with their icons, and "Pakistan · China · Hong Kong" on the right. It scrolls away; the navbar stays.
-- **Navbar:** sticky, 64px, plain white with a hairline beneath. Logo 40px tall on the left. From 1024px every section is named in a row (Home, Products, About, Compliance, Journal, Contact) at 15px/500 in ink at 70%, the current page in full ink, followed by the plum quote button.
-- **Products panel:** Products is a link plus a chevron button. The panel opens on mouse hover or from the button, spans the bar, and lists each family in five columns: a 96×56px cut-out thumbnail, the family name at 15px semibold, then its types at 14px Graphite. A hairline-topped row ends it with "View all products ›". Escape and focus leaving the item close it. Opening, the opaque panel unrolls down from the bar (a clip-path reveal, 320ms strike ease) with a soft shadow beneath, and its columns rise 6px and fade in 40ms apart; closing is a 150ms fade. Under reduced motion only the columns fade.
-- **Below 1024px:** the bar holds the quote button, a ghost WhatsApp icon button (below 768px) and a ghost menu button. The menu is a full-height top sheet: hairline-divided rows at 16px/500 (Home, All products, then each family indented at 15px, then the company pages), the current one semibold, followed by the contact routes with their icons. Each row leads with a 36px aluminium circle holding an 18px icon (house, grid, building, shield, book, mail) or, for a family, its cut-out thumbnail, and ends with a graphite chevron.
-- **Footer:** aluminium, 14px Graphite. A logo and tagline, then Products, Company and "Get in touch" (with contact icons). On phones the logo and contact columns span the width and Products sits beside Company; links are 40px tall (32px from md). A hairline-style rule sits above the 13px legal row.
-
-### Family Strip
-Wayfinding at the top of every family and type page, directly under the navbar.
-- **Item:** a cut-out thumbnail (32px tall on phones, 44px from md) over the family name in 13px Graphite (12px below sm), at least 44px tall. Hover turns the label ink and scales the thumbnail 6% over 500ms with the strike ease.
-- **Current:** the family in view reads in ink at medium weight, `aria-current="page"` on the family's own page and `"true"` on one of its types. Nothing is filled or boxed.
-- **Layout:** five equal cells across the container on phones; from md a centred row of 5.75rem items with a 1.25rem gap.
+### Chips
+Filters you can read at a glance, each a real link with its own address.
+- **Family chip:** white pill, hairline border, ink 13px/500 label (14px from 640px), 36px tall (40px from 640px); the count follows in 12px tabular secondary grey. Hover: border ink at 30%, grey well fill.
+- **Selected family chip:** solid plum, white label, count in white at 75%.
+- **Type chip:** a smaller second row, 32px, same rest style. **Selected:** plum at 10% with a plum border and plum label, so the two rows never read as one.
 
 ### Cards / Containers
-- **Corner Style:** tile radius. **Background:** aluminium, or the photo's sampled backdrop grey. **Shadow Strategy:** none (see Elevation). **Border:** none. **Internal Padding:** 12px, 16px from sm, 20px from md.
-- **Family card:** a 2:1 image well (5:2 from xl) holding the cut-out, inset with room around it (10px on phones, 32px then 40px across from sm and lg) so no object touches the well's edge, with the grounding shadow and a 4% hover scale. Below it the Title-size name with a small graphite chevron, a one-line tagline, and on the catalog overview the style count at 13px. The whole card is the link; there is no separate link line.
-- **Product card:** a square image well with the photo cropped 1:1, scaled 3% on hover over 700ms. Below it the name (14px semibold, 16px from sm), a 13px attribute line of up to three values separated by " · " and clipped to one line so a wrapping value hides whole, and a 40px plum "Request a quote" link that carries the product name. A placeholder lead photo (under 1000px wide) gives way to the family cut-out. The name link covers the card; the quote link sits above it.
-- **Type card:** on phones a compact row, a 112px square picture beside the name, tagline, style count and quote link. From sm a picture-led card with a 16:9 well (4:3 when three or more types), then the text block and, at its foot, "Explore ›" and the quote link. The well holds the type's own Sanity image, else a cleared catalog photo, else the family cut-out.
-- **"Get to know" card:** a 16:9 picture (4:3 from sm) over a Title and a 14px Graphite line. A card with no picture becomes a statement card: a Headline at the top and its line at the foot, at least 10rem tall (14rem from sm).
-- **"Not in the catalog?" tile:** an aluminium tile with its text set to the foot: Title, one Graphite line asking for a drawing, tech pack or sample, and a 40px plum quote button naming the family or type. Every style grid and every family grid closes on it. The compact version spans the row on phones and turns square beside four-up preview rows.
-
-### Section Intro
-A section's opening: a Headline, an optional Lede and an optional plum "Label ›" link (Die Light on the die band), 8px apart and capped at 48rem, aligned left or centred. No eyebrow.
-
-### Page Header
-For inner pages. Breadcrumbs at every width, then a Display H1 capped at 56rem, then a Lede in Graphite, then optional children. Padding is 2rem top and bottom (2.5rem from md).
-
-### Home Hero
-An aluminium band with the Hero statement, a Lede, the large quote button and "Explore products ›". The render is art-directed: phones get a portrait render cropped wide beneath the copy; from 768px a landscape render sits right at 78% width, tucked up beside the actions, with mask fades on its left and top edges; from 1024px it anchors to the right edge at the band's full height (26rem, 30rem from xl) and the copy sits on clear ground at its left. The render strikes on load.
-
-### Family and Type Heroes
-An aluminium band in two columns from md (1.2:1), 2rem tall padding (2.5rem from md). Left: the Display name, a Lede tagline, the style count at 14px, the large quote button carrying the family or type, and one "›" link ("See every style" or "All {family}"). Right: the family cut-out with the grounding shadow, or the type's own image cropped 4:3 in a tile-radius well. Either one strikes on load.
-
-### Trust Row and Process Steps
-- **Trust row:** directly under the home hero, a white strip ruled by a hairline: four promises in 2 columns (4 from md), each a 36px aluminium icon disc beside a 14px/500 label.
-- **Process:** a studio image (16:9, 4:3 from md) beside the headline, a lede and four steps, each a 36px icon disc beside an Item-title name and a 14px Graphite line.
-
-### About Band
-The page's search heading and intro as a quiet note near the foot of catalog pages: an aluminium band with the Title heading on the left and the intro in 14px Graphite on the right, max 68ch, split 0.85:1.15 from lg. Omitted when there is no intro.
-
-### Product Detail
-Breadcrumbs, then the gallery and the info column side by side from md (1.1:1). The info column holds the Headline name, a 16px Graphite line, a hairline-ruled spec list at 14px, and from md the actions: a full-width large plum button over two secondary buttons (Email, WhatsApp) with their icons. Below the actions, the attachment hint: a 16px paperclip beside a 14px Graphite line naming the file limit. Below 768px the actions move to the fixed quote bar: the large quote button filling the width beside a 44px secondary WhatsApp icon button, padded for the safe area.
-
-### Gallery
-A 4:3 frame in an aluminium well; a 40px translucent expand button sits at its corner (revealed on hover from lg). Thumbnails sit in five equal cells on phones and wrap at 72px (80px from md) from sm; the active one carries a 2px ink ring, the rest sit at 70% until hovered. The full-screen viewer is die-black with 44px previous and next controls.
-
-### Journal List
-Phones get a compact list: a 112px 4:3 thumbnail beside the 13px date and a 14px semibold title. From sm, three columns of 16:10 pictures with 16px titles beneath.
-
-### Quote Flow
-Every "Request a quote" opens the same form. From 768px it is a centred dialog (max 520px, sheet radius, 32px padding, a scroll cap at 90vh with a thin scrollbar). On phones it is a bottom sheet at 85vh. When opened from a product or family, the form leads with an aluminium "Quote for **{product}**" note. Fields are name, email and "What you need", plus an outline "Attach specs or reference files" button and a full-width large plum "Send request".
+- **Product card:** white, 1px hairline, 4px corner. A square grey well holds the photo (object-cover; a family cut-out contained with 16px inset when the photo is a placeholder; "Photo coming soon" otherwise). Below, 12px padding: name, type label in meta grey, and the outline quote button pinned to the bottom. The whole card is the product link; hover lifts it (Card lift) and scales the photo to 1.03 over 300ms. The same card serves related products on the product page and the home page's From the catalogue row.
+- **Family tile (home):** white, 1px hairline, 4px corner. A 16:10 grey well holds the family's cut-out, contained with 12px inset (20px from 640px). Below, 12px padding (16px from 640px): the family name (16px/600, title size from 640px) with its style count in tabular meta grey on the same baseline, the tagline in secondary grey (13px, 14px from 640px), then the family's types as plum text links ("Plastic", "Prong", "Shank"; 13px, 14px from 640px, 32px tall) when it has two or more. The name links the whole tile; the type links sit above that link. Hover: Card lift and the cut-out scales to 1.03.
+- **"Something else?" tile (home):** the sixth tile, grey well, no border, 4px corner, 16px padding (20px from 640px): a heading, one line in small secondary grey, then the plum quote button (full width on phones) and, from 640px, a plum "Search the catalogue" link.
+- **From the catalogue row (home):** six product cards drawn only from photos cleared to show (no client marks), a fixed list in `SHOWCASE_PHOTOS`. Never fill it from the whole catalogue.
+- **Custom-request panel:** grey well, 4px corner, 20px padding; a title-size heading and one line on the left, the plum quote button on the right from 640px.
+- **Empty state:** dashed #d2d2d7 border, 4px corner, centred: what didn't match, an offer to quote anything not listed, then the plum quote button and an outline "Clear the search".
 
 ### Inputs / Fields
-- **Style:** 48px tall, white, 1px Field Stroke, field radius, 16px padding, 17px text, Graphite placeholder.
-- **Focus:** the border turns ink and gains a 4px ink ring at 10%.
-- **Error:** destructive border with a 3px destructive ring at 20%.
+Compact and plain: one 40px field shared by the quote and contact forms.
+- **Text field:** 40px, white, #d2d2d7 border, 8px corner, 12px side padding; 16px text on phones, 15px from 640px; placeholder in secondary grey.
+- **Text area:** the same stroke, corner and text sizes, 12px sides and 10px top and bottom; grows with its content. "What you need" in the quote form is at least 96px and does not resize.
+- **Label:** 14px/500 above its field, 6px between them in the quote form; required fields end on a destructive asterisk.
+- **Focus:** the border goes to ink with a 3px ink-at-10% halo, under the global 2px ink outline. **Invalid:** destructive border with a 3px destructive-at-20% halo. **Disabled:** 50% opacity.
+- **Search (catalogue):** 40px, white, #d2d2d7 border, 8px corner, 15px text, a 16px search glyph inset left and a 32px clear button on the right once there is a query; full width on phones, 288px from 640px. Focus darkens the border to ink and draws the global ink ring. Results update as you type; a polite live region states "N of M products match". The page reads `?q=` as its opening search and keeps the current search in the address (replaced, not pushed), so a reload or a shared link shows the same results.
+- **Hero search (home):** 44px, white, #d2d2d7 border, 8px corner, 15px text, the 16px search glyph inset left, placeholder "Search N products"; beside it the ink Search submit, together capped at 448px. Submitting opens `/products?q=` with the words.
 
-### Focus
-**The Die Edge Rule.** Every focusable element shows a 2px ink outline offset 3px on `:focus-visible`. Inside `.on-die` the outline is Die Light. Fields add their own soft ring on top.
+### Hero band (home)
+One band, the render's own ground (#f5f4f9). Left: the hero h1, one lede, the hero search, then "Request a quote" (plum, large) and "Browse products" (outline, large) side by side, two equal halves on phones. Right: the studio render, served art-directed from one picture element so each device downloads one image.
+- **Phones:** the portrait render (`public/assets/home/hero-mobile.webp`, objects at the bottom) under the copy, full width, its top faded into the band.
+- **From 768px:** the landscape render (`public/assets/home/hero-desktop.webp`, objects at the right) tucked up 4rem beside the actions, at the right at 72% width, faded at its left and top edges.
+- **From 1024px:** the render anchored to the band's right edge at full band height (26rem, 30rem from 1280px), with a left fade only, so its empty field sits under the text and the hardware stays clear of it. Offset -4rem past the right edge at 1024px, flush from 1280px.
+- Loaded eagerly at high priority, with one alt text for both crops.
 
-### Motion: the Strike
-One authored motion: the element scales from 1.045 to 1 and sharpens from a 6px blur to none, with the strike ease `cubic-bezier(0.16, 1, 0.3, 1)`.
-- **On load:** 1.2s, once, on the opening image of a page only: the home hero render and the family and type hero images.
-- **On view:** scroll-driven (`animation-timeline: view()`, range entry 10% to cover 45%), on the embossed plate in the home made-to-mark band only. Browsers without view timelines show the static image.
-- **Reduced motion:** both are removed. The element is visible and sharp from the first frame either way.
-- Other transitions are state feedback at 200ms ease-out, with 500 to 700ms strike-eased image hover scales, and the products panel's unroll (see Navigation). No scroll reveals, fades or timed carousels.
+### Quote request
+One form, two containers: a dialog from 768px, a bottom sheet below.
+- **Dialog:** 440px wide, at most 90dvh with a thin scrollbar, 24px padding, white, 5.6px corner, a 1px ink-at-10% ring, no shadow; 20px between header and form.
+- **Sheet (phones):** sized to the form, up to 92dvh; top corners 5.6px and a hairline top edge; 20px sides and top, bottom padding at least 20px or the safe-area inset.
+- **Header:** "Request a quote" at 18px/600, -0.01em; under it, 14px secondary grey: "Tell us what you need and our team will reply within 24 hours."
+- **Form:** 14px between rows. When opened from a product, a "Quote for" line leads on the grey well (3.2px corner, 14px, the product name in 500, truncated). Name and Email sit side by side from 640px (12px gap). Then "What you need", then one line holding the small outline "Attach files" and a 12px secondary-grey note ("Optional. Up to 5 files, 4 MB in all."); chosen files show as 12px chips on the grey well with a hairline, size in grey and a remove button. Errors appear in a 3.2px-corner destructive panel. The default-size (40px) plum "Send request" closes it, full width.
 
-### Imagery
-- **Studio renders** (home hero, made-to-mark, process, die band, family studio shots) live in `public/assets/home`, each WebP with a `.webp.json` provenance sidecar recording `prompt` and `createdAt`. Wells behind full-bleed photos take the photo's own backdrop grey.
-- **Cut-outs** (`public/assets/bento`, with small strip and panel thumbnails in `public/assets/bento/thumb`) are transparent WebP served unoptimised to keep their alpha, set `object-contain`, with the grounding shadow. A cut-out is the last fallback for every catalog image spot.
-- **Catalog photos** from Sanity are cropped square in product cards, 4:3 or 16:9 in type and "Get to know" cards and the type hero, 4:3 in the detail gallery; journal pictures crop 16:10.
-- **Client marks** are greyscale at 75% opacity with a multiply blend, optically sized per mark, in a four-column grid on phones and one justified row from lg, with no boxes.
+### Navigation
+- **Top bar (from 768px):** grey well, 36px, meta-size secondary grey. Email, phone and WhatsApp with 14px icons on the left; About us, Compliance, Blog, Contact on the right. Hover: ink and underline.
+- **Nav:** sticky, white, 64px, hairline bottom border. Logo (40px tall) left; from 1024px, All products and the five families centred at 15px/500 in ink at 75%; the current one goes full ink with a 2px plum underline. Plum "Request a quote" on the right.
+- **Phone:** logo, a WhatsApp icon and a menu icon. The menu is a full-height sheet: "Products" and "Company" groups of 48px rows with hairline dividers and a chevron, the current row in 600; then a full-width plum quote button and the contact routes.
+- **Footer:** grey well, 14px secondary grey, logo and tagline then three link columns, 40px tap rows on phones; a hairline-ruled meta line at the bottom.
 
-**The Cleared Lead Rule.** Lead spots (type cards, type heroes and "Get to know" cards) show only studio renders, cut-outs, images set on that type or card in Sanity, or catalog photos on the `LEAD_PHOTOS` allowlist that are at least 1000px wide. Catalog photos that carry a client's mark never lead. They stay in the style grids.
+### Supporting home sections
+- **Section intro:** headline, one lede in secondary grey, and a plum "›" link to the full catalogue; no label above.
+- **Logo row:** client marks in one quiet row, grayscale at 75% opacity, full on hover; on the home page it sits right under the hero band with a hairline below; 4 columns on phones, one spread row from 1024px.
+- **Order steps (How an order works):** on a grey band. The header row holds the section intro (no "›" link) and, on the right from 768px, a default-size plum "Start your request" quote button and a plum "Ask on WhatsApp" text link with its 20px icon. Below, four steps as a numbered timeline: 40px ink circles with white 14px/600 tabular numerals, joined by a 1px ink-at-15% rule that runs down the left on phones and across the row from 768px. Each step: a 16px/600 heading led by a small (18px) secondary-grey line icon, then 14px secondary-grey body. The steps (Send your request, Approve the sample, Bulk production, Inspected and shipped) are worded from the FAQ.
+- **FAQ:** headline and lede in a sticky left column with a plum WhatsApp link; an accordion of 48px question rows divided by hairlines.
+- **Blog:** three posts on a grey band; thumbnails left of the text on phones, above it from 640px.
+
+### Legacy: Closing band (inner pages only)
+A die-black band with a low-light buckle photo, a centred headline, a white "light" quote button and a WhatsApp link, closing About us, Compliance and the Blog index. Focus rings turn light inside it. It is a holdover from the previous world, not a pattern for new surfaces.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** write layouts for phones first, then widen at sm 640, md 768, lg 1024 and xl 1280.
-- **Do** show every item at once in a wrapping grid, 12px apart on phones and 16px from md.
-- **Do** space sections at 2.5rem, 3.5rem from md and 4rem from lg, and drop the top padding of a second same-ground section.
-- **Do** keep every control and quote link at least 40px tall, and icon buttons 44px.
-- **Do** spend plum only on the quote button and text links. On the die band, use the light button.
-- **Do** open sections with the Section Intro and inner pages with the Page Header, using the scale utilities.
-- **Do** put a 16px outline icon beside contact routes, and an 18px icon in a 36px aluminium disc beside promises and steps.
-- **Do** express state as impressions: 1px deboss on press and a 2px ink ring offset 3px on focus. Mark the current page with full ink.
-- **Do** carry the product name into every quote action that has one.
-- **Do** ship a `.webp.json` provenance sidecar beside every new raster.
-- **Do** close every style grid and family grid on the "Not in the catalog?" tile.
+- **Do** open every catalogue view on the header row, the family chips and the grid, with the first product row inside the first viewport.
+- **Do** show a live count on every filter chip and keep each chip a real link.
+- **Do** put product photos in the square #f5f5f7 well inside a white card with a #e3e3e8 hairline.
+- **Do** keep plum to the quote action, the selected family chip and text links.
+- **Do** use the fixed type steps (hero 30/40px on the home hero only, display 24/28px, headline 20/22px, title 17px, meta 13px) and the 1200px container.
+- **Do** offer a quote wherever a search or filter comes up empty.
+- **Do** keep the home hero to one band on the render's own ground, with the search that opens `/products?q=` and the two actions.
+- **Do** show only photos cleared to show (no client marks) anywhere outside the catalogue grid.
 
 ### Don't:
-- **Don't** build rows that scroll sideways, or carousels of any kind.
-- **Don't** put an eyebrow, kicker, overline or numbered tag above a heading.
-- **Don't** put icons on product or family cards, section headings, buyer quotes or FAQ items.
-- **Don't** add borders or drop shadows to cards. The only outward shadow grounds a cut-out object.
-- **Don't** add a second authored motion, timed carousels or fade-in reveals. The strike never starts from opacity 0.
-- **Don't** use off-palette greys or reds (Tailwind slate, gray or red scales). Use the named tokens.
-- **Don't** add one-off type sizes or clamps outside the ramp.
-- **Don't** use more than one die band on a page.
+- **Don't** put a hero, family stage page, lineup rail or marketing band ahead of the products on a catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`). The home page's traditional hero is deliberate, at the owner's request on 2026-11-04.
+- **Don't** grow the home hero into theatre: no type above the hero step, no lineup rail, no die band, no scroll-driven motion.
+- **Don't** add the die-black band or the strike animation to catalogue or home surfaces; they remain only where the inner pages already use them.
+- **Don't** use clamp() or viewport-scaled type.
+- **Don't** add eyebrow labels above headings.
+- **Don't** give surfaces a shadow at rest.
+- **Don't** introduce a second accent or a second typeface.

@@ -1,24 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { fetchAllProducts, fetchAllCategories, type Category, type ProductSummary } from "@/lib/api";
-import { buildCatalog, countWord, resolvePath, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
+import { fetchAllProducts, fetchAllCategories, type Category } from "@/lib/api";
+import { buildCatalog, catalogChips, catalogItems, resolvePath, runningName, styleCount, type CatalogNode } from "@/lib/catalog";
 import JsonLd from "@/components/common/JsonLd";
 import { dataOrThrow } from "@/lib/sanity-fetch";
 import { collectionPageSchema, breadcrumbSchema, type Crumb } from "@/lib/structured-data";
-import ProductCard from "@/components/ProductCard";
-import SectionIntro from "@/components/base/SectionIntro";
-import FamilyStrip from "@/components/catalog/FamilyStrip";
-import FamilyHero from "@/components/catalog/FamilyHero";
-import { FamilyGrid } from "@/components/catalog/FamilyCard";
-import TypeHero from "@/components/catalog/TypeHero";
-import TypeLineup from "@/components/catalog/TypeLineup";
-import Highlights from "@/components/catalog/Highlights";
-import StyleGrid, { MadeToSpecTile } from "@/components/catalog/StyleGrid";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import Catalog from "@/components/catalog/Catalog";
+import CustomRequest from "@/components/catalog/CustomRequest";
 import AboutCategory from "@/components/catalog/AboutCategory";
 import FAQSection from "@/components/FAQSection";
-import ClosingBand from "@/components/home/ClosingBand";
 import { DEFAULT_FAQS } from "@/data/faqs";
-import MoreLink from "@/components/base/MoreLink";
 import { SITE_NAME } from "@/lib/seo";
 
 // ---------------------------------------------------------------------------
@@ -105,10 +97,15 @@ export async function generateMetadata({
 
 export default async function ProductsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug?: string[] }>;
+  searchParams: Promise<{ q?: string | string[] }>;
 }) {
   const { slug = [] } = await params;
+  // The home page's search lands here with its words in ?q=.
+  const { q } = await searchParams;
+  const initialQuery = (Array.isArray(q) ? q[0] : q)?.slice(0, 100) ?? "";
 
   const [productsRes, categoriesRes] = await Promise.all([fetchAllProducts(), fetchAllCategories()]);
   const products = dataOrThrow(productsRes, "products");
@@ -136,18 +133,50 @@ export default async function ProductsPage({
     products: listed.map((p) => ({ title: p.title, slug: p.slug.current })),
   });
 
+  const { familyChips, typeChips } = catalogChips(families, node);
+  const title = node?.title ?? "All products";
+  const line = node?.tagline ?? "Buckles, buttons, patches, plates and zippers, each made in your finish and with your logo.";
+
   return (
     <>
       <JsonLd data={[collectionLd, breadcrumbSchema(crumbs)]} />
-      {!node ? (
-        <CatalogOverview families={families} total={(products ?? []).length} seo={seo} />
-      ) : node.parent ? (
-        <TypePage type={node} families={families} />
-      ) : (
-        <FamilyPage family={node} families={families} />
-      )}
+
+      <section className="container-x pb-10 pt-5 md:pb-14 md:pt-6">
+        <Breadcrumbs items={crumbs.map((c, i) => (i === crumbs.length - 1 ? { label: c.name } : { label: c.name, href: c.path }))} />
+        <div className="mt-4">
+          <Catalog
+            heading={
+              <>
+                <h1 className="text-display">{title}</h1>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {line} <span className="whitespace-nowrap">{styleCount(listed.length)}.</span>
+                </p>
+              </>
+            }
+            items={catalogItems(families, node)}
+            familyChips={familyChips}
+            typeChips={typeChips}
+            searchPlaceholder={node ? `Search ${runningName(node.title)}` : "Search products"}
+            initialQuery={initialQuery}
+          />
+        </div>
+        <CustomRequest className="mt-8" quoteFor={node?.title} />
+      </section>
+
+      <AboutCategory heading={aboutHeading(node, seo)} intro={node ? node.category.intro : seo.intro} />
+      <FAQSection
+        title="Frequently asked questions"
+        lede={`What buyers ask before ordering ${node ? runningName(node.title) : "from the catalogue"}.`}
+        items={FAQS}
+      />
     </>
   );
+}
+
+/** The search copy's heading: the category's own keyword h1 from Sanity, or a plain one. */
+function aboutHeading(node: CatalogNode | null, seo: ResolvedSeo) {
+  if (!node) return seo.h1 ?? seo.metaTitle;
+  return node.category.h1 ?? `About ${runningName(node.title)}`;
 }
 
 const FAQS = [
@@ -158,153 +187,3 @@ const FAQS = [
       "Use the quote form or message us on WhatsApp with your requirements. Our team will review your request and reply with sourcing options within 24 to 48 hours.",
   },
 ];
-
-const stylesLede = (products: ProductSummary[]) =>
-  products.length
-    ? `${styleCount(products.length)}, each made in your finish and carrying your mark.`
-    : "Every piece here is made to your specification. Send us a brief and we'll quote it.";
-
-/** A family's own page: its stage, its types, what sets it apart, every style. */
-function FamilyPage({ family, families }: { family: CatalogNode; families: CatalogNode[] }) {
-  const types = family.children.filter((c) => c.products.length > 0);
-  const showTypes = types.length >= 2;
-  const name = runningName(family.title);
-
-  return (
-    <>
-      <FamilyStrip families={families} current={{ familyId: family.id, exact: true }} />
-      <FamilyHero family={family} />
-      {showTypes && (
-        <TypeLineup
-          title="Explore the lineup."
-          lede="Each type is made in your finish and carries your mark."
-          types={types}
-        />
-      )}
-      <Highlights family={family} className={showTypes ? "pt-0 md:pt-0 lg:pt-0" : undefined} />
-      <StyleGrid
-        id="styles"
-        title={`All ${name}.`}
-        lede={stylesLede(family.products)}
-        products={family.products}
-        quoteFor={family.title}
-        fallback={family.defaults?.cutout}
-        className="pt-0 md:pt-0 lg:pt-0"
-      />
-      <AboutCategory heading={family.category.h1 ?? `About ${runningName(family.title)}`} intro={family.category.intro} />
-      <FAQSection lede={`What buyers ask before ordering ${name}.`} items={FAQS} />
-      <ClosingBand />
-    </>
-  );
-}
-
-/** One type inside a family: every style in it, then its sibling types. */
-function TypePage({ type, families }: { type: CatalogNode; families: CatalogNode[] }) {
-  const family = type.parent as CatalogNode;
-  const siblings = family.children.filter((c) => c.id !== type.id && c.products.length > 0);
-  const name = runningName(type.title);
-
-  return (
-    <>
-      <FamilyStrip families={families} current={{ familyId: family.id, exact: false }} />
-      <TypeHero type={type} />
-      <StyleGrid
-        id="styles"
-        title={`All ${name}.`}
-        lede={stylesLede(type.products)}
-        products={type.products}
-        quoteFor={type.title}
-        fallback={family.defaults?.cutout}
-      />
-      {siblings.length > 0 && (
-        <TypeLineup
-          title={`More ${runningName(family.title)}.`}
-          types={siblings}
-          className="pt-0 md:pt-0 lg:pt-0"
-        />
-      )}
-      <AboutCategory heading={type.category.h1 ?? `About ${runningName(type.title)}`} intro={type.category.intro} />
-      <FAQSection lede={`What buyers ask before ordering ${name}.`} items={FAQS} />
-      <ClosingBand />
-    </>
-  );
-}
-
-/** /products: every family in one row of cards, then a taste of each one. */
-function CatalogOverview({
-  families,
-  total,
-  seo,
-}: {
-  families: CatalogNode[];
-  total: number;
-  seo: ResolvedSeo;
-}) {
-  const familyCount = countWord(families.length);
-
-  return (
-    <>
-      <header className="container-x pb-6 pt-8 md:pb-8 md:pt-10">
-        <h1 className="text-display">All products.</h1>
-        <p className="text-lede mt-3 max-w-2xl text-muted-foreground">
-          {familyCount} families and {total} styles, each made in your finish and carrying your mark.
-        </p>
-      </header>
-
-      <section aria-label="Product families" className="container-x">
-        <FamilyGrid
-          label="Product families"
-          families={families.map((family) => ({
-            title: family.title,
-            href: family.href,
-            tagline: family.tagline,
-            image: family.defaults?.cutout,
-            more: styleCount(family.products.length),
-          }))}
-          trailing={<MadeToSpecTile quoteFor="Custom hardware" />}
-        />
-      </section>
-
-      <section aria-labelledby="by-family-title" className="py-10 md:py-14 lg:py-16">
-        <SectionIntro
-          id="by-family-title"
-          className="container-x mb-8 md:mb-10"
-          title="A first look at each."
-          lede="Four styles from every family. Open one to see them all."
-        />
-        <div className="container-x flex flex-col gap-12 md:gap-14">
-          {families.map((family) => (
-            <section key={family.id} aria-labelledby={`family-${family.slug}`}>
-              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-border pb-3">
-                <h3 id={`family-${family.slug}`} className="text-title">
-                  {family.title}
-                </h3>
-                <MoreLink href={family.href}>
-{family.products.length > 1
-                    ? `See all ${styleCount(family.products.length)}`
-                    : `Explore ${runningName(family.title)}`}
-</MoreLink>
-              </div>
-              <ul className="grid grid-cols-2 gap-x-3 gap-y-8 md:gap-x-4 lg:grid-cols-4">
-                {family.products.slice(0, 4).map((product) => (
-                  <li key={product._id}>
-                    <ProductCard product={product} fallback={family.defaults?.cutout} />
-                  </li>
-                ))}
-                {family.products.length < 4 && (
-                  <li className="col-span-2 lg:col-span-1">
-                    <MadeToSpecTile quoteFor={family.title} compact />
-                  </li>
-                )}
-              </ul>
-            </section>
-          ))}
-        </div>
-      </section>
-
-      <AboutCategory heading={seo.h1 ?? seo.metaTitle} intro={seo.intro} />
-      <FAQSection lede="What buyers ask before ordering from the catalog." items={FAQS} />
-      <ClosingBand />
-    </>
-  );
-}
