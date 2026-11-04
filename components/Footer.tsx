@@ -14,7 +14,7 @@ type FooterLink = {
 const COMPANY_LINKS: FooterLink[] = [
   { name: "About Metro Metal", href: "/about-us" },
   { name: "Compliance", href: "/compliance" },
-  { name: "Journal", href: "/blogs" },
+  { name: "Blog", href: "/blogs" },
   { name: "Contact", href: "/contact-us" },
 ];
 

@@ -167,7 +167,7 @@ export default async function PostPage({
             {/* Related posts */}
             {related.length > 0 && (
                 <section aria-labelledby="more-title" className="border-t border-border pt-10">
-                    <h2 id="more-title" className="text-headline">More from the journal.</h2>
+                    <h2 id="more-title" className="text-headline">More from the blog</h2>
                     <ul className="mt-6 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
                         {related.map((p) => (
                             <li key={p._id}>

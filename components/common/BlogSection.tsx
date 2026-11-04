@@ -6,7 +6,7 @@ import { formatDate } from "@/lib/blog";
 import SectionIntro from "../base/SectionIntro";
 import { cn } from "@/lib/utils";
 
-/** The three latest journal articles, picture first. */
+/** The three latest blog articles, picture first. */
 const BlogSection = async ({ className }: { className?: string }) => {
   const { data: posts } = await fetchLatestPosts();
   const latest = (posts ?? []).slice(0, 3);
@@ -17,7 +17,7 @@ const BlogSection = async ({ className }: { className?: string }) => {
       <div className="container-x">
         <SectionIntro
           className="mb-5 md:mb-6"
-          title="From the journal."
+          title="From the blog"
           lede="Guides on trims, finishes and compliance for teams specifying hardware."
           action={{ href: "/blogs", label: "All articles" }}
         />

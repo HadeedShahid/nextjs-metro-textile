@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blogs" },
 };
 
-const CRUMBS = [{ label: "Home", href: "/" }, { label: "Journal" }];
+const CRUMBS = [{ label: "Home", href: "/" }, { label: "Blog" }];
 
 /** The newest article, given a full-width frame. */
 function Lead({ post }: { post: PostListItem }) {
@@ -70,7 +70,7 @@ export default async function BlogsPage() {
     <>
       <JsonLd data={crumbLd} />
       <PageHeader
-        title="The journal."
+        title="Blog"
         lede="Practical guides on denim hardware, zippers, labels, compliance and sourcing, written for the teams who specify them."
         breadcrumbs={CRUMBS}
       />

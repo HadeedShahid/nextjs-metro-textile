@@ -1,44 +1,23 @@
 import type { Metadata } from "next";
 import HomeHero from "@/components/home/HomeHero";
-import TrustRow from "@/components/home/TrustRow";
+import CategoryGrid from "@/components/home/CategoryGrid";
 import LogoRow from "@/components/home/LogoRow";
-import Lineup from "@/components/home/Lineup";
-import MadeToMark from "@/components/home/MadeToMark";
-import ProcessBand from "@/components/home/ProcessBand";
-import BuyerQuotes, { type BuyerQuote } from "@/components/home/BuyerQuotes";
-import ClosingBand from "@/components/home/ClosingBand";
-import ProductGrid from "@/components/common/ProductGrid";
+import OrderSteps from "@/components/home/OrderSteps";
+import ProductCard from "@/components/ProductCard";
+import SectionIntro from "@/components/base/SectionIntro";
 import FAQSection from "@/components/FAQSection";
 import BlogSection from "@/components/common/BlogSection";
 import JsonLd from "@/components/common/JsonLd";
+import { fetchAllCategories, fetchAllProducts } from "@/lib/api";
+import { buildCatalog, catalogItems } from "@/lib/catalog";
+import { dataOrThrow } from "@/lib/sanity-fetch";
 import { faqPageSchema } from "@/lib/structured-data";
-import { fetchCatalogSampler } from "@/lib/api";
 import { pickFaqs } from "@/data/faqs";
+import { SHOWCASE_PHOTOS } from "@/data/families";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
-
-const quotes: BuyerQuote[] = [
-  {
-    quote:
-      "Metro turned our hardware from an afterthought into the thing customers email us about. They're the sourcing team I wish we'd started with.",
-    author: "Founder, independent leather goods brand",
-    place: "Brooklyn, NY",
-  },
-  {
-    quote:
-      "Consistent quality across every order, no matter the volume. We've been sourcing through Metro for three years and have never had to chase a timeline.",
-    author: "Head of Procurement, premium bag label",
-    place: "London, UK",
-  },
-  {
-    quote:
-      "What sets Metro apart is how they think about our product, not just the spec sheet. They flagged a finish issue before sampling even started.",
-    author: "Creative Director, accessories brand",
-    place: "Milan, IT",
-  },
-];
 
 // The homepage shows the questions buyers ask before a first order; the
 // FAQPage JSON-LD carries exactly the same set.
@@ -51,33 +30,53 @@ const HOME_FAQ_QUESTIONS = [
 ];
 const homeFaqs = pickFaqs(HOME_FAQ_QUESTIONS);
 
+/**
+ * A traditional home page: the hero with a product search, the client marks,
+ * the product range by family, a few styles cleared to show, then the order
+ * steps, the questions and the blog. The full catalogue and its search live at
+ * /products.
+ */
 export default async function Home() {
-  const { data: sampler } = await fetchCatalogSampler(2);
+  const [productsRes, categoriesRes] = await Promise.all([fetchAllProducts(), fetchAllCategories()]);
+  const { families } = buildCatalog(dataOrThrow(categoriesRes, "categories") ?? [], dataOrThrow(productsRes, "products") ?? []);
+  const total = families.reduce((sum, f) => sum + f.products.length, 0);
+  // Only photos cleared to show here: most catalogue photos carry a client's own mark.
+  const items = catalogItems(families, null);
+  const popular = SHOWCASE_PHOTOS.flatMap((slug) => items.filter((item) => item.product.slug.current === slug));
 
   return (
     <>
       <JsonLd data={faqPageSchema(homeFaqs)} />
-      <HomeHero />
-      <TrustRow />
-      <LogoRow />
-      <Lineup />
-      <MadeToMark />
-      <ProcessBand />
-      {sampler && sampler.length > 0 && (
-        <ProductGrid
-          title="From the catalog."
-          lede="Recent styles from every family. Ask for any of them in your finish and size."
-          products={sampler.slice(0, 8)}
-          viewAllHref="/products"
-          phoneLimit={4}
-          // Follows the white process band, so one gap separates them, not two.
-          className="pt-0 md:pt-0 lg:pt-0"
-        />
+      <HomeHero total={total} />
+      {/* The client marks right under the hero, before the range. */}
+      <div className="border-b border-border">
+        <LogoRow />
+      </div>
+      <CategoryGrid families={families} />
+
+      {popular.length > 0 && (
+        <section aria-labelledby="popular-title" className="border-t border-border py-10 md:py-14">
+          <div className="container-x">
+            <SectionIntro
+              id="popular-title"
+              title="From the catalogue"
+              lede="A few styles from the catalogue. Ask for any of them in your finish and size."
+              action={{ href: "/products", label: `View all ${total} products` }}
+            />
+            <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
+              {popular.map((item) => (
+                <li key={item.product._id}>
+                  <ProductCard product={item.product} typeLabel={item.typeLabel} fallback={item.fallback} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
       )}
-      <BuyerQuotes quotes={quotes} />
-      <FAQSection items={homeFaqs} />
+
+      <OrderSteps />
+      <FAQSection title="Frequently asked questions" lede="What buyers usually ask before their first order." items={homeFaqs} />
       <BlogSection className="bg-muted" />
-      <ClosingBand />
     </>
   );
 }

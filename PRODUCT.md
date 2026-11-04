@@ -52,10 +52,16 @@ Metro Metal makes and sources the metal and leather hardware brands put their na
   - The navbar is a normal one, with every section named and visible.
 
   The revision keeps the clean look and the focus on imagery, and it overrides the Apple-style scale wherever the two conflict.
+- **Owner's second revision (2026-11-04), binding:** the Apple style did not work. This is a simple catalogue site for suppliers and sourcing buyers, played as the category standard:
+  - Products are visible immediately and can be filtered on the catalogue, `/products`, which is also the search page.
+  - Later the same day the owner liked the catalogue and asked for a traditional home page too: a traditional hero with the products introduction and the categories. Home is now the hero (with a search that opens the catalogue), the client logos (moved up under the hero at the owner's request), the product range by family, a few styles cleared to show, then how an order works, the FAQ and the blog.
+  - Every products page opens on its filters (families, then the chosen family's types) and the full grid, with nothing to scroll past first.
+  - The reference is the August 2026 build: families named in the nav, filter chips over a full product grid.
+  - No hero theatre, family "stage" pages, lineup rails or marketing bands ahead of the products.
 
 ## Evidence on Hand
 
-- **Client logos** (`public/assets/logos/`): Levi's, Diesel, Calvin Klein, Burberry, Pull&Bear, Kaporal, Stone Age, One. Confirm permission before giving them more prominence.
+- **Client logos** (`public/assets/logos/`): Levi's, Diesel, Calvin Klein, Burberry, Pull&Bear, Kaporal, Stone Age, One. The owner moved them up to sit under the home hero on 2026-11-04; permission to show them is still unconfirmed.
 - **Studio renders:**
   - Hero renders: `public/assets/hero-desktop.png` 3168×1344 and `hero-mobile.png` 1536×2754.
   - Five category cutouts: `public/assets/bento/*.webp`.
@@ -63,7 +69,7 @@ Metro Metal makes and sources the metal and leather hardware brands put their na
   - Dark mood shots: `cta-pic.jpg`, `hero2.jpg`.
   - These renders show fictional brand marks (ATELIER 47, MERIDIAN, NORDEN).
 - **Catalog photos:** 205 Sanity images at about 4000 px, phone-shot on grey paper with inconsistent light and scale. The Zippers category has only a 512 px placeholder image.
-- **Testimonials:** three anonymous quotes in `app/(home)/page.tsx`. Do not attribute them to real people or brands without confirmation.
+- **Testimonials:** none. Three anonymous quotes were removed on 2026-11-04 at the owner's choice; do not add quotes without real, confirmed names.
 - **Absent, so never fabricate:** prices, named customer quotes, certificate numbers, factory headcount, capacity figures, and process or factory photography of hardware production.
 
 ## Product Principles
