@@ -553,7 +553,7 @@
       "Do use the fixed type steps (hero 30/40px on the home hero only, display 24/28px, headline 20/22px, title 17px, meta 13px) and the 1200px container.",
       "Do offer a quote wherever a search or filter comes up empty.",
       "Do keep the home hero to one band on the render's own ground, with the search that opens `/products?q=` and the two actions.",
-      "Do show only photos cleared to show (no client marks) anywhere outside the catalogue grid."
+      "Do keep family tiles and the hero on studio cut-outs and renders. Catalogue photos (many carry client marks) appear only in the catalogue grid, product pages and the home family carousels."
     ],
     "donts": [
       "Don't put a hero, family stage page, lineup rail or marketing band ahead of the products on a catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`). The home page's traditional hero is deliberate, at the owner's request on 2026-11-04.",

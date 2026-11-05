@@ -69,20 +69,3 @@ export const SUBCATEGORY_TAGLINES: Record<string, string> = {
   "pu-patches": "Water-resistant, consistent in colour, and embossed at volume.",
   "metal-zippers": "Metal teeth and custom pulls for denim, bags and outerwear.",
 };
-
-/**
- * Catalogue photos cleared to show on the home page: one or two distinct styles
- * per family, none carrying a client's mark. Most of the catalogue is client
- * work with the client's own mark (Burberry, Woodland, Kaporal and others, on
- * nearly every plate), and the shank buttons show belts; those stay in the
- * catalogue only. The zipper's photo is a placeholder, so its card shows the
- * studio cut-out. Product slugs, in the order the home page shows them.
- */
-export const SHOWCASE_PHOTOS = [
-  "buckle-style-01",
-  "buckle-style-07",
-  "plastic-button-style-01",
-  "prong-button-style-02",
-  "leather-patch-style-03",
-  "black-zipper",
-];
