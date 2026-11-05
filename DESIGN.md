@@ -1,6 +1,6 @@
 ---
 name: Metro Metal
-description: A plain trade catalogue of garment and leather-goods hardware, products first, every style one step from a quote, behind a traditional home page.
+description: A plain trade catalogue of garment and leather goods hardware, products first, every style one step from a quote, behind a traditional home page.
 colors:
   white: "#ffffff"
   ink: "#1d1d1f"
@@ -254,9 +254,9 @@ components:
     backgroundColor: "{colors.hero-ground}"
     textColor: "{colors.ink}"
   hero-band-lg:
-    height: "26rem"
+    height: "24rem"
   hero-band-xl:
-    height: "30rem"
+    height: "26rem"
   product-card:
     backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
@@ -381,7 +381,7 @@ A near-achromatic Apple-grey neutral set carrying a single saturated plum.
 Responsive steps are written as separate tokens: the base token holds the phone size and a sibling with a breakpoint suffix holds the size from that width (`-sm` from 640px, `-md` from 768px). `hero` / `hero-md`, `display` / `display-md`, `headline` / `headline-md`, `card-title` / `card-title-sm`, `lede` / `lede-md`, `field` / `field-sm`.
 
 ### Hierarchy
-- **Hero** (600, 30px, 40px from 768px, 1.12, -0.025em, balanced): the home hero's h1 only, three lines at desktop widths. One step, on one page.
+- **Hero** (600, 30px, 40px from 768px, 1.12, -0.025em, balanced): the home hero's h1 only, two lines ("Garment accessories, made to your logo."). One step, on one page. Hero copy stays short and plain: no hyphenated compounds such as "leather-goods", which break across lines.
 - **Display** (600, 24px, 28px from 768px, 1.2, -0.02em): the one page title per view on every other page: products page titles, blog posts, the 404 page. Fits one line on desktop.
 - **Headline** (600, 20px, 22px from 768px, 1.3, -0.015em): section headings (Our product range, From the catalogue, How an order works, FAQ, blog) and the product page title.
 - **Title** (600, 17px, 1.35, -0.01em): small panel headings (custom-request panel, About-category heading) and family tile names from 640px (16px/600 below).
@@ -407,7 +407,7 @@ A catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`
 
 The home page runs in this order: the hero band, the client logos, Our product range, From the catalogue, How an order works, the FAQ, then the blog. Sections after the hero are plain stacked bands, each opening on a headline, a lede and a "›" link. Hairlines divide the white sections down to From the catalogue; from there the grounds alternate (grey order steps, white FAQ, grey blog), so no rule sits between them. Sections pad 40px vertically, 56px from 768px, some (the FAQ) 64px from 1024px.
 
-- **Hero band:** copy on the left, capped at 34rem (25rem from 1024px, 29rem from 1280px), 32px from the top (48px from 768px). Content height on phones and tablets; 26rem tall from 1024px and 30rem from 1280px, with the copy centred vertically.
+- **Hero band:** copy on the left, capped at 34rem (25rem from 1024px, 29rem from 1280px), 32px from the top (48px from 768px). Content height on phones and tablets; 24rem tall from 1024px and 26rem from 1280px, with the copy centred vertically.
 - **Product range:** five family tiles and the "Something else?" tile, 2 columns on phones and 3 from 768px, 12px gaps (16px from 640px).
 - **From the catalogue:** six product cards, 2 columns on phones, 3 from 640px and 6 from 1280px.
 - **Order steps:** a grey band, 40px vertical padding (56px from 768px). A header row with the section intro left and the actions right (stacked on phones, side by side and bottom-aligned from 768px, 40px apart), then the steps 32px below (40px from 768px): one vertical timeline on phones, four columns with 24px gaps from 768px.
@@ -424,7 +424,7 @@ Flat by default. Depth comes from the grey well against white and from hairlines
 - **Press** (`box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.25)`): every button on :active, with a 1px downward nudge.
 
 ### Named Rules
-**The Flat Rest Rule.** Nothing casts a shadow at rest. The phone menu sheet and dialogs carry none either.
+**The Flat Rest Rule.** Nothing casts a shadow at rest. The phone menu sheet, the quote sheet and dialogs carry none either. The one floating list, the hero search's suggestions, lifts off the page with `0 8px 24px rgb(0 0 0 / 0.08)` over a hairline border.
 
 ## Shapes
 
@@ -437,7 +437,7 @@ Firm, quiet, tactile: they press 1px on click.
 - **Shape:** 8px corner.
 - **Primary (plum):** white text on plum, 40px tall, 20px side padding, 15px/500. "Request a quote" in the nav (from 1024px), the custom-request panel, the "Something else?" tile, the empty state, "Start your request" in the order-steps band, and the full-width "Send request" in the quote form. The large size (44px, 24px side padding) serves the home hero and the phone menu (full width).
 - **Hover / Focus:** plum mixes 12% toward black over 200ms. Focus is a 2px ink outline offset 3px, global for every focusable element.
-- **Outline:** transparent with a #d2d2d7 border, ink text; hover darkens the border to ink at 40% and adds a 3% ink wash. The card's quote button is outline, full card width, 36px. In the hero, "Browse products" is a 44px outline button on white with a trailing arrow (hidden on phones). The small outline (32px, 14px side padding, 14px text) is the quote form's "Attach files", led by a paperclip.
+- **Outline:** transparent with a #d2d2d7 border, ink text; hover darkens the border to ink at 40% and adds a 3% ink wash. The card's quote button is outline, full card width, 36px. The small outline (32px, 14px side padding, 14px text) is the quote form's "Attach files", led by a paperclip.
 - **Ink:** white text on ink, 44px, 20px side padding; hover #3a3a3c. Only the hero Search submit and the 404 page's catalogue link.
 - **Secondary:** grey well fill, hover #e8e8ed; used for email and WhatsApp on the product page.
 - **Ghost:** no fill, 5% ink wash on hover; the 44px WhatsApp and menu icons in the phone nav.
@@ -464,13 +464,13 @@ Compact and plain: one 40px field shared by the quote and contact forms.
 - **Label:** 14px/500 above its field, 6px between them in the quote form; required fields end on a destructive asterisk.
 - **Focus:** the border goes to ink with a 3px ink-at-10% halo, under the global 2px ink outline. **Invalid:** destructive border with a 3px destructive-at-20% halo. **Disabled:** 50% opacity.
 - **Search (catalogue):** 40px, white, #d2d2d7 border, 8px corner, 15px text, a 16px search glyph inset left and a 32px clear button on the right once there is a query; full width on phones, 288px from 640px. Focus darkens the border to ink and draws the global ink ring. Results update as you type; a polite live region states "N of M products match". The page reads `?q=` as its opening search and keeps the current search in the address (replaced, not pushed), so a reload or a shared link shows the same results.
-- **Hero search (home):** 44px, white, #d2d2d7 border, 8px corner, 15px text, the 16px search glyph inset left, placeholder "Search N products"; beside it the ink Search submit, together capped at 448px. Submitting opens `/products?q=` with the words.
+- **Hero search (home):** 44px, white, #d2d2d7 border, 8px corner, 16px text on phones and 15px from 640px, the 16px search glyph inset left, placeholder "Search products"; beside it the ink Search submit, together capped at 448px. It is a Base UI Autocomplete (`components/home/HeroSearch.tsx`): opening the field lists every category and type, each with its family's small cut-out and a style count or family name on the right; typing narrows them (up to five) and adds matching products (up to six, text only, since product photos often carry a client's mark), then a last "See all results for “…”" row. The list is a white panel the field's width, 8px radius, hairline border, the suggestion shadow, 40px rows, the highlighted row on Panel Grey. Picking a row (pointer, or Enter on a highlighted row) opens its page; Enter with nothing highlighted, or the Search button, opens `/products?q=` with the words.
 
 ### Hero band (home)
-One band, the render's own ground (#f5f4f9). Left: the hero h1, one lede, the hero search, then "Request a quote" (plum, large) and "Browse products" (outline, large) side by side, two equal halves on phones. Right: the studio render, served art-directed from one picture element so each device downloads one image.
+One band, the render's own ground (#f5f4f9), kept short at the owner's request. Left: the hero h1 on two lines, one lede ("Buckles, buttons, patches, plates and zippers, made across Pakistan, China and Hong Kong."), the hero search, then "Request a quote" (plum, 40px) and a plain "Browse all products →" text link. Right: the studio render, served art-directed from one picture element so each device downloads one image.
 - **Phones:** the portrait render (`public/assets/home/hero-mobile.webp`, objects at the bottom) under the copy, full width, its top faded into the band.
 - **From 768px:** the landscape render (`public/assets/home/hero-desktop.webp`, objects at the right) tucked up 4rem beside the actions, at the right at 72% width, faded at its left and top edges.
-- **From 1024px:** the render anchored to the band's right edge at full band height (26rem, 30rem from 1280px), with a left fade only, so its empty field sits under the text and the hardware stays clear of it. Offset -4rem past the right edge at 1024px, flush from 1280px.
+- **From 1024px:** the render anchored to the band's right edge at full band height (24rem, 26rem from 1280px), with a left fade only, so its empty field sits under the text and the hardware stays clear of it. Offset -4rem past the right edge at 1024px, flush from 1280px.
 - Loaded eagerly at high priority, with one alt text for both crops.
 
 ### Quote request

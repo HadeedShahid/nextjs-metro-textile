@@ -28,10 +28,10 @@ type ResolvedSeo = {
 const ALL_PRODUCTS_SEO: ResolvedSeo = {
   metaTitle: "Garment Accessories Manufacturer & Supplier",
   metaDescription:
-    "Metro Metal makes buckles, buttons, patches, plates and zippers for apparel and leather-goods brands, finished and branded to spec. Request a quote.",
-  h1: "Garment & Leather-Goods Accessories Manufacturer",
+    "Metro Metal makes buckles, buttons, patches, plates and zippers for apparel and leather goods brands, finished and branded to spec. Request a quote.",
+  h1: "Garment & Leather Goods Accessories Manufacturer",
   intro:
-    "Metro Metal manufactures the full range of garment and leather-goods accessories: buckles, buttons, patches, plates and zippers. With over 20 years supplying apparel and leather brands worldwide, our network spans Pakistan, China and Hong Kong. Every piece can be made in your finish and carry your mark. Open a family to see every style, or request a quote from any product page.",
+    "Metro Metal manufactures the full range of garment and leather goods accessories: buckles, buttons, patches, plates and zippers. With over 20 years supplying apparel and leather brands worldwide, our network spans Pakistan, China and Hong Kong. Every piece can be made in your finish and carry your mark. Open a family to see every style, or request a quote from any product page.",
 };
 
 /** Generated title and description for a category without its own SEO fields. */
