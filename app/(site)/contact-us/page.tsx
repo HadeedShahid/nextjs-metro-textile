@@ -59,7 +59,7 @@ export default function ContactUsPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-muted p-6 md:p-10">
+          <div className="rounded-lg bg-muted p-6 md:p-10">
             <h2 className="text-title">Send a message</h2>
             <p className="mt-2 text-muted-foreground">
               For a quote with files attached, use Request a quote instead.

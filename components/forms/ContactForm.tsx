@@ -83,7 +83,7 @@ export default function ContactForm() {
       </div>
 
       {status === "error" && (
-        <div role="alert" className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <div role="alert" className="flex items-center gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {errorMsg}
         </div>

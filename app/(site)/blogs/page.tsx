@@ -25,7 +25,7 @@ function Lead({ post }: { post: PostListItem }) {
   const img = post.image ? urlFor(post.image).width(1600).height(900).fit("crop").url() : null;
   return (
     <article className="group relative grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-14">
-      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-muted">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-muted">
         {img && (
           <Image
             src={img}
@@ -77,7 +77,7 @@ export default async function BlogsPage() {
 
       <section aria-label="Articles" className="container-x pb-10 md:pb-14 lg:pb-16">
         {safePosts.length === 0 ? (
-          <p className="rounded-2xl bg-muted px-6 py-16 text-center text-muted-foreground">
+          <p className="rounded-lg bg-muted px-6 py-16 text-center text-muted-foreground">
             New articles are on the way. Check back soon.
           </p>
         ) : (

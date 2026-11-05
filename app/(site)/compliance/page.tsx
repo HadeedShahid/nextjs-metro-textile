@@ -50,7 +50,7 @@ export default function CompliancePage() {
       <section aria-label="Certifications" className="container-x">
         <div className="grid gap-3 md:grid-cols-2 md:gap-4">
           {STANDARDS.map((standard) => (
-            <article key={standard.title} className="rounded-2xl bg-muted p-5 md:p-6">
+            <article key={standard.title} className="rounded-lg bg-muted p-5 md:p-6">
               <h2 className="text-title">{standard.title}</h2>
               <p className="mt-1.5 max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
                 {standard.body}

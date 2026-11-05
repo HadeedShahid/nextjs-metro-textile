@@ -26,7 +26,7 @@ const BlogSection = async ({ className }: { className?: string }) => {
           {latest.map((post) => (
             <li key={post._id}>
               <article className="group relative flex items-center gap-3 sm:block">
-                <div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-xl bg-muted sm:aspect-[16/10] sm:w-auto sm:rounded-2xl">
+                <div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-lg bg-muted sm:aspect-[16/10] sm:w-auto">
                   {post.image && (
                     <Image
                       src={urlFor(post.image).width(960).height(600).fit("crop").url()}

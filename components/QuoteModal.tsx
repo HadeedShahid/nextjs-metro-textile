@@ -66,7 +66,7 @@ export function QuoteModal({
           data-[side=bottom] variant so it outweighs the base sheet's h-auto. */}
       <SheetContent
         side="bottom"
-        className="gap-0 overflow-y-auto rounded-t-xl shadow-none thin-scrollbar data-[side=bottom]:max-h-[92dvh]"
+        className="gap-0 overflow-y-auto rounded-t-lg shadow-none thin-scrollbar data-[side=bottom]:max-h-[92dvh]"
       >
         <SheetHeader className="gap-1 px-5 pb-0 pr-12 pt-5 text-left">
           <SheetTitle className="text-lg font-semibold tracking-[-0.01em]">{QUOTE_TITLE}</SheetTitle>

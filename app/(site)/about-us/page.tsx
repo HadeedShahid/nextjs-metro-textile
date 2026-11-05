@@ -24,7 +24,7 @@ export default function AboutUsPage() {
       />
 
       <div className="container-x">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted md:aspect-[21/9]">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted md:aspect-[21/9]">
           <Image
             src="/assets/about-us.jpg"
             alt="A row of production machines on a Metro factory floor"
