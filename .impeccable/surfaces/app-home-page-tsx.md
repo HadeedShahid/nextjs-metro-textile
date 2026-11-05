@@ -16,6 +16,7 @@ Sourcing people at apparel and leather-goods brands and the factories that make 
 ## Constraints
 - Owner's words (2026-11-05): the hero "is too much"; keep the copy very simple, with no dashes ("leather-goods" read wrong); bring back the old search that suggested categories, with the plain text search when nothing is picked.
 - Owner's words (2026-11-04, after seeing the products-first build): "I really like it... it's very forward... it also makes sense... But I do need a traditional home page too. Traditional hero section, with the products introduction and maybe the categories too. Maybe this can be a good search page."
+- Owner's choice (2026-11-05): "From the catalogue" looked outdated as six narrow bordered cards with quote buttons and mixed families together. It became one carousel per family: lighter, photo-led cards, up to 12 per family in a random order, and one header line: the family name and count on the left, "View all" and the back and forward arrows on the right (arrows over the photos were tried and dropped: see-through on hover and clicks lost on press). These are the only sideways rows on the site.
 - Keep from the earlier home: client logos, how an order works, FAQ and blog. No anonymous buyer quotes. No invented claims (no "popular", no stats).
 - Assets: the studio renders `public/assets/home/hero-desktop.webp` (3168x1344, objects right on a #f5f4f9 field) and `hero-mobile.webp` (1536x2400, objects at the bottom), and the five family cut-outs in `public/assets/bento/`.
 
@@ -28,4 +29,4 @@ FORM: The category standard (canon), pinned by the owner's plain request; no rol
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Unresolved
-Permission to feature client logos; the shank-button photos in Sanity show belts (they appear when someone searches "shank").
+Permission to feature client logos; the family carousels show catalogue photos that carry client marks; the shank-button photos in Sanity show belts (they appear in the Buttons carousel and when someone searches "shank").

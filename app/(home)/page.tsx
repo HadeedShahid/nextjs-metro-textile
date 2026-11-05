@@ -4,8 +4,7 @@ import type { SearchSuggestion } from "@/components/home/HeroSearch";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import LogoRow from "@/components/home/LogoRow";
 import OrderSteps from "@/components/home/OrderSteps";
-import ProductCard from "@/components/ProductCard";
-import SectionIntro from "@/components/base/SectionIntro";
+import Showcase, { type ShowcaseRow } from "@/components/home/Showcase";
 import FAQSection from "@/components/FAQSection";
 import BlogSection from "@/components/common/BlogSection";
 import JsonLd from "@/components/common/JsonLd";
@@ -14,7 +13,7 @@ import { buildCatalog, catalogItems, styleCount } from "@/lib/catalog";
 import { dataOrThrow } from "@/lib/sanity-fetch";
 import { faqPageSchema } from "@/lib/structured-data";
 import { pickFaqs } from "@/data/faqs";
-import { FAMILY_DEFAULTS, SHOWCASE_PHOTOS } from "@/data/families";
+import { FAMILY_DEFAULTS } from "@/data/families";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -31,6 +30,19 @@ const HOME_FAQ_QUESTIONS = [
 ];
 const homeFaqs = pickFaqs(HOME_FAQ_QUESTIONS);
 
+/** How many styles each family's carousel shows; "View all" opens the rest. */
+const SHOWCASE_PER_FAMILY = 12;
+
+/** A shuffled copy (Fisher-Yates). The page is cached, so the order changes each time it is rebuilt. */
+function shuffled<T>(list: T[]): T[] {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 /**
  * A traditional home page: the hero with a product search, the client marks,
  * the product range by family, a few styles cleared to show, then the order
@@ -40,10 +52,18 @@ const homeFaqs = pickFaqs(HOME_FAQ_QUESTIONS);
 export default async function Home() {
   const [productsRes, categoriesRes] = await Promise.all([fetchAllProducts(), fetchAllCategories()]);
   const { families } = buildCatalog(dataOrThrow(categoriesRes, "categories") ?? [], dataOrThrow(productsRes, "products") ?? []);
-  const total = families.reduce((sum, f) => sum + f.products.length, 0);
-  // Only photos cleared to show here: most catalogue photos carry a client's own mark.
   const items = catalogItems(families, null);
-  const popular = SHOWCASE_PHOTOS.flatMap((slug) => items.filter((item) => item.product.slug.current === slug));
+
+  // One carousel per family, its styles in a random order.
+  const showcase: ShowcaseRow[] = families
+    .filter((f) => f.products.length > 0)
+    .map((f) => ({
+      title: f.title,
+      slug: f.slug,
+      href: f.href,
+      count: f.products.length,
+      items: shuffled(catalogItems(families, f)).slice(0, SHOWCASE_PER_FAMILY),
+    }));
 
   // The hero search's suggestions: every family and type, then every product.
   const stocked = families.filter((f) => f.products.length > 0);
@@ -73,25 +93,7 @@ export default async function Home() {
       </div>
       <CategoryGrid families={families} />
 
-      {popular.length > 0 && (
-        <section aria-labelledby="popular-title" className="border-t border-border py-10 md:py-14">
-          <div className="container-x">
-            <SectionIntro
-              id="popular-title"
-              title="From the catalogue"
-              lede="A few styles from the catalogue. Ask for any of them in your finish and size."
-              action={{ href: "/products", label: `View all ${total} products` }}
-            />
-            <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
-              {popular.map((item) => (
-                <li key={item.product._id}>
-                  <ProductCard product={item.product} typeLabel={item.typeLabel} fallback={item.fallback} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
+      <Showcase rows={showcase} />
 
       <OrderSteps />
       <FAQSection title="Frequently asked questions" lede="What buyers usually ask before their first order." items={homeFaqs} />

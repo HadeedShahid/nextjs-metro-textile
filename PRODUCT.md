@@ -47,14 +47,14 @@ Metro Metal makes and sources the metal and leather hardware brands put their na
 - The logo is `public/logo.png`. The established accent is plum (`oklch(0.4533 0.1522 326.27)`, ≈ `#7f2f82`).
 - **Owner's direction:** a clean, imagery-led site, product-led because Metro Metal sells physical products. This is a binding brief for the visual direction.
 - **Owner's revision (2026-10-28):** after seeing the Apple-style build, the owner asked for a simple, conventional site for non-designer buyers, who would expect something closer to a typical business or WordPress site:
-  - Everything is visible up front. There are no horizontal scrolling rows; the product lineup shows all at once.
+  - Everything is visible up front. There are no horizontal scrolling rows; the product lineup shows all at once. One exception since 2026-11-05, at the owner's request: the home page shows one carousel per family (up to 12 styles each, in a random order, with "View all").
   - Type and sections are smaller, and nothing is oversized.
   - The navbar is a normal one, with every section named and visible.
 
   The revision keeps the clean look and the focus on imagery, and it overrides the Apple-style scale wherever the two conflict.
 - **Owner's second revision (2026-11-04), binding:** the Apple style did not work. This is a simple catalogue site for suppliers and sourcing buyers, played as the category standard:
   - Products are visible immediately and can be filtered on the catalogue, `/products`, which is also the search page.
-  - Later the same day the owner liked the catalogue and asked for a traditional home page too: a traditional hero with the products introduction and the categories. Home is now the hero (with a search that opens the catalogue), the client logos (moved up under the hero at the owner's request), the product range by family, a few styles cleared to show, then how an order works, the FAQ and the blog.
+  - Later the same day the owner liked the catalogue and asked for a traditional home page too: a traditional hero with the products introduction and the categories. Home is now the hero (with a search that opens the catalogue), the client logos (moved up under the hero at the owner's request), the product range by family, a carousel of styles for each family, then how an order works, the FAQ and the blog.
   - Every products page opens on its filters (families, then the chosen family's types) and the full grid, with nothing to scroll past first.
   - The reference is the August 2026 build: families named in the nav, filter chips over a full product grid.
   - No hero theatre, family "stage" pages, lineup rails or marketing bands ahead of the products.

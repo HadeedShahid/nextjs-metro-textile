@@ -356,7 +356,7 @@ A near-achromatic Apple-grey neutral set carrying a single saturated plum.
 - **Ink Secondary** (#6e6e73): meta lines, ledes, type labels on cards, chip and tile counts, the top bar, the footer, placeholders.
 - **Well Grey** (#f5f5f7): photo wells (square on product cards, 16:10 on family tiles), the top bar, the "Need something that isn't listed?" panel, the "Something else?" tile, the About-category band, the order-steps and blog bands on home, the "Quote for" line and file chips in the quote form, and the footer. Well Pressed (#e8e8ed) is the hover of secondary buttons.
 - **Hero Ground** (#f5f4f9): the home hero band only. It is the studio render's own ground, so the render fades into the band with no visible edge.
-- **Hairline** (#e3e3e8): card and tile borders, chip borders, section rules (under the logo row, above From the catalogue), FAQ row dividers, the quote sheet's top edge, nav bottom border.
+- **Hairline** (#e3e3e8): card and tile borders, chip borders, section rules (under the logo row, above the family carousels), FAQ row dividers, the quote sheet's top edge, nav bottom border.
 - **Field Stroke** (#d2d2d7): every field border (search, quote and contact forms), outline buttons and the dashed empty-state border; one step darker than the hairline so controls read as controls.
 - **Destructive** (oklch(0.577 0.245 27.325)): form errors (invalid field border and ring, the error panel at 10% with destructive text) and the required-field asterisk.
 
@@ -383,7 +383,7 @@ Responsive steps are written as separate tokens: the base token holds the phone 
 ### Hierarchy
 - **Hero** (600, 30px, 40px from 768px, 1.12, -0.025em, balanced): the home hero's h1 only, two lines ("Garment accessories, made to your logo."). One step, on one page. Hero copy stays short and plain: no hyphenated compounds such as "leather-goods", which break across lines.
 - **Display** (600, 24px, 28px from 768px, 1.2, -0.02em): the one page title per view on every other page: products page titles, blog posts, the 404 page. Fits one line on desktop.
-- **Headline** (600, 20px, 22px from 768px, 1.3, -0.015em): section headings (Our product range, From the catalogue, How an order works, FAQ, blog) and the product page title.
+- **Headline** (600, 20px, 22px from 768px, 1.3, -0.015em): section headings (Our product range, the family names over their carousels, How an order works, FAQ, blog) and the product page title.
 - **Title** (600, 17px, 1.35, -0.01em): small panel headings (custom-request panel, About-category heading) and family tile names from 640px (16px/600 below).
 - **Card title** (600, 14px, 15px from 640px, 1.375): product names on cards.
 - **Lede** (400, 15px, 16px from 768px, 1.55): one-line section introductions and the hero's line under the h1.
@@ -405,11 +405,11 @@ One centred container: `min(100% - 40px, 1200px)`, widening to `min(100% - 64px,
 
 A catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`) is one vertical stack with 16px between parts: the header row (title and meta line on the left, a 288px search on the right from 640px; stacked on phones), the family chip row, the type chip row when the family has two or more types, then the grid. Chips wrap with 8px gaps. The grid is 2 columns on phones, 3 from 640px, 4 from 1024px, with 12px gaps (16px from 640px). The custom-request panel follows 32px under the grid. Products pages put breadcrumbs above the header row, and an About-category band and the FAQ below the grid.
 
-The home page runs in this order: the hero band, the client logos, Our product range, From the catalogue, How an order works, the FAQ, then the blog. Sections after the hero are plain stacked bands, each opening on a headline, a lede and a "›" link. Hairlines divide the white sections down to From the catalogue; from there the grounds alternate (grey order steps, white FAQ, grey blog), so no rule sits between them. Sections pad 40px vertically, 56px from 768px, some (the FAQ) 64px from 1024px.
+The home page runs in this order: the hero band, the client logos, Our product range, the family carousels, How an order works, the FAQ, then the blog. Sections after the hero are plain stacked bands, each opening on a headline, a lede and a "›" link. Hairlines divide the white sections down to the family carousels; from there the grounds alternate (grey order steps, white FAQ, grey blog), so no rule sits between them. Sections pad 40px vertically, 56px from 768px, some (the FAQ) 64px from 1024px.
 
 - **Hero band:** copy on the left, capped at 34rem (25rem from 1024px, 29rem from 1280px), 32px from the top (48px from 768px). Content height on phones and tablets; 24rem tall from 1024px and 26rem from 1280px, with the copy centred vertically.
 - **Product range:** five family tiles and the "Something else?" tile, 2 columns on phones and 3 from 768px, 12px gaps (16px from 640px).
-- **From the catalogue:** six product cards, 2 columns on phones, 3 from 640px and 6 from 1280px.
+- **Family carousels:** one carousel per family (Buckles, Buttons, Patches, Plates, Zippers, in title order), 40px apart (56px from 768px), each up to 12 of the family's styles in a random order (the page is cached, so the order changes each time it is rebuilt, about every 15 minutes). Each opens on one header line: on the left the family name as a headline with its style count beside it in meta grey (14px from 640px), on the right an outline "View all ›" button that opens the family's catalogue page and, from 768px, the 40px outline back and forward arrows, 8px apart. Then one row that scrolls sideways with snap points: cards 70% of the container on phones, 42% from 640px, 2.5 in view from 768px and 3.5 from 1024px, gaps 12px (16px from 640px, 24px from 768px), the scrollbar hidden. Each arrow greys out (the disabled state) at its end of the row, and both do when the row fits; they page by 80% of the row (instantly under reduced motion). Phones swipe. Arrows never sit over the photos: an outline button there turns see-through on hover. The only sideways rows on the site, chosen by the owner on 2026-11-05.
 - **Order steps:** a grey band, 40px vertical padding (56px from 768px). A header row with the section intro left and the actions right (stacked on phones, side by side and bottom-aligned from 768px, 40px apart), then the steps 32px below (40px from 768px): one vertical timeline on phones, four columns with 24px gaps from 768px.
 - The **FAQ** (a sticky intro column and the accordion, two columns from 1024px) and the **blog** on a grey band close the page.
 
@@ -453,7 +453,7 @@ Filters you can read at a glance, each a real link with its own address.
 - **Product card:** white, 1px hairline, 4px corner. A square grey well holds the photo (object-cover; a family cut-out contained with 16px inset when the photo is a placeholder; "Photo coming soon" otherwise). Below, 12px padding: name, type label in meta grey, and the outline quote button pinned to the bottom. The whole card is the product link; hover lifts it (Card lift) and scales the photo to 1.03 over 300ms. The same card serves related products on the product page and the home page's From the catalogue row.
 - **Family tile (home):** white, 1px hairline, 4px corner. A 16:10 grey well holds the family's cut-out, contained with 12px inset (20px from 640px). Below, 12px padding (16px from 640px): the family name (16px/600, title size from 640px) with its style count in tabular meta grey on the same baseline, the tagline in secondary grey (13px, 14px from 640px), then the family's types as plum text links ("Plastic", "Prong", "Shank"; 13px, 14px from 640px, 32px tall) when it has two or more. The name links the whole tile; the type links sit above that link. Hover: Card lift and the cut-out scales to 1.03.
 - **"Something else?" tile (home):** the sixth tile, grey well, no border, 4px corner, 16px padding (20px from 640px): a heading, one line in small secondary grey, then the plum quote button (full width on phones) and, from 640px, a plum "Search the catalogue" link.
-- **From the catalogue row (home):** six product cards drawn only from photos cleared to show (no client marks), a fixed list in `SHOWCASE_PHOTOS`. Never fill it from the whole catalogue.
+- **Showcase card (home family carousels):** lighter than the product card, so the home page reads as a showcase. No border: a square grey well (4px corner) holds the photo, scaled to 1.03 on hover (a placeholder shows the family cut-out with 24px inset). Below, 12px down: the name at 15px/600 (16px from 640px, underlined on hover), the type in meta grey, then a plum "Request a quote" text link (14px, 40px tall). The whole card opens the product. Drawn from the family's whole catalogue at the owner's request (2026-11-05), so client-marked photos appear here as they do in the catalogue grid.
 - **Custom-request panel:** grey well, 4px corner, 20px padding; a title-size heading and one line on the left, the plum quote button on the right from 640px.
 - **Empty state:** dashed #d2d2d7 border, 4px corner, centred: what didn't match, an offer to quote anything not listed, then the plum quote button and an outline "Clear the search".
 
@@ -506,11 +506,12 @@ A die-black band with a low-light buckle photo, a centred headline, a white "lig
 - **Do** use the fixed type steps (hero 30/40px on the home hero only, display 24/28px, headline 20/22px, title 17px, meta 13px) and the 1200px container.
 - **Do** offer a quote wherever a search or filter comes up empty.
 - **Do** keep the home hero to one band on the render's own ground, with the search that opens `/products?q=` and the two actions.
-- **Do** show only photos cleared to show (no client marks) anywhere outside the catalogue grid.
+- **Do** keep family tiles and the hero on studio cut-outs and renders. Catalogue photos (many carry client marks) appear only in the catalogue grid, product pages and the home family carousels.
 
 ### Don't:
 - **Don't** put a hero, family stage page, lineup rail or marketing band ahead of the products on a catalogue view (`/products`, `/products/[family]`, `/products/[family]/[type]`). The home page's traditional hero is deliberate, at the owner's request on 2026-11-04.
 - **Don't** grow the home hero into theatre: no type above the hero step, no lineup rail, no die band, no scroll-driven motion.
+- **Don't** add other sideways rows. The home family carousels are the one exception, at the owner's request on 2026-11-05; catalogue views and every other home section stay grids.
 - **Don't** add the die-black band or the strike animation to catalogue or home surfaces; they remain only where the inner pages already use them.
 - **Don't** use clamp() or viewport-scaled type.
 - **Don't** add eyebrow labels above headings.
