@@ -116,9 +116,9 @@ typography:
     fontWeight: 500
     lineHeight: 1
 rounded:
-  inset: "0.2rem"
-  card: "0.25rem"
-  dialog: "0.35rem"
+  inset: "0.4rem"
+  card: "0.5rem"
+  dialog: "0.5rem"
   control: "0.5rem"
   pill: "9999px"
 spacing:
@@ -428,7 +428,7 @@ Flat by default. Depth comes from the grey well against white and from hairlines
 
 ## Shapes
 
-Three page corners, each with one job, plus two for overlays. Cards, tiles and panels (product card, family tile, "Something else?" tile, custom-request panel, empty state) take a small 4px corner (`--radius` 0.25rem). Buttons, every field and the search clear button take a firmer 8px corner (`--radius-control`). The quote dialog takes a 5.6px corner (the sheet only on its top edge), and the small insets inside it (the "Quote for" line, file chips, the error panel) a 3.2px one. Filter chips and the order-step numbers are full pills or circles. Borders are 1px hairlines; the empty state alone uses a dashed field-stroke border. Photos are clipped square inside product cards; family cut-outs sit contained in a 16:10 well. The hero render has no frame: it is cropped by the band and dissolves into it at the edges.
+One 8px corner for everything rectangular, so a card and the button inside it read as one family (the owner's call, 2026-11-05: 4px cards around 8px buttons looked off). Buttons, every field, the search clear button, product cards, family tiles, the "Something else?" tile, the custom-request panel, the empty state, every photo well (showcase cards, the product gallery and its thumbnails, blog and about photos), the grey panels and the quote dialog all take it (`--radius` 0.5rem; `rounded-lg` and `rounded-control` are the same value). The quote sheet takes it on its top edge only. Small insets (the "Quote for" line, file chips, the error panel, search suggestion rows and their thumbnails) take 6.4px (`rounded-md`). Never use the larger steps (`rounded-xl` and up) for a card or photo. Filter chips and the order-step numbers are full pills or circles. Borders are 1px hairlines; the empty state alone uses a dashed field-stroke border. Photos are clipped square inside product cards; family cut-outs sit contained in a 16:10 well. The hero render has no frame: it is cropped by the band and dissolves into it at the edges.
 
 ## Components
 
@@ -450,12 +450,12 @@ Filters you can read at a glance, each a real link with its own address.
 - **Type chip:** a smaller second row, 32px, same rest style. **Selected:** plum at 10% with a plum border and plum label, so the two rows never read as one.
 
 ### Cards / Containers
-- **Product card:** white, 1px hairline, 4px corner. A square grey well holds the photo (object-cover; a family cut-out contained with 16px inset when the photo is a placeholder; "Photo coming soon" otherwise). Below, 12px padding: name, type label in meta grey, and the outline quote button pinned to the bottom. The whole card is the product link; hover lifts it (Card lift) and scales the photo to 1.03 over 300ms. The same card serves related products on the product page and the home page's From the catalogue row.
-- **Family tile (home):** white, 1px hairline, 4px corner. A 16:10 grey well holds the family's cut-out, contained with 12px inset (20px from 640px). Below, 12px padding (16px from 640px): the family name (16px/600, title size from 640px) with its style count in tabular meta grey on the same baseline, the tagline in secondary grey (13px, 14px from 640px), then the family's types as plum text links ("Plastic", "Prong", "Shank"; 13px, 14px from 640px, 32px tall) when it has two or more. The name links the whole tile; the type links sit above that link. Hover: Card lift and the cut-out scales to 1.03.
-- **"Something else?" tile (home):** the sixth tile, grey well, no border, 4px corner, 16px padding (20px from 640px): a heading, one line in small secondary grey, then the plum quote button (full width on phones) and, from 640px, a plum "Search the catalogue" link.
-- **Showcase card (home family carousels):** lighter than the product card, so the home page reads as a showcase. No border: a square grey well (4px corner) holds the photo, scaled to 1.03 on hover (a placeholder shows the family cut-out with 24px inset). Below, 12px down: the name at 15px/600 (16px from 640px, underlined on hover), the type in meta grey, then a plum "Request a quote" text link (14px, 40px tall). The whole card opens the product. Drawn from the family's whole catalogue at the owner's request (2026-11-05), so client-marked photos appear here as they do in the catalogue grid.
-- **Custom-request panel:** grey well, 4px corner, 20px padding; a title-size heading and one line on the left, the plum quote button on the right from 640px.
-- **Empty state:** dashed #d2d2d7 border, 4px corner, centred: what didn't match, an offer to quote anything not listed, then the plum quote button and an outline "Clear the search".
+- **Product card:** white, 1px hairline, 8px corner. A square grey well holds the photo (object-cover; a family cut-out contained with 16px inset when the photo is a placeholder; "Photo coming soon" otherwise). Below, 12px padding: name, type label in meta grey, and the outline quote button pinned to the bottom. The whole card is the product link; hover lifts it (Card lift) and scales the photo to 1.03 over 300ms. The same card serves related products on the product page and the home page's From the catalogue row.
+- **Family tile (home):** white, 1px hairline, 8px corner. A 16:10 grey well holds the family's cut-out, contained with 12px inset (20px from 640px). Below, 12px padding (16px from 640px): the family name (16px/600, title size from 640px) with its style count in tabular meta grey on the same baseline, the tagline in secondary grey (13px, 14px from 640px), then the family's types as plum text links ("Plastic", "Prong", "Shank"; 13px, 14px from 640px, 32px tall) when it has two or more. The name links the whole tile; the type links sit above that link. Hover: Card lift and the cut-out scales to 1.03.
+- **"Something else?" tile (home):** the sixth tile, grey well, no border, 8px corner, 16px padding (20px from 640px): a heading, one line in small secondary grey, then the plum quote button (full width on phones) and, from 640px, a plum "Search the catalogue" link.
+- **Showcase card (home family carousels):** lighter than the product card, so the home page reads as a showcase. No border: a square grey well (8px corner) holds the photo, scaled to 1.03 on hover (a placeholder shows the family cut-out with 24px inset). Below, 12px down: the name at 15px/600 (16px from 640px, underlined on hover), the type in meta grey, then a plum "Request a quote" text link (14px, 40px tall). The whole card opens the product. Drawn from the family's whole catalogue at the owner's request (2026-11-05), so client-marked photos appear here as they do in the catalogue grid.
+- **Custom-request panel:** grey well, 8px corner, 20px padding; a title-size heading and one line on the left, the plum quote button on the right from 640px.
+- **Empty state:** dashed #d2d2d7 border, 8px corner, centred: what didn't match, an offer to quote anything not listed, then the plum quote button and an outline "Clear the search".
 
 ### Inputs / Fields
 Compact and plain: one 40px field shared by the quote and contact forms.
@@ -475,10 +475,10 @@ One band, the render's own ground (#f5f4f9), kept short at the owner's request. 
 
 ### Quote request
 One form, two containers: a dialog from 768px, a bottom sheet below.
-- **Dialog:** 440px wide, at most 90dvh with a thin scrollbar, 24px padding, white, 5.6px corner, a 1px ink-at-10% ring, no shadow; 20px between header and form.
-- **Sheet (phones):** sized to the form, up to 92dvh; top corners 5.6px and a hairline top edge; 20px sides and top, bottom padding at least 20px or the safe-area inset.
+- **Dialog:** 440px wide, at most 90dvh with a thin scrollbar, 24px padding, white, 8px corner, a 1px ink-at-10% ring, no shadow; 20px between header and form.
+- **Sheet (phones):** sized to the form, up to 92dvh; top corners 8px and a hairline top edge; 20px sides and top, bottom padding at least 20px or the safe-area inset.
 - **Header:** "Request a quote" at 18px/600, -0.01em; under it, 14px secondary grey: "Tell us what you need and our team will reply within 24 hours."
-- **Form:** 14px between rows. When opened from a product, a "Quote for" line leads on the grey well (3.2px corner, 14px, the product name in 500, truncated). Name and Email sit side by side from 640px (12px gap). Then "What you need", then one line holding the small outline "Attach files" and a 12px secondary-grey note ("Optional. Up to 5 files, 4 MB in all."); chosen files show as 12px chips on the grey well with a hairline, size in grey and a remove button. Errors appear in a 3.2px-corner destructive panel. The default-size (40px) plum "Send request" closes it, full width.
+- **Form:** 14px between rows. When opened from a product, a "Quote for" line leads on the grey well (6.4px corner, 14px, the product name in 500, truncated). Name and Email sit side by side from 640px (12px gap). Then "What you need", then one line holding the small outline "Attach files" and a 12px secondary-grey note ("Optional. Up to 5 files, 4 MB in all."); chosen files show as 12px chips on the grey well with a hairline, size in grey and a remove button. Errors appear in a 6.4px-corner destructive panel. The default-size (40px) plum "Send request" closes it, full width.
 
 ### Navigation
 - **Top bar (from 768px):** grey well, 36px, meta-size secondary grey. Email, phone and WhatsApp with 14px icons on the left; About us, Compliance, Blog, Contact on the right. Hover: ink and underline.

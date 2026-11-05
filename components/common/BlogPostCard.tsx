@@ -10,7 +10,7 @@ const BlogPostCard = ({ post }: { post: PostListItem }) => {
 
   return (
     <article className="group relative flex flex-col">
-      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
         {img && (
           <Image
             src={img}

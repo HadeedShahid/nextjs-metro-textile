@@ -39,7 +39,7 @@ export default function ImageGallery({
 
   if (!count) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+      <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-muted text-muted-foreground">
         Photo coming soon
       </div>
     )
@@ -53,7 +53,7 @@ export default function ImageGallery({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-muted"
+        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg bg-muted"
         aria-label={`View ${label(active)} full screen`}
       >
         <Image
@@ -80,7 +80,7 @@ export default function ImageGallery({
                 aria-label={`Show photo ${i + 1}`}
                 aria-current={i === active ? "true" : undefined}
                 className={cn(
-                  "relative block aspect-square w-full overflow-hidden rounded-xl bg-muted ring-offset-2 transition sm:size-[4.5rem] sm:rounded-2xl md:size-20",
+                  "relative block aspect-square w-full overflow-hidden rounded-lg bg-muted ring-offset-2 transition sm:size-[4.5rem] md:size-20",
                   i === active ? "ring-2 ring-foreground" : "opacity-70 hover:opacity-100",
                 )}
               >

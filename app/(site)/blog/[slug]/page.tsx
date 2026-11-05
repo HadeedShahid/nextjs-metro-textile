@@ -116,7 +116,7 @@ export default async function PostPage({
 
                 {/* Banner */}
                 {bannerUrl && (
-                    <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-muted">
+                    <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-lg bg-muted">
                         <Image
                             src={bannerUrl}
                             alt={post.title}
@@ -179,7 +179,7 @@ export default async function PostPage({
             )}
 
             {/* Closing CTA */}
-            <section className="flex flex-col items-start justify-between gap-5 rounded-2xl bg-muted px-6 py-8 md:flex-row md:items-center md:px-10">
+            <section className="flex flex-col items-start justify-between gap-5 rounded-lg bg-muted px-6 py-8 md:flex-row md:items-center md:px-10">
                 <div>
                     <h2 className="text-title">Specifying trims for an upcoming range?</h2>
                     <p className="mt-2 text-base text-muted-foreground">
