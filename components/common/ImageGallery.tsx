@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -10,8 +11,10 @@ import { cn } from "@/lib/utils"
 import type { SanityImage } from "@/lib/api"
 
 /**
- * Product photos at studio scale: one large frame on the aluminium ground,
- * thumbnails beneath it, and a full-screen viewer for close inspection.
+ * Product photos at studio scale: one large frame that swipes between photos,
+ * thumbnails beneath it, and a full-screen viewer for close inspection that
+ * swipes too. Both are Embla carousels; a drag never counts as a click, so
+ * swiping the frame does not open the viewer.
  */
 export default function ImageGallery({
   images = [],
@@ -22,20 +25,21 @@ export default function ImageGallery({
 }) {
   const [active, setActive] = React.useState(0)
   const [open, setOpen] = React.useState(false)
+  const [frameRef, frame] = useEmblaCarousel()
 
-  const count = images?.length ?? 0
-  const go = (direction: 1 | -1) => setActive((i) => (i + direction + count) % count)
-
-  // Arrow keys page through photos while the viewer is open.
   React.useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") setActive((i) => (i + 1) % count)
-      if (e.key === "ArrowLeft") setActive((i) => (i - 1 + count) % count)
+    if (!frame) return
+    const onSelect = () => setActive(frame.selectedScrollSnap())
+    frame.on("select", onSelect)
+    return () => {
+      frame.off("select", onSelect)
     }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [open, count])
+  }, [frame])
+
+  // Keep the page's frame on the photo the buyer stopped at in the viewer.
+  const syncFrame = React.useCallback((i: number) => frame?.scrollTo(i, true), [frame])
+
+  const count = images.length
 
   if (!count) {
     return (
@@ -48,26 +52,37 @@ export default function ImageGallery({
   const label = (i: number) => `${alt}, photo ${i + 1} of ${count}`
 
   return (
-    // min-w-0 lets the thumbnail strip scroll instead of widening a grid column.
+    // min-w-0 lets the frame shrink with its grid column.
     <div className="min-w-0">
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg bg-muted"
-        aria-label={`View ${label(active)} full screen`}
-      >
-        <Image
-          src={urlFor(images[active]).width(1600).height(1200).fit("crop").url()}
-          alt={label(active)}
-          fill
-          preload={active === 0}
-          sizes="(max-width: 1024px) 100vw, 58vw"
-          className="object-cover"
-        />
-        <span className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-control bg-white/85 text-foreground backdrop-blur transition-opacity lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
+      <div className="group relative">
+        <div ref={frameRef} className="overflow-hidden rounded-lg bg-muted" aria-roledescription="carousel" aria-label={`${alt} photos`}>
+          <ul className="flex touch-pan-y">
+            {images.map((image, i) => (
+              <li key={image?._key ?? i} className="relative aspect-[4/3] min-w-0 shrink-0 grow-0 basis-full">
+                <button
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  className="absolute inset-0 cursor-zoom-in"
+                  aria-label={`View ${label(i)} full screen`}
+                >
+                  <Image
+                    src={urlFor(image).width(1600).height(1200).fit("crop").url()}
+                    alt={label(i)}
+                    fill
+                    preload={i === 0}
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                    className="object-cover"
+                    draggable={false}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <span className="pointer-events-none absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-control bg-white/85 text-foreground backdrop-blur transition-opacity lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100">
           <Expand className="size-4" aria-hidden />
         </span>
-      </button>
+      </div>
 
       {count > 1 && (
         // Thumbnails wrap onto a second row rather than scrolling sideways.
@@ -76,7 +91,7 @@ export default function ImageGallery({
             <li key={image?._key ?? i}>
               <button
                 type="button"
-                onClick={() => setActive(i)}
+                onClick={() => frame?.scrollTo(i)}
                 aria-label={`Show photo ${i + 1}`}
                 aria-current={i === active ? "true" : undefined}
                 className={cn(
@@ -98,44 +113,95 @@ export default function ImageGallery({
       )}
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="on-die h-dvh max-h-none w-screen max-w-none gap-0 rounded-none bg-die p-0 text-die-foreground ring-0 sm:max-w-none [&>[data-slot=dialog-close]]:right-5 [&>[data-slot=dialog-close]]:top-5 [&>[data-slot=dialog-close]]:size-11 [&>[data-slot=dialog-close]]:bg-white/12 [&>[data-slot=dialog-close]]:text-die-foreground [&>[data-slot=dialog-close]]:hover:bg-white/20">
+        <DialogContent className="on-die h-dvh max-h-none w-screen max-w-none gap-0 rounded-none bg-die p-0 text-die-foreground ring-0 sm:max-w-none [&>[data-slot=dialog-close]]:right-5 [&>[data-slot=dialog-close]]:top-5 [&>[data-slot=dialog-close]]:z-10 [&>[data-slot=dialog-close]]:size-11 [&>[data-slot=dialog-close]]:bg-white/12 [&>[data-slot=dialog-close]]:text-die-foreground [&>[data-slot=dialog-close]]:hover:bg-white/20">
           <DialogTitle className="sr-only">{alt} photos</DialogTitle>
-          <div className="relative h-full w-full">
-            <Image
-              src={urlFor(images[active]).width(2400).url()}
-              alt={label(active)}
-              fill
-              sizes="100vw"
-              className="object-contain p-4 md:p-14"
-            />
-            {count > 1 && (
-              <>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Previous photo"
-                  onClick={() => go(-1)}
-                  className="absolute left-4 top-1/2 size-11 -translate-y-1/2 bg-white/12 text-die-foreground hover:bg-white/20"
-                >
-                  <ChevronLeft className="size-5" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Next photo"
-                  onClick={() => go(1)}
-                  className="absolute right-4 top-1/2 size-11 -translate-y-1/2 bg-white/12 text-die-foreground hover:bg-white/20"
-                >
-                  <ChevronRight className="size-5" />
-                </Button>
-                <p className="absolute inset-x-0 bottom-5 text-center text-sm text-die-muted tabular-nums">
-                  {active + 1} / {count}
-                </p>
-              </>
-            )}
-          </div>
+          <Viewer
+            images={images}
+            label={label}
+            start={active}
+            onSelect={syncFrame}
+          />
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+/** The full-screen viewer: one photo at a time, contained, with arrows, arrow keys and swipe. */
+function Viewer({
+  images,
+  label,
+  start,
+  onSelect,
+}: {
+  images: SanityImage[]
+  label: (i: number) => string
+  start: number
+  onSelect: (i: number) => void
+}) {
+  const [viewportRef, api] = useEmblaCarousel({ startIndex: start })
+  const [current, setCurrent] = React.useState(start)
+  const count = images.length
+
+  React.useEffect(() => {
+    if (!api) return
+    const update = () => {
+      const i = api.selectedScrollSnap()
+      setCurrent(i)
+      onSelect(i)
+    }
+    api.on("select", update)
+    return () => {
+      api.off("select", update)
+    }
+  }, [api, onSelect])
+
+  // The arrows wrap round at the ends rather than greying out: a disabled
+  // button that still holds focus swallows key presses in Firefox.
+  const next = () => api?.scrollTo(api.canScrollNext() ? api.selectedScrollSnap() + 1 : 0)
+  const prev = () => api?.scrollTo(api.canScrollPrev() ? api.selectedScrollSnap() - 1 : count - 1)
+
+  // Arrow keys page through photos. The dialog stops arrow keys from reaching
+  // the window, so they are caught here, inside it.
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") next()
+    if (e.key === "ArrowLeft") prev()
+  }
+
+  // Centred with inset-y-0 and my-auto, not a translate, so the 1px press does not move the arrow off the pointer.
+  const arrow = "absolute inset-y-0 my-auto size-11 bg-white/12 text-die-foreground hover:bg-white/20"
+
+  return (
+    <div className="relative h-full w-full" onKeyDown={onKeyDown}>
+      <div ref={viewportRef} className="h-full overflow-hidden">
+        <ul className="flex h-full touch-pan-y">
+          {images.map((image, i) => (
+            <li key={image?._key ?? i} className="relative h-full min-w-0 shrink-0 grow-0 basis-full">
+              <Image
+                src={urlFor(image).width(2400).url()}
+                alt={label(i)}
+                fill
+                sizes="100vw"
+                className="object-contain p-4 md:p-14"
+                draggable={false}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+      {count > 1 && (
+        <>
+          <Button variant="ghost" size="icon" aria-label="Previous photo" onClick={prev} className={cn(arrow, "left-4")}>
+            <ChevronLeft className="size-5" />
+          </Button>
+          <Button variant="ghost" size="icon" aria-label="Next photo" onClick={next} className={cn(arrow, "right-4")}>
+            <ChevronRight className="size-5" />
+          </Button>
+          <p className="pointer-events-none absolute inset-x-0 bottom-5 text-center text-sm text-die-muted tabular-nums" aria-live="polite">
+            {current + 1} / {count}
+          </p>
+        </>
+      )}
     </div>
   )
 }
